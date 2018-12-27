@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "764015515779",
+    "firebase_url": "https://moochat-4a503.firebaseio.com",
+    "project_id": "moochat-4a503",
+    "storage_bucket": "moochat-4a503.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:764015515779:android:859d3ea7aeb8ecd7",
+        "android_client_info": {
+          "package_name": "com.example.moo_chat.moochat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "764015515779-7l9a05cb66qhdpii92abu1c7nilgj1hc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.moo_chat.moochat",
+            "certificate_hash": "40af62586a4431dc4eb4719f47769d8973ddd53f"
+          }
+        },
+        {
+          "client_id": "764015515779-n6m9bvl5tjvq0h081rk1skbcpv7hjr1j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGSECQeDg_Nl19DQHpLKMxOCFGGjUV9Q8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "764015515779-n6m9bvl5tjvq0h081rk1skbcpv7hjr1j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
