@@ -22,13 +22,13 @@
         android:id="@+id/reg_name"
         android:layout_width="362dp"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_below="@+id/textView2"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="65dp"
-        android:hint="@string/full_name"
         android:ems="10"
+        android:hint="@string/full_name"
         android:inputType="textPersonName"
-        />
+        android:textColorLink="@android:color/holo_purple" />
     <EditText
         android:id="@+id/reg_email"
         android:layout_width="362dp"
