@@ -4,31 +4,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     tools:context=".LoginActivity">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="@string/login_activity"
-        android:textSize="24sp" />
+    <include layout="@layout/app_bar_layout"
+        android:id="@+id/main_page_toolbar"/>
+
 
     <Button
         android:id="@+id/create_new_ac"
-        android:layout_width="wrap_content"
+        android:layout_width="278dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="107dp"
-        android:text="@string/create_new_account" />
+        android:layout_marginBottom="66dp"
+        android:background="@color/colorAccent"
+        android:text="@string/create_new_account"
+        android:textColor="#F8F8FF" />
 
     <Button
         android:id="@+id/sign_in_id"
-        android:layout_width="wrap_content"
+        android:layout_width="279dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="179dp"
-        android:text="Sign In" />
+        android:layout_marginBottom="133dp"
+        android:background="@color/colorAccent"
+        android:text="@string/sign_in"
+        android:textColor="#F8F8FF" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="224dp"
+        android:layout_height="175dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="81dp"
+        android:contentDescription="@string/description"
+        app:srcCompat="@drawable/logo" />
 </RelativeLayout>

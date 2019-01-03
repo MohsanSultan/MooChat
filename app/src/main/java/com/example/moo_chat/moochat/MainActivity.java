@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
         mToolbar = findViewById(R.id.main_page_toolbar);
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("MyMooChat");
+        getSupportActionBar().setTitle("My Moo Chat");
 
     }
 

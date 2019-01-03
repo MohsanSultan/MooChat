@@ -1,12 +1,14 @@
 package com.example.moo_chat.moochat;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -19,12 +21,15 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import org.w3c.dom.Text;
+
 import java.util.Objects;
 
 public class RegisterActivity extends AppCompatActivity implements  View.OnClickListener{
 
     EditText regName, regEmail, regPassword;
     Button RegAcBtn;
+    ProgressDialog pDialog;
 
     private Toolbar mToolbar;
 
@@ -43,7 +48,7 @@ public class RegisterActivity extends AppCompatActivity implements  View.OnClick
 
         mToolbar = findViewById(R.id.main_page_toolbar);
         setSupportActionBar(mToolbar);
-        Objects.requireNonNull(getSupportActionBar()).setTitle("MyMooChat");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Register New User");
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
 
 
@@ -69,7 +74,6 @@ public class RegisterActivity extends AppCompatActivity implements  View.OnClick
         switch (view.getId()) {
             case R.id.reg_btn:
                 registerAccountBtn();
-                break;
         }
     }
 
@@ -79,7 +83,17 @@ public class RegisterActivity extends AppCompatActivity implements  View.OnClick
         String displayEmail = regEmail.getText().toString();
         String displayPassword = regPassword.getText().toString();
 
-        registerUser(displayName , displayEmail , displayPassword);
+        if ((displayName.isEmpty()) || (displayEmail.isEmpty()) || (displayPassword.isEmpty()))
+        {
+            Toast.makeText(this, "Kindly Fill All Fields ! ", Toast.LENGTH_LONG).show();
+        }else {
+            pDialog = new ProgressDialog(this);
+            pDialog.setTitle("Registering New User !");
+            pDialog.setMessage("Loading...");
+            pDialog.setCanceledOnTouchOutside(false);
+            pDialog.show();
+            registerUser(displayName , displayEmail , displayPassword);
+        }
     }
 
     private void registerUser(String displayName, String displayEmail, String displayPassword) {
@@ -89,8 +103,10 @@ public class RegisterActivity extends AppCompatActivity implements  View.OnClick
             if (task.isComplete()){
                 Intent regIntent = new Intent(RegisterActivity.this , MainActivity.class);
                 startActivity(regIntent);
+                pDialog.dismiss();
                 finish();
             } else {
+                pDialog.hide();
                 Toast.makeText(RegisterActivity.this, "You are having some error.", Toast.LENGTH_SHORT).show();
             }
 

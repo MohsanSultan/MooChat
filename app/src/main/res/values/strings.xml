@@ -7,8 +7,10 @@
     <string name="password_for_mymoochat">Password for MyMooChat</string>
     <string name="create_account">Create Account</string>
     <string name="create_new_account1">Create new Account</string>
-    <string name="login">Login</string>
+    <string name="login">Login Moo</string>
     <string name="logout">LogOut</string>
     <string name="account">Account Settings</string>
     <string name="all_users">All Users</string>
+    <string name="sign_in">Sign In Moo</string>
+    <string name="description">description</string>
 </resources>

@@ -5,49 +5,59 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     tools:context=".SignInActivity">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="33dp"
-        android:text="This is Login User Activity"
-        android:textColor="@android:color/black"
-        android:textSize="24sp" />
+    <include layout="@layout/app_bar_layout"
+        android:id="@+id/main_page_toolbar"/>
 
-    <EditText
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="250dp"
+        android:layout_height="130dp"
+        android:layout_below="@+id/main_page_toolbar"
+        android:layout_centerHorizontal="true"
+        app:srcCompat="@drawable/login_register" />
+
+    <android.support.v7.widget.AppCompatEditText
         android:id="@+id/signin_email"
-        android:layout_width="362dp"
+        android:layout_width="318dp"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView2"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/textView2"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="30dp"
+        android:ems="10"
         android:hint="@string/email"
-        android:ems="10"
-        android:inputType="textEmailAddress" />
+        android:inputType="textEmailAddress"
+        android:textColor="#F8F8FF"
+        app:backgroundTint="#F8F8FF"
+        android:textColorHint="#F8F8FF" />
 
-    <EditText
+    <android.support.v7.widget.AppCompatEditText
         android:id="@+id/signin_pass"
-        android:layout_width="362dp"
+        android:layout_width="318dp"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_below="@+id/signin_email"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:hint="@string/password_for_mymoochat"
         android:ems="10"
-        android:inputType="textPassword" />
+        android:hint="@string/password_for_mymoochat"
+        android:inputType="textPassword"
+        android:textColor="#F8F8FF"
+        app:backgroundTint="#F8F8FF"
+        android:textColorHint="#F8F8FF" />
 
     <Button
         android:id="@+id/signin_btn"
-        android:layout_width="wrap_content"
+        android:layout_width="189dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/signin_pass"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="50dp"
+        android:background="@color/colorAccent"
+        android:text="@string/login"
+        android:textColor="#F8F8FF" />
 
-        android:text="@string/login" />
+
 
 </RelativeLayout>
