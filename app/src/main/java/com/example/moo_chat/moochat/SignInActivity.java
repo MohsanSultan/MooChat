@@ -73,6 +73,7 @@ public class SignInActivity extends AppCompatActivity {
             if (task.isSuccessful()){
                 pDialog.dismiss();
                 Intent mainIntent = new Intent(SignInActivity.this , MainActivity.class);
+                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(mainIntent);
                 finish();
             } else {

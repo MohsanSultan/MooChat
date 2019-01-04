@@ -102,6 +102,7 @@ public class RegisterActivity extends AppCompatActivity implements  View.OnClick
 
             if (task.isComplete()){
                 Intent regIntent = new Intent(RegisterActivity.this , MainActivity.class);
+                regIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(regIntent);
                 pDialog.dismiss();
                 finish();
