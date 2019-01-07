@@ -13,6 +13,12 @@
     <string name="all_users">All Users</string>
     <string name="sign_in">Sign In Moo</string>
     <string name="description">description</string>
+    <string name="mohsin_khan">MOHSIN KHAN</string>
+    <string name="picture">Picture</string>
+    <string name="status">Status</string>
+    <string name="name">Name</string>
+    <string name="my_moomoo">My MOOMOO</string>
+    <string name="this_is_my_status_hello_world">This Is my Status ! Hello World !</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

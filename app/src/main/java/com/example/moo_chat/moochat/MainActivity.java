@@ -1,6 +1,7 @@
 package com.example.moo_chat.moochat;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -47,7 +48,9 @@ public class MainActivity extends AppCompatActivity {
         myViewPager.setAdapter(myPagerAdapter);
 
         myTabLayout = findViewById(R.id.main_tabs);
+        myTabLayout.setTabTextColors(Color.GRAY,Color.MAGENTA);
         myTabLayout.setupWithViewPager(myViewPager);
+
     }
 
     @Override
@@ -66,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
          super.onCreateOptionsMenu(menu);
          getMenuInflater().inflate(R.menu.main_menu , menu);
-
         return true;
     }
 
@@ -77,6 +79,12 @@ public class MainActivity extends AppCompatActivity {
          if (item.getItemId() == R.id.main_logout_btn) {
              FirebaseAuth.getInstance().signOut();
              GoToStart();
+         }
+         if (item.getItemId() == R.id.account_Bar_btn)
+         {
+             Intent settingInt = new Intent(MainActivity.this , UserSettingActivity.class);
+             startActivity(settingInt);
+
          }
         return true;
     }

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context=".UserSettingActivity">
+
+    <include
+        android:id="@+id/main_page_toolbar"
+        layout="@layout/app_bar_layout" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/user_dp"
+        android:layout_width="217dp"
+        android:layout_height="200dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="83dp"
+        android:src="@drawable/user_avatar" />
+
+    <TextView
+        android:id="@+id/user_setting_name"
+        android:layout_width="335dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="231dp"
+        android:text="@string/my_moomoo"
+        android:textAlignment="center"
+        android:textColor="@color/colorAccent"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/user_setting_status"
+        android:layout_width="match_parent"
+        android:layout_height="74dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="121dp"
+        android:text="@string/this_is_my_status_hello_world"
+        android:textAlignment="center"
+        android:textColor="@color/colorAccent"
+        android:textSize="20sp" />
+
+    <!--<Button-->
+        <!--android:id="@+id/setting_dp_btn"-->
+        <!--android:layout_width="125dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:background="@color/colorAccent"-->
+        <!--android:text="@string/picture"-->
+        <!--android:textColor="@android:color/white" />-->
+
+    <!--<Button-->
+        <!--android:id="@+id/setting_status_btn"-->
+        <!--android:layout_width="125dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:background="@android:color/holo_red_dark"-->
+        <!--android:text="@string/status"-->
+        <!--android:textColor="@android:color/white" />-->
+
+    <!--<Button-->
+        <!--android:id="@+id/setting_username_btn"-->
+        <!--android:layout_width="125dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_alignParentEnd="true"-->
+        <!--android:textColor="@android:color/white"-->
+        <!--android:background="?android:attr/colorActivatedHighlight"-->
+        <!--android:text="@string/name" />-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:weightSum="3"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/setting_dp_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/colorAccent"
+            android:text="@string/picture"
+            android:textColor="?attr/colorPrimary" />
+
+        <Button
+            android:id="@+id/setting_status_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/holo_red_dark"
+            android:text="@string/status"
+            android:textColor="?attr/colorPrimary" />
+
+        <Button
+            android:id="@+id/setting_username_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="fill_vertical"
+            android:layout_weight="1"
+            android:background="?android:attr/colorActivatedHighlight"
+            android:text="@string/name"
+            android:textColor="?attr/colorPrimary" />
+    </LinearLayout>
+
+
+</RelativeLayout>
