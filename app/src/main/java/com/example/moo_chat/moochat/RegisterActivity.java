@@ -20,9 +20,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.w3c.dom.Text;
 
+import java.util.HashMap;
 import java.util.Objects;
 
 public class RegisterActivity extends AppCompatActivity implements  View.OnClickListener{
@@ -35,6 +38,7 @@ public class RegisterActivity extends AppCompatActivity implements  View.OnClick
 
     //Firebase
     private FirebaseAuth mAuth;
+    private DatabaseReference myDbRef;
 
 
     // ---
@@ -101,11 +105,31 @@ public class RegisterActivity extends AppCompatActivity implements  View.OnClick
         mAuth.createUserWithEmailAndPassword(displayEmail, displayPassword).addOnCompleteListener(task -> {
 
             if (task.isComplete()){
-                Intent regIntent = new Intent(RegisterActivity.this , MainActivity.class);
-                regIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(regIntent);
-                pDialog.dismiss();
-                finish();
+
+                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                String UserID = currentUser.getUid();
+
+                myDbRef = FirebaseDatabase.getInstance().getReference().child("Users").child(UserID);
+
+                HashMap<String , String> userMap = new HashMap<>();
+                userMap.put("name" , displayName);
+                userMap.put("status" , "Hi, i'm using MyMooChat !");
+                userMap.put("image" , "default");
+                userMap.put("thumb_img" , "default");
+
+                myDbRef.setValue(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+                        if (task.isSuccessful()){
+                            Intent regIntent = new Intent(RegisterActivity.this , MainActivity.class);
+                            regIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(regIntent);
+                            pDialog.dismiss();
+                            finish();
+                        }
+                    }
+                });
             } else {
                 pDialog.hide();
                 Toast.makeText(RegisterActivity.this, "You are having some error.", Toast.LENGTH_SHORT).show();

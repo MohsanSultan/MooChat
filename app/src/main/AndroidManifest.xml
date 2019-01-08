@@ -21,7 +21,7 @@
         <activity
             android:name=".RegisterActivity"
             android:parentActivityName=".LoginActivity" />
-        <activity android:name=".UserSettingActivity"></activity>
+        <activity android:name=".UserSettingActivity" />
     </application>
 
 </manifest>
