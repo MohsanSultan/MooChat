@@ -5,6 +5,19 @@ public class AllUsers {
     public String name;
     public String status;
     public String image;
+    public String thumb_img;
+
+    public AllUsers(String thumb_img) {
+        this.thumb_img = thumb_img;
+    }
+
+    public String getThumb_img() {
+        return thumb_img;
+    }
+
+    public void setThumb_img(String thumb_img) {
+        this.thumb_img = thumb_img;
+    }
 
     public AllUsers(){
 

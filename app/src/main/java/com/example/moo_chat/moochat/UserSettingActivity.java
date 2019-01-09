@@ -3,6 +3,7 @@ package com.example.moo_chat.moochat;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -31,9 +32,15 @@ import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import id.zelory.compressor.Compressor;
 
 public class UserSettingActivity extends AppCompatActivity {
 
@@ -43,6 +50,7 @@ public class UserSettingActivity extends AppCompatActivity {
     String userName , status , dpImg , thumb_img, currentUserID;
 
     ProgressDialog pDialog;
+    Bitmap myThumbBitmap;
 
     private static final int  GALLERY_PICK_CODE = 100;
 
@@ -154,7 +162,10 @@ public class UserSettingActivity extends AppCompatActivity {
                 dpImg = dataSnapshot.child("image").getValue().toString();
                 thumb_img = dataSnapshot.child("thumb_img").getValue().toString();
 
-                Picasso.get().load(dpImg).into(profileDPImg);
+                if (!dpImg.equals("default")) {
+
+                    Picasso.get().load(dpImg).into(profileDPImg);
+                }
 
                 profileName.setText(userName);
                 profileStatus.setText(status);
@@ -192,23 +203,62 @@ public class UserSettingActivity extends AppCompatActivity {
                 pDialog.setCanceledOnTouchOutside(false);
                 pDialog.show();
 
-                currentUserID = currentUser.getUid();
                 Uri resultUri = result.getUri();
-                StorageReference storagePath = myProfileImgStorage.child("profile_images").child(currentUserID+ ".jpg");
 
-                storagePath.putFile(resultUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                File myThumbFilePath = new File(resultUri.getPath());
+
+                currentUserID = currentUser.getUid();
+
+                try {
+                    myThumbBitmap = new Compressor(this)
+                            .setMaxWidth(200)
+                            .setMaxHeight(200)
+                            .setQuality(75)
+                            .compressToBitmap(myThumbFilePath);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                myThumbBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                byte[] myThumbByte = baos.toByteArray();
+
+
+                StorageReference ImgstoragePath = myProfileImgStorage.child("profile_images").child(currentUserID+ ".jpg");
+                StorageReference thumb_filePath = myProfileImgStorage.child("profile_images").child("thumbs").child(currentUserID + ".jpg");
+
+                // get uri from gallery and store to firebase DB
+                ImgstoragePath.putFile(resultUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                         if (task.isSuccessful()){
 
-                            String downloadUri = task.getResult().getDownloadUrl().toString();
-                            myDbRef.child("image").setValue(downloadUri).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
+                            String downloadImgUrl = task.getResult().getDownloadUrl().toString();
 
-                                        Toast.makeText(UserSettingActivity.this, "Display Picture Added Successfully .!", Toast.LENGTH_SHORT).show();
-                                        pDialog.dismiss();
+                            //download img uri and upload this in thumbs , as a bitmap bytes (compress form)
+                            UploadTask uploadTask = thumb_filePath.putBytes(myThumbByte);
+                            uploadTask.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task_thumb) {
+                                    String thumb_downloadUrl = task_thumb.getResult().getDownloadUrl().toString();
+
+                                    if (task_thumb.isSuccessful())
+                                    {
+                                        Map update_HashMap = new HashMap<>();
+                                        update_HashMap.put("image" , downloadImgUrl);
+                                        update_HashMap.put("thumb_img" , thumb_downloadUrl);
+
+                                        // get uri from DB and set to our imgView and thumb both.
+                                        myDbRef.updateChildren(update_HashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+
+                                                    Toast.makeText(UserSettingActivity.this, "Display Picture Added Successfully .!", Toast.LENGTH_SHORT).show();
+                                                    pDialog.dismiss();
+                                                }
+                                            }
+                                        });
                                     }
                                 }
                             });

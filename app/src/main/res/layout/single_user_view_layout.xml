@@ -3,13 +3,8 @@
     android:id="@+id/single_user_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp">
-
-    <include
-        android:id="@+id/users_app_bar"
-        layout="@layout/app_bar_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    android:layout_margin="10dp"
+    android:background="@android:color/darker_gray">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/alluser_img_view"
@@ -19,7 +14,8 @@
         android:layout_alignParentTop="true"
         android:layout_marginBottom="15dp"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp" />
+        android:layout_marginTop="15dp"
+        android:src="@drawable/user_avatar"/>
 
     <TextView
         android:id="@+id/alluser_name"
