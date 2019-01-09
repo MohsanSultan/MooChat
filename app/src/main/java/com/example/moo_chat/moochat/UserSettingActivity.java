@@ -1,6 +1,11 @@
 package com.example.moo_chat.moochat;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.net.Uri;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -11,6 +16,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -18,6 +25,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
+import com.theartofdev.edmodo.cropper.CropImage;
+
+import java.util.Random;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -26,10 +40,15 @@ public class UserSettingActivity extends AppCompatActivity {
     CircleImageView profileDPImg;
     TextView profileName , profileStatus;
     Button change_dp_btn , change_status_btn , change_name_btn;
-    String userName , status , dpImg , thumb_img;
+    String userName , status , dpImg , thumb_img, currentUserID;
+
+    ProgressDialog pDialog;
+
+    private static final int  GALLERY_PICK_CODE = 100;
 
     private DatabaseReference myDbRef;
     private FirebaseUser currentUser;
+    private StorageReference myProfileImgStorage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +64,8 @@ public class UserSettingActivity extends AppCompatActivity {
         profileName = findViewById(R.id.user_setting_name);
         profileStatus = findViewById(R.id.user_setting_status);
 
+        myProfileImgStorage = FirebaseStorage.getInstance().getReference();
+
         RetriveDbData();
 
         change_dp_btn = findViewById(R.id.setting_dp_btn);
@@ -52,6 +73,7 @@ public class UserSettingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 //                checkCmraPicture();
+                pickImageGallery();
             }
         });
 
@@ -59,39 +81,7 @@ public class UserSettingActivity extends AppCompatActivity {
         change_status_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final AlertDialog dialogBuilder = new AlertDialog.Builder(UserSettingActivity.this).create();
-                LayoutInflater inflater = getLayoutInflater();
-                View dialogView = inflater.inflate(R.layout.custom_dialog_layout, null);
-
-                final EditText new_status = dialogView.findViewById(R.id.new_status_editText);
-                Button status_save_btn = dialogView.findViewById(R.id.new_status_save_btn);
-                Button status_cancel_btn = dialogView.findViewById(R.id.new_status_cancel_btn);
-
-                status_cancel_btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialogBuilder.dismiss();
-                    }
-                });
-                status_save_btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if((new_status.getText().toString().isEmpty()))
-                            Toast.makeText(UserSettingActivity.this, "Type your new Status please! ", Toast.LENGTH_SHORT).show();
-                         else {
-                             String new_status_confirm = new_status.getText().toString();
-                            currentUser = FirebaseAuth.getInstance().getCurrentUser();
-                            String currentUserID = currentUser.getUid();
-
-                            myDbRef = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserID);
-                            myDbRef.child("status").setValue(new_status_confirm);
-                            dialogBuilder.dismiss();
-
-                        }
-                    }
-                });
-                dialogBuilder.setView(dialogView);
-                dialogBuilder.show();
+                changeStatus();
             }
         });
 
@@ -102,6 +92,51 @@ public class UserSettingActivity extends AppCompatActivity {
                 Toast.makeText(UserSettingActivity.this, "Sorry! You are not allowed to Chnage your name..", Toast.LENGTH_LONG).show();
             }
         });
+
+    }
+
+    private void changeStatus() {
+        final AlertDialog dialogBuilder = new AlertDialog.Builder(UserSettingActivity.this).create();
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.custom_dialog_layout, null);
+
+        final EditText new_status = dialogView.findViewById(R.id.new_status_editText);
+        Button status_save_btn = dialogView.findViewById(R.id.new_status_save_btn);
+        Button status_cancel_btn = dialogView.findViewById(R.id.new_status_cancel_btn);
+
+        status_cancel_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogBuilder.dismiss();
+            }
+        });
+        status_save_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if((new_status.getText().toString().isEmpty()))
+                    Toast.makeText(UserSettingActivity.this, "Type your new Status please! ", Toast.LENGTH_SHORT).show();
+                else {
+                    String new_status_confirm = new_status.getText().toString();
+                    currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                    currentUserID = currentUser.getUid();
+
+                    myDbRef = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserID);
+                    myDbRef.child("status").setValue(new_status_confirm);
+                    dialogBuilder.dismiss();
+
+                }
+            }
+        });
+        dialogBuilder.setView(dialogView);
+        dialogBuilder.show();
+    }
+
+    private void pickImageGallery() {
+        Intent galleryIntent = new Intent();
+        galleryIntent.setType("image/*");
+        galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+
+        startActivityForResult(Intent.createChooser(galleryIntent , "Select Image ! "), GALLERY_PICK_CODE);
 
     }
 
@@ -119,6 +154,8 @@ public class UserSettingActivity extends AppCompatActivity {
                 dpImg = dataSnapshot.child("image").getValue().toString();
                 thumb_img = dataSnapshot.child("thumb_img").getValue().toString();
 
+                Picasso.get().load(dpImg).into(profileDPImg);
+
                 profileName.setText(userName);
                 profileStatus.setText(status);
             }
@@ -128,5 +165,79 @@ public class UserSettingActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == GALLERY_PICK_CODE ){
+
+            Uri image_uri = data.getData();
+
+            CropImage.activity(image_uri)
+                    .setAspectRatio(1,1)
+                    .start(this);
+        }
+
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+
+            if (resultCode == RESULT_OK) {
+
+                pDialog = new ProgressDialog(this);
+                pDialog.setTitle("Saving Display Pictuer !");
+                pDialog.setMessage("Loading...");
+                pDialog.setCanceledOnTouchOutside(false);
+                pDialog.show();
+
+                currentUserID = currentUser.getUid();
+                Uri resultUri = result.getUri();
+                StorageReference storagePath = myProfileImgStorage.child("profile_images").child(currentUserID+ ".jpg");
+
+                storagePath.putFile(resultUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                        if (task.isSuccessful()){
+
+                            String downloadUri = task.getResult().getDownloadUrl().toString();
+                            myDbRef.child("image").setValue(downloadUri).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+
+                                        Toast.makeText(UserSettingActivity.this, "Display Picture Added Successfully .!", Toast.LENGTH_SHORT).show();
+                                        pDialog.dismiss();
+                                    }
+                                }
+                            });
+
+                            Toast.makeText(UserSettingActivity.this, "WORKING..............", Toast.LENGTH_SHORT).show();
+
+                        } else {
+                            Toast.makeText(UserSettingActivity.this, "There is some error in uploading Picture, please Try Again. ! ", Toast.LENGTH_LONG).show();
+                            pDialog.dismiss();
+                        }
+                    }
+                });
+
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+
+                Exception error = result.getError();
+            }
+        }
+    }
+
+    public static String random() {
+        Random generator = new Random();
+        StringBuilder randomStringBuilder = new StringBuilder();
+        int randomLength = generator.nextInt(40);
+        char tempChar;
+        for (int i = 0; i < randomLength; i++){
+            tempChar = (char) (generator.nextInt(96) + 32);
+            randomStringBuilder.append(tempChar);
+        }
+        return randomStringBuilder.toString();
     }
 }

@@ -50,9 +50,9 @@ public class RegisterActivity extends AppCompatActivity implements  View.OnClick
         setContentView(R.layout.activity_register);
         mAuth = FirebaseAuth.getInstance();
 
-        mToolbar = findViewById(R.id.main_page_toolbar);
+        mToolbar = findViewById(R.id.register_page_toolbar);
         setSupportActionBar(mToolbar);
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Register New User");
+        getSupportActionBar().setTitle("Register New User");
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
 
 
