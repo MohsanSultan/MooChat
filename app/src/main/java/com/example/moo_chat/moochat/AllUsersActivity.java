@@ -47,7 +47,6 @@ public class AllUsersActivity extends AppCompatActivity {
         myUsersList.setHasFixedSize(true);
         myUsersList.setLayoutManager(new LinearLayoutManager(this));
 
-
     }
 
     @Override
@@ -71,7 +70,7 @@ public class AllUsersActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
 
-                        Intent userProfileIntent = new Intent(AllUsersActivity.this , UsersPorfileActivity.class);
+                        Intent userProfileIntent = new Intent(AllUsersActivity.this , UsersProfileActivity.class);
                         userProfileIntent.putExtra("user_data" , userId);
                         startActivity(userProfileIntent);
                     }

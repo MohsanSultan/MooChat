@@ -71,7 +71,6 @@ public class RegisterActivity extends AppCompatActivity implements  View.OnClick
         RegAcBtn.setOnClickListener(this);
     }
 
-
     @Override
     public void onClick(View view) {
 

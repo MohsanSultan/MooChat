@@ -5,18 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/black"
-    tools:context=".UsersPorfileActivity">
+    tools:context=".UsersProfileActivity">
 
-    <include
-        android:id="@+id/user_profile_page_toolbar"
-        layout="@layout/app_bar_layout" />
 
     <ImageView
         android:id="@+id/user_profile_img"
         android:layout_width="match_parent"
         android:layout_height="243dp"
         android:layout_alignParentTop="true"
-        android:layout_below="@+id/user_profile_page_toolbar"
         android:layout_centerHorizontal="true"
         app:srcCompat="@drawable/user_avatar" />
 
@@ -47,7 +43,7 @@
         android:layout_height="34dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="78dp"
+        android:layout_marginBottom="126dp"
         android:text="Total Friends !"
         android:textAlignment="center"
         android:textColor="@android:color/white"
@@ -57,10 +53,21 @@
         android:id="@+id/profile_send_req_btn"
         android:layout_width="251dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/user_profile_total_friends"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="-78dp"
+        android:layout_marginBottom="69dp"
         android:text="Send Friend Request"
+        android:textAlignment="center"
+        android:textSize="15sp" />
+
+    <Button
+        android:id="@+id/profile_decline_req_btn"
+        android:layout_width="251dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/profile_send_req_btn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-69dp"
+        android:text="Decline Friend Request"
         android:textAlignment="center"
         android:textSize="15sp" />
 
