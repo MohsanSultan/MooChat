@@ -47,11 +47,10 @@ public class AllUsersActivity extends AppCompatActivity {
         myUsersList.setHasFixedSize(true);
         myUsersList.setLayoutManager(new LinearLayoutManager(this));
 
+        myRecyclerAdopter();
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
+    private void myRecyclerAdopter() {
 
         FirebaseRecyclerAdapter<AllUsers , UsersViewHolderClass> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<AllUsers, UsersViewHolderClass>(
                 AllUsers.class,
@@ -75,12 +74,9 @@ public class AllUsersActivity extends AppCompatActivity {
                         startActivity(userProfileIntent);
                     }
                 });
-
-
             }
         };
         myUsersList.setAdapter(firebaseRecyclerAdapter);
-
     }
 
 //    public static class UsersViewHolderClass extends RecyclerView.ViewHolder {

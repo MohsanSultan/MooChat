@@ -199,13 +199,20 @@ public class UserSettingActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == GALLERY_PICK_CODE ){
 
-            Uri image_uri = data.getData();
+        if (requestCode == GALLERY_PICK_CODE){
 
-            CropImage.activity(image_uri)
-                    .setAspectRatio(1,1)
-                    .start(this);
+            try {
+                Uri image_uri = data.getData();
+
+                CropImage.activity(image_uri)
+                        .setAspectRatio(1,1)
+                        .start(this);
+            } catch(Exception e) {
+                Toast.makeText(this, "You did not pick any Picture !", Toast.LENGTH_LONG).show();
+            }
+
+
         }
 
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@drawable/purple_wall"
     tools:context=".UserSettingActivity">
 
     <include
@@ -29,7 +29,7 @@
         android:layout_marginBottom="231dp"
         android:text="@string/my_moomoo"
         android:textAlignment="center"
-        android:textColor="@color/colorAccent"
+        android:textColor="#FFE4E1"
         android:textSize="30sp"
         android:textStyle="bold" />
 
@@ -42,7 +42,7 @@
         android:layout_marginBottom="121dp"
         android:text="@string/this_is_my_status_hello_world"
         android:textAlignment="center"
-        android:textColor="@color/colorAccent"
+        android:textColor="#FFE4E1"
         android:textSize="20sp" />
 
     <LinearLayout
