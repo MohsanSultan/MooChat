@@ -61,6 +61,13 @@ public class RegisterActivity extends AppCompatActivity implements  View.OnClick
     }
 
     private void initField() {
+
+        pDialog = new ProgressDialog(this , R.style.MyAlertDialogStyle);
+        pDialog.setTitle("Registering New User - Please Wait !");
+        pDialog.setMessage("Loading...");
+        pDialog.setCanceledOnTouchOutside(false);
+
+
         regName = findViewById(R.id.reg_name);
 
         regEmail = findViewById(R.id.reg_email);
@@ -90,10 +97,6 @@ public class RegisterActivity extends AppCompatActivity implements  View.OnClick
         {
             Toast.makeText(this, "Kindly Fill All Fields ! ", Toast.LENGTH_LONG).show();
         }else {
-            pDialog = new ProgressDialog(this);
-            pDialog.setTitle("Registering New User !");
-            pDialog.setMessage("Loading...");
-            pDialog.setCanceledOnTouchOutside(false);
             pDialog.show();
             registerUser(displayName , displayEmail , displayPassword);
         }
@@ -130,7 +133,7 @@ public class RegisterActivity extends AppCompatActivity implements  View.OnClick
                     }
                 });
             } else {
-                pDialog.hide();
+                pDialog.dismiss();
                 Toast.makeText(RegisterActivity.this, "You are having some error.", Toast.LENGTH_SHORT).show();
             }
 

@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -70,6 +72,12 @@ public class UserSettingActivity extends AppCompatActivity {
 
     private void initFields() {
 
+        pDialog = new ProgressDialog(this , R.style.MyAlertDialogStyle);
+        pDialog.setTitle("Please Wait !");
+        pDialog.setMessage("Loading...");
+        pDialog.setCanceledOnTouchOutside(false);
+        pDialog.show();
+
         profileDPImg = findViewById(R.id.user_dp);
         profileName = findViewById(R.id.user_setting_name);
         profileStatus = findViewById(R.id.user_setting_status);
@@ -78,10 +86,15 @@ public class UserSettingActivity extends AppCompatActivity {
 
         RetriveDbData();
 
+        pDialog.dismiss();
+
         change_dp_btn = findViewById(R.id.setting_dp_btn);
         change_dp_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Animation animation= AnimationUtils.loadAnimation(UserSettingActivity.this,R.anim.bounce);
+                change_dp_btn.startAnimation(animation);
 //                checkCmraPicture();
                 pickImageGallery();
             }
@@ -91,6 +104,9 @@ public class UserSettingActivity extends AppCompatActivity {
         change_status_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Animation animation= AnimationUtils.loadAnimation(UserSettingActivity.this,R.anim.bounce);
+                change_status_btn.startAnimation(animation);
                 changeStatus();
             }
         });
@@ -99,6 +115,11 @@ public class UserSettingActivity extends AppCompatActivity {
         change_name_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                // animation on Button
+                Animation animation= AnimationUtils.loadAnimation(UserSettingActivity.this,R.anim.bounce);
+                change_name_btn.startAnimation(animation);
+
                 Toast.makeText(UserSettingActivity.this, "Sorry! You are not allowed to Chnage your name..", Toast.LENGTH_LONG).show();
             }
         });
@@ -221,10 +242,6 @@ public class UserSettingActivity extends AppCompatActivity {
 
             if (resultCode == RESULT_OK) {
 
-                pDialog = new ProgressDialog(this);
-                pDialog.setTitle("Saving Display Pictuer !");
-                pDialog.setMessage("Loading...");
-                pDialog.setCanceledOnTouchOutside(false);
                 pDialog.show();
 
                 Uri resultUri = result.getUri();

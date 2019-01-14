@@ -43,7 +43,7 @@
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:layout_marginBottom="16dp"
-            android:background="@drawable/button_border">
+            android:background="#4B0082">
 
             <ImageView
                 android:id="@+id/name_icon"
@@ -55,7 +55,7 @@
                 android:id="@+id/sign_in_id"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/button_border"
+                android:background="#4B0082"
                 android:clickable="true"
                 android:focusable="true"
                 android:text="@string/sign_in"
@@ -63,7 +63,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="200dp"
+            android:layout_width="300dp"
             android:layout_height="20dp"
             android:layout_marginBottom="16dp"
             android:gravity="center_vertical"
@@ -74,7 +74,7 @@
         <View
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="2"
+            android:layout_weight="2.4"
             android:background="#ffffff" />
 
             <TextView
@@ -82,13 +82,13 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:layout_weight="1"
-                android:text="OR"
+                android:text="@string/or"
                 android:textColor="#ffffff" />
 
             <View
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:layout_weight="2"
+                android:layout_weight="1.6"
                 android:background="#ffffff" />
         </LinearLayout>
 
@@ -97,20 +97,20 @@
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/button_border">
+            android:background="@android:color/holo_red_dark">
 
             <ImageView
                 android:id="@+id/new_ac_icon"
                 android:layout_width="50dp"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_gravity="center_vertical"
-                app:srcCompat="@drawable/login_register" />
+                app:srcCompat="@drawable/user_avatar" />
 
             <Button
                 android:id="@+id/create_new_ac"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/button_border"
+                android:background="@android:color/holo_red_dark"
                 android:clickable="true"
                 android:focusable="true"
                 android:text="@string/create_new_account"

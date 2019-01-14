@@ -44,6 +44,13 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     private void initField() {
+        pDialog = new ProgressDialog(this , R.style.MyAlertDialogStyle);
+        pDialog.setTitle("Entering User - Please Wait !");
+        pDialog.setMessage("Loading...");
+        pDialog.setCanceledOnTouchOutside(false);
+
+
+
                 SignInEmaail = findViewById(R.id.signin_email);
                 SignInPass = findViewById(R.id.signin_pass);
 
@@ -63,10 +70,7 @@ public class SignInActivity extends AppCompatActivity {
 
     private void checkUser(String email, String password) {
 
-        pDialog = new ProgressDialog(this);
-        pDialog.setTitle("Entering User !");
-        pDialog.setMessage("Loading...");
-        pDialog.setCanceledOnTouchOutside(false);
+
         pDialog.show();
 
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {

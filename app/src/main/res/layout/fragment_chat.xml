@@ -3,12 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/hills_wallpaper"
     tools:context=".ChatFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="This is chat fragment" />
+        android:text="This is chat fragment"
+        android:textAlignment="center"/>
 
 </FrameLayout>

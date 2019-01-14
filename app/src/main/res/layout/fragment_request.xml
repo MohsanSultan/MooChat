@@ -3,12 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/hills_wallpaper"
     tools:context=".RequestFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="This is Request Fragment" />
+        android:text="This is Request Fragment"
+        android:textAlignment="center"/>
 
 </FrameLayout>

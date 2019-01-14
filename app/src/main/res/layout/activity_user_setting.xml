@@ -42,7 +42,7 @@
         android:layout_marginBottom="121dp"
         android:text="@string/this_is_my_status_hello_world"
         android:textAlignment="center"
-        android:textColor="#FFE4E1"
+        android:textColor="@android:color/holo_purple"
         android:textSize="20sp" />
 
     <LinearLayout

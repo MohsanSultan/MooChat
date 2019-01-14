@@ -56,7 +56,8 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="69dp"
-        android:text="Send Friend Request"
+        android:background="@android:color/holo_orange_dark"
+        android:text="@string/send_friend_request"
         android:textAlignment="center"
         android:textSize="15sp" />
 
@@ -67,7 +68,8 @@
         android:layout_below="@+id/profile_send_req_btn"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="-69dp"
-        android:text="Decline Friend Request"
+        android:background="@android:color/holo_red_dark"
+        android:text="@string/decline_friend_request"
         android:textAlignment="center"
         android:textSize="15sp" />
 

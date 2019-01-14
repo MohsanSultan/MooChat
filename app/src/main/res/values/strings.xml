@@ -4,10 +4,10 @@
     <string name="login_activity">Login Activity</string>
     <string name="full_name">Full Name</string>
     <string name="email">Email</string>
-    <string name="password_for_mymoochat">Password for MyMooChat</string>
+    <string name="password_for_mymoochat">Password</string>
     <string name="create_account">Create Account</string>
     <string name="create_new_account1">Create new Account</string>
-    <string name="login">Login Moo</string>
+    <string name="login">Log In</string>
     <string name="logout">LogOut</string>
     <string name="account">Account Settings</string>
     <string name="all_users">All Users</string>
@@ -19,6 +19,11 @@
     <string name="name">Name</string>
     <string name="my_moomoo">My MOOMOO</string>
     <string name="this_is_my_status_hello_world">This Is my Status ! Hello World !</string>
+    <string name="save">save</string>
+    <string name="or">OR</string>
+    <string name="type_new_status_here">Type New Status here!</string>
+    <string name="send_friend_request">Send Friend Request</string>
+    <string name="decline_friend_request">Decline Friend Request</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

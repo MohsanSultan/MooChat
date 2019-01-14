@@ -13,65 +13,69 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="137dp"
-        android:layout_height="94dp"
+        android:layout_width="100dp"
+        android:layout_height="90dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="75dp"
+        android:layout_marginTop="55dp"
         app:srcCompat="@drawable/new_user" />
 
+    <LinearLayout
+        android:id="@+id/register_layout"
+        android:layout_width="350dp"
+        android:layout_height="266dp"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
 
-    <android.support.v7.widget.AppCompatEditText
-        android:id="@+id/reg_name"
-        android:layout_width="318dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/imageView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="60dp"
-        android:ems="10"
-        android:hint="@string/full_name"
-        android:textColor="#F8F8FF"
-        android:textColorHint="#F8F8FF"
-        android:textColorLink="@android:color/holo_purple"
-        app:backgroundTint="#F8F8FF" />
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/reg_name"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/button_border"
+            android:hint="@string/full_name"
+            android:paddingStart="20dp"
+            android:textColor="#010101"
+            android:textColorHint="#808080"
+            app:backgroundTint="#F8F8FF" />
 
-    <android.support.v7.widget.AppCompatEditText
-        android:id="@+id/reg_email"
-        android:layout_width="318dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/reg_name"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:hint="@string/email"
-        android:inputType="textEmailAddress"
-        android:textColor="#F8F8FF"
-        android:textColorHint="#F8F8FF"
-        app:backgroundTint="#F8F8FF" />
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/reg_email"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/button_border"
+            android:hint="@string/email"
+            android:inputType="textEmailAddress"
+            android:paddingStart="20dp"
+            android:textColor="#010101"
+            android:textColorHint="#808080"
+            app:backgroundTint="#F8F8FF" />
 
-    <android.support.v7.widget.AppCompatEditText
-        android:id="@+id/reg_pass"
-        android:layout_width="318dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/reg_email"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:textColorHint="#F8F8FF"
-        android:hint="@string/password_for_mymoochat"
-        app:backgroundTint="#F8F8FF"
-        android:inputType="textPassword"
-        android:textColor="#F8F8FF" />
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/reg_pass"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/button_border"
+            android:hint="@string/password_for_mymoochat"
+            android:inputType="textPassword"
+            android:paddingStart="20dp"
+            android:textColor="#010101"
+            android:textColorHint="#808080"
+            app:backgroundTint="#F8F8FF" />
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/reg_btn"
         android:layout_width="171dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/reg_pass"
+        android:layout_below="@+id/register_layout"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:background="@color/colorAccent"
-        android:textColor="#F8F8FF"
-        android:text="@string/create_new_account1" />
+        android:background="@android:color/transparent"
+        android:text="@string/create_new_account1"
+        android:textColor="#F8F8FF" />
 
 </RelativeLayout>
