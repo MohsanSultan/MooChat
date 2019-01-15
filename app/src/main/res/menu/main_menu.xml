@@ -16,4 +16,8 @@
         android:id="@+id/main_logout_btn"
         android:orderInCategory="101"
         android:title="@string/logout" />
+    <item
+        android:id="@+id/main_del_ac_btn"
+        android:orderInCategory="101"
+        android:title="@string/deactivate_account" />
 </menu>

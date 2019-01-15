@@ -24,6 +24,8 @@
     <string name="type_new_status_here">Type New Status here!</string>
     <string name="send_friend_request">Send Friend Request</string>
     <string name="decline_friend_request">Decline Friend Request</string>
+    <string name="change_status">Change Status</string>
+    <string name="deactivate_account">Deactivate Account</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 </resources>
