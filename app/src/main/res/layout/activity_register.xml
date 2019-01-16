@@ -28,11 +28,11 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="100dp"
-            android:layout_height="90dp"
-            android:layout_marginBottom="60dp"
+            android:layout_width="250dp"
+            android:layout_height="150dp"
+            android:layout_marginBottom="50dp"
             android:layout_gravity="center"
-            app:srcCompat="@drawable/new_user" />
+            app:srcCompat="@drawable/register_icon" />
 
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/reg_name"
