@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -20,6 +21,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.ProviderQueryResult;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -50,16 +52,20 @@ public class RegisterActivity extends AppCompatActivity implements  View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         mAuth = FirebaseAuth.getInstance();
-
-        mToolbar = findViewById(R.id.register_page_toolbar);
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("Register New User");
-        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
-
+        setToolbar();
 
         // Check Internet connection here. ---- code latter.
         initField();
     }
+
+    private void setToolbar() {
+        mToolbar = findViewById(R.id.register_page_toolbar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle("Register New Account!");
+        }
+
 
     private void initField() {
 
@@ -99,39 +105,69 @@ public class RegisterActivity extends AppCompatActivity implements  View.OnClick
             Toast.makeText(this, "Kindly Fill All Fields ! ", Toast.LENGTH_LONG).show();
         }else {
             pDialog.show();
+
             registerUser(displayName , displayEmail , displayPassword);
         }
     }
 
     private void registerUser(String displayName, String displayEmail, String displayPassword) {
 
-        mAuth.createUserWithEmailAndPassword(displayEmail, displayPassword).addOnCompleteListener(task -> {
+        mAuth.fetchProvidersForEmail(displayEmail).addOnCompleteListener(new OnCompleteListener<ProviderQueryResult>() {
+            @Override
+            public void onComplete(@NonNull Task<ProviderQueryResult> taskEmailCheck) {
 
-            if (task.isComplete()){
-                
-                    FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-                    String UserID = currentUser.getUid();
+                boolean chechEmail = taskEmailCheck.getResult().getProviders().isEmpty();
 
-                String current_user_id = mAuth.getCurrentUser().getUid();
-                String device_token = FirebaseInstanceId.getInstance().getToken();
+                if (!chechEmail){
+                    Toast.makeText(RegisterActivity.this, "This Email is already is use. thank you..!", Toast.LENGTH_LONG).show();
+                    pDialog.dismiss();
+                }else {
+                    mAuth.createUserWithEmailAndPassword(displayEmail, displayPassword).addOnCompleteListener(task -> {
 
-                myDbRef = FirebaseDatabase.getInstance().getReference().child("Users").child(UserID);
+                        if (task.isComplete()){
 
-                HashMap<String , String> userMap = new HashMap<>();
-                userMap.put("name" , displayName);
-                userMap.put("status" , "Hi, i'm using MyMooChat !");
-                userMap.put("image" , "default");
-                userMap.put("thumb_img" , "default");
+                            createNewUser(displayName);
 
-                myDbRef.setValue(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
+                        } else {
+                            pDialog.dismiss();
+                            Toast.makeText(RegisterActivity.this, "You are having some error.", Toast.LENGTH_SHORT).show();
+                        }
 
-                        if (task.isSuccessful()){
+                    });
+                }
+            }
+        });
 
-                            myDbRef.child(current_user_id).child("device_token").setValue(device_token).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
+
+
+
+    }
+
+    private void createNewUser(String displayName) {
+
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        String UserID = currentUser.getUid();
+
+        String current_user_id = mAuth.getCurrentUser().getUid();
+        String device_token = FirebaseInstanceId.getInstance().getToken();
+
+        myDbRef = FirebaseDatabase.getInstance().getReference().child("Users").child(UserID);
+
+        HashMap<String , String> userMap = new HashMap<>();
+        userMap.put("name" , displayName);
+        userMap.put("status" , "Hi, i'm using MyMooChat !");
+        userMap.put("image" , "default");
+        userMap.put("thumb_img" , "default");
+
+        myDbRef.setValue(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+
+                if (task.isSuccessful()){
+
+                    myDbRef.child(current_user_id).child("device_token").setValue(device_token).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
 
                             Intent regIntent = new Intent(RegisterActivity.this , MainActivity.class);
                             regIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -139,18 +175,10 @@ public class RegisterActivity extends AppCompatActivity implements  View.OnClick
                             pDialog.dismiss();
                             finish();
 
-                                }
-                            });
                         }
-                    }
-                });
-            } else {
-                pDialog.dismiss();
-                Toast.makeText(RegisterActivity.this, "You are having some error.", Toast.LENGTH_SHORT).show();
+                    });
+                }
             }
-
         });
-
-
     }
 }

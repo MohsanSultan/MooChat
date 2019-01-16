@@ -227,7 +227,7 @@ public class UserSettingActivity extends AppCompatActivity {
                 Uri image_uri = data.getData();
 
                 CropImage.activity(image_uri)
-                        .setAspectRatio(1,1)
+                        .setAspectRatio(1 , 1)
                         .start(this);
             } catch(Exception e) {
                 Toast.makeText(this, "You did not pick any Picture !", Toast.LENGTH_LONG).show();

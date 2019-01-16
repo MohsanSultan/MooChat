@@ -8,63 +8,80 @@
     android:background="@drawable/purple_wall"
     tools:context=".SignInActivity">
 
-    <include layout="@layout/app_bar_layout"
-        android:id="@+id/main_page_toolbar"/>
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="250dp"
-        android:layout_height="130dp"
-        android:layout_above="@+id/sign_in_layout"
-        android:layout_centerHorizontal="true"
-        app:srcCompat="@drawable/login_register" />
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
 
     <LinearLayout
         android:id="@+id/sign_in_layout"
         android:layout_width="350dp"
-        android:layout_height="200dp"
-        android:layout_centerInParent="true"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:gravity="center_vertical"
         android:orientation="vertical">
 
-        <android.support.v7.widget.AppCompatEditText
-            android:id="@+id/signin_email"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@drawable/button_border"
-            android:hint="@string/email"
-            android:inputType="textEmailAddress"
-            android:paddingStart="20dp"
-            android:textColor="#010101"
-            android:textColorHint="#808080"
-            app:backgroundTint="#F8F8FF" />
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="250dp"
+            android:layout_height="130dp"
+            android:layout_marginBottom="70dp"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/login_register" />
 
-        <android.support.v7.widget.AppCompatEditText
-            android:id="@+id/signin_pass"
+        <me.zhanghai.android.materialedittext.MaterialTextInputLayout
+
+            android:id="@+id/email_textview"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/button_border"
-            android:hint="@string/password_for_mymoochat"
-            android:inputType="textPassword"
-            android:paddingStart="20dp"
-            android:textColor="#010101"
-            android:textColorHint="#808080"
-            app:backgroundTint="#F8F8FF" />
+            android:layout_marginBottom="20dp"
+            android:text="@string/email">
+
+            <me.zhanghai.android.materialedittext.MaterialEditText
+                android:id="@+id/signin_email"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress"
+                android:paddingStart="20dp"
+                android:textColor="@android:color/white"
+                android:textColorHint="#808080"
+                android:textColorLink="?android:attr/colorFocusedHighlight" />
+        </me.zhanghai.android.materialedittext.MaterialTextInputLayout>
+
+        <me.zhanghai.android.materialedittext.MaterialTextInputLayout
+
+            android:id="@+id/password_textview"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="70dp"
+            android:text="@string/password_for_mymoochat">
+
+            <me.zhanghai.android.materialedittext.MaterialEditText
+                android:id="@+id/signin_pass"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:hint="@string/password_for_mymoochat"
+                android:inputType="textPassword"
+                android:paddingStart="20dp"
+                android:textColor="@android:color/white"
+                android:textColorHint="#808080"
+
+                android:textColorLink="?android:attr/colorActivatedHighlight" />
+        </me.zhanghai.android.materialedittext.MaterialTextInputLayout>
+
+        <Button
+            android:id="@+id/signin_btn"
+            android:layout_width="189dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:text="@string/login"
+            android:layout_gravity="center"
+            android:textColor="#F8F8FF" />
 
     </LinearLayout>
+    </ScrollView>
 
-    <Button
-        android:id="@+id/signin_btn"
-        android:layout_width="189dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/sign_in_layout"
-        android:layout_centerHorizontal="true"
-        android:background="@android:color/transparent"
-        android:text="@string/login"
-        android:textColor="#F8F8FF" />
-
-
+    <include layout="@layout/app_bar_layout"
+        android:id="@+id/main_page_toolbar"/>
 
 </RelativeLayout>

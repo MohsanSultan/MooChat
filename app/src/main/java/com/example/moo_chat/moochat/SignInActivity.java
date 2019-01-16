@@ -41,8 +41,9 @@ public class SignInActivity extends AppCompatActivity {
 
         mToolbar = findViewById(R.id.main_page_toolbar);
         setSupportActionBar(mToolbar);
-        Objects.requireNonNull(getSupportActionBar()).setTitle("LogIn My-MooChat");
-        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle("Sign In Account!");
 
         initField();
 
@@ -68,13 +69,13 @@ public class SignInActivity extends AppCompatActivity {
             String Password = SignInPass.getText().toString();
 
             if ((!Email.isEmpty()) || (!Password.isEmpty())){
-                    checkUser(Email , Password);
+                    signInUser(Email , Password);
             } else Toast.makeText(this, "Kindly Fill All Fields ! ", Toast.LENGTH_LONG).show();
 
         });
     }
 
-    private void checkUser(String email, String password) {
+    private void signInUser(String email, String password) {
 
         pDialog.show();
 
@@ -99,7 +100,7 @@ public class SignInActivity extends AppCompatActivity {
 
             } else {
                 pDialog.hide();
-                Toast.makeText(SignInActivity.this, "User Not Exist ! Check Again Please", Toast.LENGTH_LONG).show();
+                Toast.makeText(SignInActivity.this, "User Not Exist OR wrong Password...! Please Check Again", Toast.LENGTH_LONG).show();
             }
 
         });

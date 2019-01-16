@@ -11,7 +11,7 @@
     <ImageView
         android:id="@+id/user_profile_img"
         android:layout_width="match_parent"
-        android:layout_height="243dp"
+        android:layout_height="267dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         app:srcCompat="@drawable/user_avatar" />
@@ -20,7 +20,8 @@
         android:id="@+id/user_profile_name"
         android:layout_width="match_parent"
         android:layout_height="43dp"
-        android:layout_centerInParent="true"
+        android:layout_above="@+id/user_profile_status"
+        android:layout_alignParentStart="true"
         android:text="Name"
         android:textAlignment="center"
         android:textColor="@android:color/white"
@@ -30,9 +31,10 @@
         android:id="@+id/user_profile_status"
         android:layout_width="match_parent"
         android:layout_height="47dp"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/user_profile_name"
-        android:text="Status !"
+        android:layout_marginBottom="201dp"
+        android:text="@string/profile_status"
         android:textAlignment="center"
         android:textColor="@android:color/white"
         android:textSize="14sp" />
@@ -44,7 +46,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="126dp"
-        android:text="Total Friends !"
+        android:text="@string/total_friends"
         android:textAlignment="center"
         android:textColor="@android:color/white"
         android:textSize="16sp" />

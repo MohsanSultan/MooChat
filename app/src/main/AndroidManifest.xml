@@ -22,7 +22,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity" />
-        <activity android:name=".SignInActivity" />
+        <activity android:name=".SignInActivity"
+            android:parentActivityName=".LoginActivity" />
         <activity
             android:name=".RegisterActivity"
             android:parentActivityName=".LoginActivity" />

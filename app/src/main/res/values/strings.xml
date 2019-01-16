@@ -26,6 +26,8 @@
     <string name="decline_friend_request">Decline Friend Request</string>
     <string name="change_status">Change Status</string>
     <string name="deactivate_account">Deactivate Account</string>
+    <string name="total_friends">Total Friends !</string>
+    <string name="profile_status">Status !</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

@@ -8,26 +8,31 @@
     android:background="@drawable/purple_wall"
     tools:context=".RegisterActivity">
 
-    <include layout="@layout/app_bar_layout"
-        android:id="@+id/register_page_toolbar"/>
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="100dp"
-        android:layout_height="90dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="55dp"
-        app:srcCompat="@drawable/new_user" />
+
+
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
 
     <LinearLayout
         android:id="@+id/register_layout"
         android:layout_width="350dp"
-        android:layout_height="266dp"
-        android:layout_centerInParent="true"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:background="@android:color/transparent"
         android:gravity="center_vertical"
         android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="100dp"
+            android:layout_height="90dp"
+            android:layout_marginBottom="60dp"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/new_user" />
 
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/reg_name"
@@ -37,8 +42,7 @@
             android:hint="@string/full_name"
             android:paddingStart="20dp"
             android:textColor="#010101"
-            android:textColorHint="#808080"
-            app:backgroundTint="#F8F8FF" />
+            android:textColorHint="#808080" />
 
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/reg_email"
@@ -50,8 +54,7 @@
             android:inputType="textEmailAddress"
             android:paddingStart="20dp"
             android:textColor="#010101"
-            android:textColorHint="#808080"
-            app:backgroundTint="#F8F8FF" />
+            android:textColorHint="#808080" />
 
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/reg_pass"
@@ -63,19 +66,22 @@
             android:inputType="textPassword"
             android:paddingStart="20dp"
             android:textColor="#010101"
-            android:textColorHint="#808080"
-            app:backgroundTint="#F8F8FF" />
+            android:textColorHint="#808080" />
+
+        <Button
+            android:id="@+id/reg_btn"
+            android:layout_width="255dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@android:color/transparent"
+            android:text="@string/create_new_account1"
+            android:layout_gravity="center"
+            android:textColor="#F8F8FF" />
 
     </LinearLayout>
+    </ScrollView>
 
-    <Button
-        android:id="@+id/reg_btn"
-        android:layout_width="171dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/register_layout"
-        android:layout_centerHorizontal="true"
-        android:background="@android:color/transparent"
-        android:text="@string/create_new_account1"
-        android:textColor="#F8F8FF" />
+    <include layout="@layout/app_bar_layout"
+        android:id="@+id/register_page_toolbar"/>
 
 </RelativeLayout>
