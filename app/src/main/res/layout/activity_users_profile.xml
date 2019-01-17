@@ -9,9 +9,9 @@
 
 
     <ImageView
-        android:id="@+id/user_profile_img"
+        android:id="@+id/user_profile_img_thumb"
         android:layout_width="match_parent"
-        android:layout_height="267dp"
+        android:layout_height="@dimen/_230sdp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         app:srcCompat="@drawable/user_avatar" />
@@ -67,9 +67,9 @@
         android:id="@+id/profile_decline_req_btn"
         android:layout_width="251dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/profile_send_req_btn"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="-69dp"
+        android:layout_marginBottom="13dp"
         android:background="@android:color/holo_red_dark"
         android:text="@string/decline_friend_request"
         android:textAlignment="center"

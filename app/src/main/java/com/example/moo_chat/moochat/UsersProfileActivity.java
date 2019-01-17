@@ -32,7 +32,7 @@ import java.util.HashMap;
 public class UsersProfileActivity extends AppCompatActivity implements View.OnClickListener{
 
     TextView userProfileName , userProfileStatus , userProfileTotalFriends;
-    ImageView userProfileImg;
+    ImageView userProfileImg , userProfileImageThumb;
     Button sendRequestbtn , declineFriendReqBtn;
 
     String friendStatus;
@@ -72,7 +72,9 @@ public class UsersProfileActivity extends AppCompatActivity implements View.OnCl
         userProfileName = findViewById(R.id.user_profile_name);
         userProfileStatus = findViewById(R.id.user_profile_status);
         userProfileTotalFriends = findViewById(R.id.user_profile_total_friends);
-        userProfileImg = findViewById(R.id.user_profile_img);
+
+        userProfileImageThumb = findViewById(R.id.user_profile_img_thumb);
+        userProfileImageThumb.setOnClickListener(this);
 
 
         sendRequestbtn = findViewById(R.id.profile_send_req_btn);
@@ -91,11 +93,11 @@ public class UsersProfileActivity extends AppCompatActivity implements View.OnCl
                 String userName = dataSnapshot.child("name").getValue().toString();
                 String userStatus = dataSnapshot.child("status").getValue().toString();
                 String userImage = dataSnapshot.child("image").getValue().toString();
+                String userImageThumb = dataSnapshot.child("thumb_img").getValue().toString();
 
                 userProfileName.setText(userName);
                 userProfileStatus.setText(userStatus);
-                Picasso.get().load(userImage).placeholder(R.drawable.user_avatar).into(userProfileImg);
-
+                Picasso.get().load(userImageThumb).placeholder(R.drawable.user_avatar).into(userProfileImageThumb);
             }
 
             @Override
@@ -159,6 +161,8 @@ public class UsersProfileActivity extends AppCompatActivity implements View.OnCl
         });
         pDialog.dismiss();
     }
+
+
     @Override
     public void onClick(View view) {
 
@@ -298,4 +302,5 @@ public class UsersProfileActivity extends AppCompatActivity implements View.OnCl
         }
 
     }
+
 }

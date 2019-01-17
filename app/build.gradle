@@ -24,28 +24,48 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    //noinspection GradleCompatible
+
+    //noinspection GradleCompatible------------------
     implementation 'com.android.support:appcompat-v7:26.0.0'
     implementation 'com.android.support:design:28.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    //noinspection GradleCompatible
+
+    //noinspection GradleCompatible------------------
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    // FireBase --------------------------------------
     implementation 'com.google.firebase:firebase-auth:10.2.1'
     implementation 'com.google.firebase:firebase-appindexing:10.2.1'
     implementation 'com.google.firebase:firebase-database:10.2.1'
     implementation 'com.google.firebase:firebase-storage:10.2.1'
     implementation 'com.google.firebase:firebase-messaging:10.2.1'
     implementation 'com.firebaseui:firebase-ui-database:1.0.1'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    // recycler View -----------------------
     implementation 'com.android.support:recyclerview-v7:28.0.0'
+
+    // circle image View -----------------------
     implementation 'de.hdodenhof:circleimageview:3.0.0'
+
+    // Crop Image -------------------
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.4.7'
+
+    // image Compress
     implementation 'com.android.support:design:28.0.0'
     implementation 'id.zelory:compressor:2.1.0'
+
+
+    // EditText (show hint and text both) ----------------------------
+    implementation 'me.zhanghai.android.materialedittext:library:1.0.5'
+
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.squareup.okhttp3:okhttp:3.12.1'
-    implementation 'me.zhanghai.android.materialedittext:library:1.0.5'
+
+    // Responsive Layouts Dependencies (Dimentions ---- dimen)
+    implementation 'com.intuit.sdp:sdp-android:1.0.5'
+    implementation 'com.intuit.ssp:ssp-android:1.0.4'
 }
 
 apply plugin: 'com.google.gms.google-services'
