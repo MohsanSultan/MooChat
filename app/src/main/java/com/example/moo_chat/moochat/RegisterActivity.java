@@ -42,7 +42,7 @@ public class RegisterActivity extends AppCompatActivity implements  View.OnClick
 
     //Firebase
     private FirebaseAuth mAuth;
-    private DatabaseReference myDbRef;
+    private DatabaseReference myDbRef , myDevTokenRef;
 
 
     // ---
@@ -170,7 +170,9 @@ public class RegisterActivity extends AppCompatActivity implements  View.OnClick
 
                 if (task.isSuccessful()){
 
-                    myDbRef.child(current_user_id).child("device_token").setValue(device_token).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    myDevTokenRef = FirebaseDatabase.getInstance().getReference().child("Users");
+
+                    myDevTokenRef.child(current_user_id).child("device_token").setValue(device_token).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
 

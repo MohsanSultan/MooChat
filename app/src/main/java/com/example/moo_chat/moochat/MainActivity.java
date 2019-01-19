@@ -25,6 +25,8 @@ import com.google.firebase.database.FirebaseDatabase;
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
+    FirebaseUser FirebaseCurrentUser;
+    private DatabaseReference myDatabaseRef;
 
     private Toolbar mToolbar;
 
@@ -38,13 +40,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mAuth = FirebaseAuth.getInstance();
-
         InitFields();
 
     }
 
     private void InitFields() {
+
+        mAuth = FirebaseAuth.getInstance();
+        myDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Users");
 
         mToolbar = findViewById(R.id.main_page_toolbar);
         setSupportActionBar(mToolbar);
@@ -66,9 +69,9 @@ public class MainActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+        FirebaseCurrentUser = mAuth.getCurrentUser();
 
-        if (currentUser == null)
+        if (FirebaseCurrentUser == null)
         {
           GoToStart();
         }
@@ -108,16 +111,26 @@ public class MainActivity extends AppCompatActivity {
     
 
     private void deleteAccount() {
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        final FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+//        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+
+        final FirebaseUser currentUser = mAuth.getCurrentUser();
         currentUser.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    Toast.makeText(MainActivity.this, "Your account has been deleted ..!", Toast.LENGTH_LONG).show();
-                    GoToStart();
+                    myDatabaseRef.child(currentUser.getUid()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()){
+                                Toast.makeText(MainActivity.this, "Your account has been deleted ..!", Toast.LENGTH_LONG).show();
+                                GoToStart();
+                            }else
+                                Toast.makeText(MainActivity.this, "SomeThing Is wrong. please SignIn again ,thank you....", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
                 } else {
-                    Toast.makeText(MainActivity.this, "Something is wrong!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(MainActivity.this, "You should log-out and SignIn again to Delete Your Account (for security purpose.).... Thank You.", Toast.LENGTH_LONG).show();
                 }
             }
         });

@@ -171,18 +171,18 @@ public class UsersProfileActivity extends AppCompatActivity implements View.OnCl
             case R.id.profile_send_req_btn: {
 
                 // If Friend-State in == Not fRIEND THEN THIS. -----------------
-                String userId = getIntent().getStringExtra("user_data");
+                String otherUserId = getIntent().getStringExtra("user_data");
                 sendRequestbtn.setEnabled(false);
 
 
                 if (friendStatus.equals("not_friend")) {
 
-                    myFriendReqDatabase.child(myCurrentUser.getUid()).child(userId).child("request_type").setValue("sent").addOnCompleteListener(new OnCompleteListener<Void>() {
+                    myFriendReqDatabase.child(myCurrentUser.getUid()).child(otherUserId).child("request_type").setValue("sent").addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
 
                             if (task.isSuccessful()) {
-                                myFriendReqDatabase.child(userId).child(myCurrentUser.getUid()).child("request_type")
+                                myFriendReqDatabase.child(otherUserId).child(myCurrentUser.getUid()).child("request_type")
                                         .setValue("received").addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
@@ -191,7 +191,7 @@ public class UsersProfileActivity extends AppCompatActivity implements View.OnCl
                                         notificationDataMap.put("from" , myCurrentUser.getUid());
                                         notificationDataMap.put("type" , "request");
 
-                                        myNotificationDatabase.child(userId).push().setValue(notificationDataMap)
+                                        myNotificationDatabase.child(otherUserId).push().setValue(notificationDataMap)
                                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                     @Override
                                                     public void onComplete(@NonNull Task<Void> task) {
@@ -220,10 +220,10 @@ public class UsersProfileActivity extends AppCompatActivity implements View.OnCl
 
                 // If Friend-State in ==  fRIEND THEN THIS CHANCEL ENABLE. -----------------
                 if (friendStatus.equals("req_sent")){
-                    myFriendReqDatabase.child(myCurrentUser.getUid()).child(userId).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    myFriendReqDatabase.child(myCurrentUser.getUid()).child(otherUserId).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            myFriendReqDatabase.child(userId).child(myCurrentUser.getUid()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                            myFriendReqDatabase.child(otherUserId).child(myCurrentUser.getUid()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     sendRequestbtn.setEnabled(true);
@@ -242,19 +242,19 @@ public class UsersProfileActivity extends AppCompatActivity implements View.OnCl
                 // ------------ Request status ----------
                 if (friendStatus.equals("req_received")){
                     final String currentDate = DateFormat.getDateTimeInstance().format(new Date());
-                    myFriendsDatabase.child(myCurrentUser.getUid()).child(userId).setValue(currentDate)
+                    myFriendsDatabase.child(myCurrentUser.getUid()).child(otherUserId).setValue(currentDate)
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-                                    myFriendsDatabase.child(userId).child(myCurrentUser.getUid()).setValue(currentDate)
+                                    myFriendsDatabase.child(otherUserId).child(myCurrentUser.getUid()).setValue(currentDate)
                                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
 
-                                                    myFriendReqDatabase.child(myCurrentUser.getUid()).child(userId).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    myFriendReqDatabase.child(myCurrentUser.getUid()).child(otherUserId).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                                                         @Override
                                                         public void onComplete(@NonNull Task<Void> task) {
-                                                            myFriendReqDatabase.child(userId).child(myCurrentUser.getUid()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            myFriendReqDatabase.child(otherUserId).child(myCurrentUser.getUid()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                 @Override
                                                                 public void onComplete(@NonNull Task<Void> task) {
                                                                     sendRequestbtn.setEnabled(true);
@@ -275,10 +275,10 @@ public class UsersProfileActivity extends AppCompatActivity implements View.OnCl
                 }
 
                 if (friendStatus.equals("friends")){
-                    myFriendsDatabase.child(myCurrentUser.getUid()).child(userId).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    myFriendsDatabase.child(myCurrentUser.getUid()).child(otherUserId).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            myFriendsDatabase.child(userId).child(myCurrentUser.getUid()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                            myFriendsDatabase.child(otherUserId).child(myCurrentUser.getUid()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     sendRequestbtn.setEnabled(true);
