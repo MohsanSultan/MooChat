@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/hills_wallpaper"
+    android:background="@drawable/black_dots_back"
     tools:context=".RequestFragment">
 
     <!-- TODO: Update blank fragment layout -->

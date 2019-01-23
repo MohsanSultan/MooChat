@@ -61,7 +61,7 @@ public class UsersProfileActivity extends AppCompatActivity implements View.OnCl
         pDialog.setCanceledOnTouchOutside(false);
         pDialog.show();
 
-        String userId = getIntent().getStringExtra("user_data");
+        String userId = getIntent().getStringExtra("from_user_id");
 
         myDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
         myFriendReqDatabase = FirebaseDatabase.getInstance().getReference().child("friend_req");

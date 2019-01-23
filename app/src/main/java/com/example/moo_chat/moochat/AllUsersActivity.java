@@ -70,7 +70,7 @@ public class AllUsersActivity extends AppCompatActivity {
                     public void onClick(View v) {
 
                         Intent userProfileIntent = new Intent(AllUsersActivity.this , UsersProfileActivity.class);
-                        userProfileIntent.putExtra("user_data" , userId);
+                        userProfileIntent.putExtra("from_user_id" , userId);
                         startActivity(userProfileIntent);
                     }
                 });
