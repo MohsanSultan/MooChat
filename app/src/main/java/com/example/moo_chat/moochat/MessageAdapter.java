@@ -64,7 +64,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     @Override
     public void onBindViewHolder(final MessageViewHolder viewHolder, int i) {
 
-        Context myContext = viewHolder.profileImage.getContext();
+//        Context myContext = viewHolder.profileImage.getContext();
 
         Messages c = mMessageList.get(i);
 

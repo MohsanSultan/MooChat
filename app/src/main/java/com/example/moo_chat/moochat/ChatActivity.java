@@ -343,7 +343,6 @@ public class ChatActivity extends AppCompatActivity {
 
                 }
 
-
                 if(itemPos == 1) {
 
                     mLastKey = messageKey;

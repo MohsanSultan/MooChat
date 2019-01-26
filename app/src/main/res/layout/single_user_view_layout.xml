@@ -48,7 +48,7 @@
         android:layout_above="@+id/alluser_status"
         android:layout_alignParentEnd="true"
         android:layout_marginBottom="-84dp"
-        android:layout_marginEnd="83dp"
+        android:layout_marginEnd="96dp"
         android:text="Friends From : Date" />
 
     <ImageView
