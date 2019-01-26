@@ -56,7 +56,6 @@ dependencies {
     implementation 'com.android.support:design:28.0.0'
     implementation 'id.zelory:compressor:2.1.0'
 
-
     // EditText (show hint and text both) ----------------------------
     implementation 'me.zhanghai.android.materialedittext:library:1.0.5'
 

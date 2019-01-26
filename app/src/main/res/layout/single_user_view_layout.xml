@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/single_user_layout"
     android:layout_width="match_parent"
     android:layout_height="125dp"
@@ -21,10 +22,8 @@
         android:id="@+id/alluser_name"
         android:layout_width="191dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="30dp"
-        android:layout_marginTop="24dp"
+        android:layout_alignTop="@+id/alluser_img_view"
+        android:layout_toEndOf="@+id/alluser_img_view"
         android:text="Display Name"
         android:textAlignment="center"
         android:textColor="@android:color/white"
@@ -41,5 +40,25 @@
         android:text="@string/status"
         android:textAlignment="center"
         android:textColor="@android:color/black" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/alluser_status"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="-84dp"
+        android:layout_marginEnd="83dp"
+        android:text="Friends From : Date" />
+
+    <ImageView
+        android:id="@+id/user_online_icon"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignBottom="@+id/alluser_name"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="16dp"
+        android:visibility="gone"
+        app:srcCompat="@drawable/online_icon" />
 
 </RelativeLayout>

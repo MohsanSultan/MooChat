@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MooChat</string>
+    <string name="app_name">MyMooChat</string>
     <string name="create_new_account">Create Account</string>
     <string name="login_activity">Login Activity</string>
     <string name="full_name">Full Name</string>

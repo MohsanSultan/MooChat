@@ -20,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     FirebaseUser FirebaseCurrentUser;
     private DatabaseReference myDatabaseRef;
+    private DatabaseReference myCurrentUserRef;
 
     private Toolbar mToolbar;
 
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         myDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Users");
+        myCurrentUserRef = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
 
         mToolbar = findViewById(R.id.main_page_toolbar);
         setSupportActionBar(mToolbar);
@@ -74,6 +77,21 @@ public class MainActivity extends AppCompatActivity {
         if (FirebaseCurrentUser == null)
         {
           GoToStart();
+        }else {
+
+            myCurrentUserRef.child("online").setValue("true");
+
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        if(currentUser != null) {
+
+            myCurrentUserRef.child("online").setValue(ServerValue.TIMESTAMP);
         }
     }
 
