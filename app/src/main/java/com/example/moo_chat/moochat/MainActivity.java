@@ -50,7 +50,11 @@ public class MainActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         myDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Users");
-        myCurrentUserRef = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
+        if (mAuth.getCurrentUser() != null) {
+
+            myCurrentUserRef = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
+        }
+
 
         mToolbar = findViewById(R.id.main_page_toolbar);
         setSupportActionBar(mToolbar);
@@ -64,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         myTabLayout = findViewById(R.id.main_tabs);
         myTabLayout.setTabTextColors(Color.GRAY,Color.MAGENTA);
         myTabLayout.setupWithViewPager(myViewPager);
-        
+
 
     }
 

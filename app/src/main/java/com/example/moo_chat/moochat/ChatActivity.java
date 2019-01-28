@@ -473,6 +473,10 @@ public class ChatActivity extends AppCompatActivity {
             mRootRef.child("Chat").child(mChatUser).child(mCurrentUserId).child("seen").setValue(false);
             mRootRef.child("Chat").child(mChatUser).child(mCurrentUserId).child("timestamp").setValue(ServerValue.TIMESTAMP);
 
+                mRootRef.child("message_notification").child(push_id).setValue(mCurrentUserId);
+                mRootRef.child("message_notification").child(push_id).child(mCurrentUserId).child(mChatUser).setValue("Notification");
+
+
             mRootRef.updateChildren(messageUserMap, new DatabaseReference.CompletionListener() {
                 @Override
                 public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
@@ -485,6 +489,8 @@ public class ChatActivity extends AppCompatActivity {
 
                 }
             });
+
+
 
         }
 

@@ -16,11 +16,11 @@ class SectionPagerAdapter extends FragmentPagerAdapter{
 
         switch(position) {
             case 0:
-                RequestFragment requestFragment = new RequestFragment();
-                return requestFragment;
-            case 1:
                 ChatFragment chatFragment = new ChatFragment();
                 return chatFragment;
+            case 1:
+                RequestFragment requestFragment = new RequestFragment();
+                return requestFragment;
             case 2:
                 FriendsFragment friendsFragment= new FriendsFragment();
                 return friendsFragment;
@@ -44,11 +44,10 @@ class SectionPagerAdapter extends FragmentPagerAdapter{
                 sb = new SpannableStringBuilder("  REQUEST");
                 return sb;
             case 2:
-                sb = new SpannableStringBuilder("  Friends");
+                sb = new SpannableStringBuilder("  FRIENDS");
                 return sb;
             default:
                 return null;
-
         }
 
     }
