@@ -38,7 +38,7 @@ class SectionPagerAdapter extends FragmentPagerAdapter{
         SpannableStringBuilder sb;
         switch (position){
             case 0:
-                sb = new SpannableStringBuilder("  CHATS");
+                sb = new SpannableStringBuilder("CHATS");
                 return sb;
             case 1:
                 sb = new SpannableStringBuilder("  REQUEST");

@@ -61,15 +61,12 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("My Moo Chat");
 
         myViewPager = findViewById(R.id.tab_pager);
-
         myPagerAdapter = new SectionPagerAdapter(getSupportFragmentManager());
         myViewPager.setAdapter(myPagerAdapter);
 
         myTabLayout = findViewById(R.id.main_tabs);
         myTabLayout.setTabTextColors(Color.GRAY,Color.MAGENTA);
         myTabLayout.setupWithViewPager(myViewPager);
-
-
     }
 
     @Override

@@ -1,64 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/single_user_layout"
+
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="125dp"
-    android:layout_margin="10dp"
-    android:background="@drawable/blue_green">
+    android:layout_height="70dp"
+    android:layout_marginBottom="5dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginStart="15dp"
+    android:layout_marginEnd="15dp"
+    card_view:cardBackgroundColor="#4B0082"
+    card_view:cardCornerRadius="@dimen/_10sdp">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:gravity="center">
 
     <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/alluser_img_view"
-        android:layout_width="108dp"
-        android:layout_height="111dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginBottom="15dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
-        android:src="@drawable/user_avatar"/>
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
+        android:layout_weight=".9"
+        android:src="@drawable/user_avatar"
+        app:civ_border_color="@color/colorPrimary"/>
 
-    <TextView
-        android:id="@+id/alluser_name"
-        android:layout_width="191dp"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/alluser_img_view"
-        android:layout_toEndOf="@+id/alluser_img_view"
-        android:text="Display Name"
-        android:textAlignment="center"
-        android:textColor="@android:color/white"
-        android:textSize="20sp" />
 
-    <TextView
-        android:id="@+id/alluser_status"
-        android:layout_width="231dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="6dp"
-        android:layout_marginTop="84dp"
-        android:text="@string/status"
-        android:textAlignment="center"
-        android:textColor="@android:color/black" />
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="10dp"
+        android:layout_weight="5"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/alluser_status"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="-84dp"
-        android:layout_marginEnd="96dp"
-        android:text="Friends From : Date" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity=""
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:paddingTop="5dp">
 
-    <ImageView
-        android:id="@+id/user_online_icon"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_alignBottom="@+id/alluser_name"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="16dp"
-        android:visibility="gone"
-        app:srcCompat="@drawable/online_icon" />
+            <TextView
+                android:id="@+id/alluser_name"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="Display Name"
+                android:textColor="@android:color/white"
+                android:layout_weight="4"
+                android:gravity="center_vertical"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
-</RelativeLayout>
+            <ImageView
+                android:id="@+id/user_online_icon"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".5"
+                android:gravity="center"
+                android:src="@drawable/online_icon2"
+                android:padding="@dimen/_4sdp" />
+
+            <TextView
+                android:id="@+id/txtTime"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical|right"
+                android:paddingRight="10dp"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/alluser_status"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:ellipsize="end"
+            android:text="@string/status"
+            android:textColor="@color/white"
+            android:lines="1"
+            android:paddingBottom="10dp"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+    </LinearLayout>
+</LinearLayout>
+</android.support.v7.widget.CardView>

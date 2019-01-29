@@ -9,9 +9,6 @@
     tools:context=".RegisterActivity">
 
 
-
-
-
     <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="match_parent"
