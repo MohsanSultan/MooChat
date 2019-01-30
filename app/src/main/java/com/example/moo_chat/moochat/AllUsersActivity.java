@@ -10,11 +10,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.squareup.picasso.Picasso;
 
 public class AllUsersActivity extends AppCompatActivity {
@@ -24,8 +27,10 @@ public class AllUsersActivity extends AppCompatActivity {
     private Toolbar mToolbar;
     private RecyclerView myUsersList ;
 
-
+    private FirebaseAuth mAuth;
     private DatabaseReference myDatabaseRef;
+    private DatabaseReference myCurrentUserRef;
+    FirebaseUser FirebaseCurrentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +45,12 @@ public class AllUsersActivity extends AppCompatActivity {
     }
 
     private void initFields() {
+        mAuth = FirebaseAuth.getInstance();
+
+        if (mAuth.getCurrentUser() != null) {
+
+            myCurrentUserRef = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
+        }
 
         myDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Users");
 
@@ -77,6 +88,33 @@ public class AllUsersActivity extends AppCompatActivity {
             }
         };
         myUsersList.setAdapter(firebaseRecyclerAdapter);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseCurrentUser = mAuth.getCurrentUser();
+
+        if (FirebaseCurrentUser == null)
+        {
+            Toast.makeText(this, "You Are Not Logged In", Toast.LENGTH_SHORT).show();
+        }else {
+
+            myCurrentUserRef.child("online").setValue("true");
+
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        if(currentUser != null) {
+
+            myCurrentUserRef.child("online").setValue(ServerValue.TIMESTAMP);
+        }
     }
 
 //    public static class UsersViewHolderClass extends RecyclerView.ViewHolder {

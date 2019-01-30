@@ -27,6 +27,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -58,9 +59,12 @@ public class UserSettingActivity extends AppCompatActivity {
 
     private static final int  GALLERY_PICK_CODE = 100;
 
+    private FirebaseAuth mAuth;
     private DatabaseReference myDbRef;
     private FirebaseUser currentUser;
     private StorageReference myProfileImgStorage;
+    FirebaseUser FirebaseCurrentUser;
+    private DatabaseReference myCurrentUserRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +85,12 @@ public class UserSettingActivity extends AppCompatActivity {
         profileDPImg = findViewById(R.id.user_dp);
         profileName = findViewById(R.id.user_setting_name);
         profileStatus = findViewById(R.id.user_setting_status);
+
+        mAuth = FirebaseAuth.getInstance();
+        if (mAuth.getCurrentUser() != null) {
+
+            myCurrentUserRef = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
+        }
 
         myProfileImgStorage = FirebaseStorage.getInstance().getReference();
 
@@ -320,15 +330,44 @@ public class UserSettingActivity extends AppCompatActivity {
         }
     }
 
-    public static String random() {
-        Random generator = new Random();
-        StringBuilder randomStringBuilder = new StringBuilder();
-        int randomLength = generator.nextInt(40);
-        char tempChar;
-        for (int i = 0; i < randomLength; i++){
-            tempChar = (char) (generator.nextInt(96) + 32);
-            randomStringBuilder.append(tempChar);
+    // ------------------- String Random Method -----------------------------------
+
+//    public static String random() {
+//        Random generator = new Random();
+//        StringBuilder randomStringBuilder = new StringBuilder();
+//        int randomLength = generator.nextInt(40);
+//        char tempChar;
+//        for (int i = 0; i < randomLength; i++){
+//            tempChar = (char) (generator.nextInt(96) + 32);
+//            randomStringBuilder.append(tempChar);
+//        }
+//        return randomStringBuilder.toString();
+//    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseCurrentUser = mAuth.getCurrentUser();
+
+        if (FirebaseCurrentUser == null)
+        {
+            Toast.makeText(this, "You Are Not Logged In", Toast.LENGTH_SHORT).show();
+        }else {
+
+            myCurrentUserRef.child("online").setValue("true");
+
         }
-        return randomStringBuilder.toString();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        if(currentUser != null) {
+
+            myCurrentUserRef.child("online").setValue(ServerValue.TIMESTAMP);
+        }
     }
 }

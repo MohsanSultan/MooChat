@@ -6,9 +6,9 @@
     android:layout_height="70dp"
     android:layout_marginBottom="5dp"
     android:layout_marginTop="5dp"
-    android:layout_marginStart="15dp"
-    android:layout_marginEnd="15dp"
-    card_view:cardBackgroundColor="#4B0082"
+    android:layout_marginStart="5dp"
+    android:layout_marginEnd="5dp"
+    card_view:cardBackgroundColor="@android:color/transparent"
     card_view:cardCornerRadius="@dimen/_10sdp">
 
 <LinearLayout
@@ -21,9 +21,9 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/alluser_img_view"
         android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_margin="10dp"
-        android:layout_weight=".9"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_margin="@dimen/_5sdp"
+        android:layout_weight=".7"
         android:src="@drawable/user_avatar"
         app:civ_border_color="@color/colorPrimary"/>
 
@@ -31,7 +31,7 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="@dimen/_5sdp"
         android:layout_weight="5"
         android:orientation="vertical">
 
@@ -39,7 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_gravity=""
-            android:layout_weight="1"
+            android:layout_weight="5"
             android:orientation="horizontal"
             android:paddingTop="5dp">
 
@@ -48,39 +48,40 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:text="Display Name"
-                android:textColor="@android:color/white"
-                android:layout_weight="4"
+                android:textColor="@android:color/holo_orange_dark"
+                android:layout_weight="2.8"
                 android:gravity="center_vertical"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
-
-            <ImageView
-                android:id="@+id/user_online_icon"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight=".5"
-                android:gravity="center"
-                android:src="@drawable/online_icon2"
-                android:padding="@dimen/_4sdp" />
 
             <TextView
                 android:id="@+id/txtTime"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center_vertical|right"
-                android:paddingRight="10dp"
+                android:layout_weight="2"
+                android:visibility="gone"
+                android:gravity="center"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <ImageView
+                android:id="@+id/user_online_icon"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".2"
+                android:visibility="gone"
+                android:layout_marginRight="@dimen/_1sdp"
+                android:gravity="center"
+                android:src="@drawable/online_icon" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/alluser_status"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_weight="5"
             android:gravity="center_vertical"
             android:ellipsize="end"
             android:text="@string/status"
-            android:textColor="@color/white"
+            android:textColor="@color/orange"
             android:lines="1"
             android:paddingBottom="10dp"
             android:textAppearance="?android:attr/textAppearanceSmall" />

@@ -98,8 +98,6 @@ public class ChatFragment extends Fragment {
             @Override
             protected void populateViewHolder(final ConvViewHolder convViewHolder, final Conv conv, int i) {
 
-
-
                 final String list_user_id = getRef(i).getKey();
 
                 Query lastMessageQuery = mMessageDatabase.child(list_user_id).limitToLast(1);
@@ -145,8 +143,7 @@ public class ChatFragment extends Fragment {
                         if(dataSnapshot.hasChild("online")) {
 
                             String userOnline = dataSnapshot.child("online").getValue().toString();
-                            convViewHolder.setUserOnline(userOnline);
-
+                            convViewHolder.setUserOnline(userOnline , getContext());
                         }
 
                         convViewHolder.setName(userName);
@@ -156,16 +153,12 @@ public class ChatFragment extends Fragment {
                             @Override
                             public void onClick(View view) {
 
-
                                 Intent chatIntent = new Intent(getContext(), ChatActivity.class);
                                 chatIntent.putExtra("from_user_id", list_user_id);
                                 chatIntent.putExtra("user_name", userName);
                                 startActivity(chatIntent);
-
                             }
                         });
-
-
                     }
 
                     @Override
@@ -178,7 +171,6 @@ public class ChatFragment extends Fragment {
         };
 
         mConvList.setAdapter(firebaseConvAdapter);
-
     }
 
     public static class ConvViewHolder extends RecyclerView.ViewHolder {
@@ -207,29 +199,39 @@ public class ChatFragment extends Fragment {
 
         public void setName(String name){
 
-            TextView userNameView = (TextView) mView.findViewById(R.id.alluser_name);
+            TextView userNameView = mView.findViewById(R.id.alluser_name);
             userNameView.setText(name);
 
         }
 
         public void setUserImage(String thumb_image, Context ctx){
 
-            CircleImageView userImageView = (CircleImageView) mView.findViewById(R.id.alluser_img_view);
+            CircleImageView userImageView =  mView.findViewById(R.id.alluser_img_view);
             Picasso.get().load(thumb_image).placeholder(R.drawable.user_avatar).into(userImageView);
 
         }
 
-        public void setUserOnline(String online_status) {
+        public void setUserOnline(String online_status , Context ctx) {
 
             ImageView userOnlineView = mView.findViewById(R.id.user_online_icon);
+            TextView userTimeView = mView.findViewById(R.id.txtTime);
 
             if(online_status.equals("true")){
 
                 userOnlineView.setVisibility(View.VISIBLE);
+                userTimeView.setVisibility(View.INVISIBLE);
 
             } else {
 
                 userOnlineView.setVisibility(View.INVISIBLE);
+                userTimeView.setVisibility(View.VISIBLE);
+                GetTimeAgo getTimeAgo = new GetTimeAgo();
+
+                long lastTime = Long.parseLong(online_status);
+
+                String lastSeenTime = getTimeAgo.getTimeAgo(lastTime, ctx);
+
+                userTimeView.setText(lastSeenTime);
 
             }
 

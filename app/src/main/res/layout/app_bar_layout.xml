@@ -4,7 +4,7 @@
     android:id="@+id/main_app_bar"
     android:layout_width="match_parent"
     android:layout_height="@dimen/_45sdp"
-    android:background="@color/colorPrimary"
+    android:background="@android:color/transparent"
     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
 </android.support.v7.widget.Toolbar>

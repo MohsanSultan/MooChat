@@ -51,4 +51,5 @@ class SectionPagerAdapter extends FragmentPagerAdapter{
         }
 
     }
+
 }
