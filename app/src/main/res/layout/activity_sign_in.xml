@@ -1,29 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/login_back">
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center">
 
-
             <android.support.v7.widget.CardView
                 android:id="@+id/cv"
                 android:layout_width="@dimen/_280sdp"
-                android:layout_height="@dimen/_280sdp"
+                android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                app:cardCornerRadius="@dimen/_20sdp"
-                app:cardElevation="@dimen/_3sdp"
-                app:cardUseCompatPadding="true">
+                app:cardCornerRadius="@dimen/_20sdp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -33,10 +25,10 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_45sdp"
-                        android:layout_marginTop="@dimen/_6sdp">
+                        android:layout_marginTop="@dimen/_4sdp">
 
                         <View
-                            android:layout_width="@dimen/_8sdp"
+                            android:layout_width="@dimen/_10sdp"
                             android:layout_height="match_parent"
                             android:layout_alignParentStart="true"
                             android:background="#2fa881" />
@@ -54,9 +46,8 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_50sdp"
-                        android:layout_marginTop="10dp"
-                        android:orientation="horizontal"
+                        android:layout_height="@dimen/_55sdp"
+                        android:layout_marginTop="@dimen/_6sdp"
                         android:paddingEnd="@dimen/_10sdp"
                         android:paddingStart="@dimen/_20sdp">
 
@@ -75,7 +66,7 @@
                                 android:hint="@string/email"
                                 android:inputType="textEmailAddress"
                                 android:paddingStart="@dimen/_10sdp"
-                                android:textColor="@color/orange"
+                                android:textColor="@color/black"
                                 android:textColorHint="#808080"
                                 android:textColorLink="@color/colorAccent" />
                         </me.zhanghai.android.materialedittext.MaterialTextInputLayout>
@@ -83,7 +74,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_50sdp"
+                        android:layout_height="@dimen/_55sdp"
                         android:orientation="horizontal"
                         android:paddingEnd="@dimen/_10sdp"
                         android:paddingStart="@dimen/_20sdp">
@@ -93,7 +84,7 @@
                             android:id="@+id/password_textview"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/_50sdp"
-                            android:layout_marginBottom="70dp"
+                            android:layout_marginBottom="@dimen/_70sdp"
                             android:text="@string/password_for_mymoochat">
 
                             <me.zhanghai.android.materialedittext.MaterialEditText
@@ -122,6 +113,15 @@
             </android.support.v7.widget.CardView>
 
             <android.support.design.widget.FloatingActionButton
+                android:id="@+id/signin_back_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/cv"
+                android:layout_marginStart="@dimen/_3ssp"
+                android:src="@drawable/arrow_left"
+                app:fabSize="mini" />
+
+            <android.support.design.widget.FloatingActionButton
                 android:id="@+id/signin_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -129,11 +129,8 @@
                 android:layout_alignTop="@id/cv"
                 android:layout_marginEnd="-10dp"
                 android:layout_marginTop="@dimen/_170sdp"
-                android:onClick="clickRegisterLayout"
                 android:src="@drawable/user_avatar"
-                android:transitionName="loginFab"
                 app:fabSize="normal" />
 
         </RelativeLayout>
     </ScrollView>
-</RelativeLayout>

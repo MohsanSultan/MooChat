@@ -27,7 +27,7 @@ import java.util.Objects;
 public class SignInActivity extends AppCompatActivity {
 
     EditText SignInEmaail , SignInPass;
-    FloatingActionButton signInBtn;
+    FloatingActionButton signInBtn , backBtn;
     ProgressDialog pDialog;
     private Toolbar mToolbar;
 
@@ -44,18 +44,9 @@ public class SignInActivity extends AppCompatActivity {
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-//        toolbar();
         initField();
-
     }
 
-//    private void toolbar() {
-//        mToolbar = findViewById(R.id.singin_page_toolbar);
-//        setSupportActionBar(mToolbar);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setDisplayShowHomeEnabled(true);
-//        getSupportActionBar().setTitle("Sign In Account!");
-//    }
 
     private void initField() {
         pDialog = new ProgressDialog(this , R.style.MyAlertDialogStyle);
@@ -80,6 +71,16 @@ public class SignInActivity extends AppCompatActivity {
                     signInUser(Email , Password);
             } else Toast.makeText(this, "Kindly Fill All Fields ! ", Toast.LENGTH_LONG).show();
 
+        });
+
+        backBtn = findViewById(R.id.signin_back_btn);
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent backIntent = new Intent(SignInActivity.this , LoginActivity.class);
+                startActivity(backIntent);
+                finish();
+            }
         });
     }
 

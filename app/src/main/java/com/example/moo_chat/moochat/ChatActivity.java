@@ -51,9 +51,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ChatActivity extends AppCompatActivity {
 
     private String mChatUser;
-    private Toolbar mChatToolbar;
 
     private DatabaseReference mRootRef;
+
+    private Toolbar mChatToolbar;
 
     private TextView mTitleView;
     private TextView mLastSeenView;
@@ -96,8 +97,9 @@ public class ChatActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
 
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayShowCustomEnabled(true);
+        if (actionBar != null) {
+            actionBar.setDisplayShowCustomEnabled(true);
+        }
 
         mRootRef = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();

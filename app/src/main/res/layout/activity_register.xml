@@ -1,84 +1,155 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/login_back"
-    tools:context=".RegisterActivity">
+    android:fitsSystemWindows="true">
 
-
-    <ScrollView
-        android:id="@+id/scrollView1"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-
-    <LinearLayout
-        android:id="@+id/register_layout"
-        android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@android:color/transparent"
-        android:gravity="center_vertical"
-        android:orientation="vertical">
+        android:layout_gravity="center">
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="250dp"
-            android:layout_height="150dp"
-            android:layout_marginBottom="50dp"
-            android:layout_gravity="center"
-            app:srcCompat="@drawable/register_icon" />
-
-        <android.support.v7.widget.AppCompatEditText
-            android:id="@+id/reg_name"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@drawable/button_border"
-            android:hint="@string/full_name"
-            android:paddingStart="20dp"
-            android:textColor="#010101"
-            android:textColorHint="#808080" />
-
-        <android.support.v7.widget.AppCompatEditText
-            android:id="@+id/reg_email"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/button_border"
-            android:hint="@string/email"
-            android:inputType="textEmailAddress"
-            android:paddingStart="20dp"
-            android:textColor="#010101"
-            android:textColorHint="#808080" />
-
-        <android.support.v7.widget.AppCompatEditText
-            android:id="@+id/reg_pass"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/button_border"
-            android:hint="@string/password_for_mymoochat"
-            android:inputType="textPassword"
-            android:paddingStart="20dp"
-            android:textColor="#010101"
-            android:textColorHint="#808080" />
-
-        <Button
-            android:id="@+id/reg_btn"
-            android:layout_width="255dp"
+        <android.support.v7.widget.CardView
+            android:id="@+id/cv"
+            android:layout_width="@dimen/_280sdp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:background="@android:color/transparent"
-            android:text="@string/create_new_account1"
-            android:layout_gravity="center"
-            android:textColor="#F8F8FF" />
+            app:cardBackgroundColor="#F3F2F4"
+            android:layout_centerInParent="true"
+            app:cardCornerRadius="@dimen/_20sdp">
 
-    </LinearLayout>
-    </ScrollView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_45sdp"
+                    android:layout_marginTop="@dimen/_4sdp">
 
-    <include layout="@layout/app_bar_layout"
-        android:id="@+id/register_page_toolbar"/>
+                    <View
+                        android:layout_width="@dimen/_10sdp"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentStart="true"
+                        android:background="#2fa881" />
 
-</RelativeLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="50dp"
+                        android:text="Register New Account"
+                        android:textColor="@color/orange"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_55sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:paddingStart="@dimen/_20sdp">
+
+                    <me.zhanghai.android.materialedittext.MaterialTextInputLayout
+
+                        android:id="@+id/reg_name_textView"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_50sdp"
+                        android:layout_marginBottom="20dp"
+                        android:text="@string/email">
+
+                        <me.zhanghai.android.materialedittext.MaterialEditText
+                            android:id="@+id/reg_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_45sdp"
+                            android:hint="@string/full_name"
+                            android:paddingStart="@dimen/_10sdp"
+                            android:textColor="@color/black"
+                            android:textColorHint="#808080"
+                            android:textColorLink="@color/colorAccent" />
+                    </me.zhanghai.android.materialedittext.MaterialTextInputLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_55sdp"
+                    android:layout_marginTop="@dimen/_6sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:paddingStart="@dimen/_20sdp">
+
+                    <me.zhanghai.android.materialedittext.MaterialTextInputLayout
+
+                        android:id="@+id/reg_email_textview"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_50sdp"
+                        android:layout_marginBottom="20dp"
+                        android:text="@string/email">
+
+                        <me.zhanghai.android.materialedittext.MaterialEditText
+                            android:id="@+id/reg_email"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_45sdp"
+                            android:hint="@string/email"
+                            android:inputType="textEmailAddress"
+                            android:paddingStart="@dimen/_10sdp"
+                            android:textColor="@color/black"
+                            android:textColorHint="#808080"
+                            android:textColorLink="@color/colorAccent" />
+                    </me.zhanghai.android.materialedittext.MaterialTextInputLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_55sdp"
+                    android:orientation="horizontal"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:paddingStart="@dimen/_20sdp"
+                    android:layout_marginBottom="@dimen/_100sdp">
+
+                    <me.zhanghai.android.materialedittext.MaterialTextInputLayout
+
+                        android:id="@+id/reg_password_textview"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_50sdp"
+                        android:layout_marginBottom="@dimen/_70sdp"
+                        android:text="@string/password_for_mymoochat">
+
+                        <me.zhanghai.android.materialedittext.MaterialEditText
+                            android:id="@+id/reg_pass"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_45sdp"
+                            android:hint="@string/password_for_mymoochat"
+                            android:inputType="textPassword"
+                            android:paddingStart="@dimen/_10sdp"
+                            android:textColor="@color/black"
+                            android:textColorHint="#808080"
+                            android:textColorLink="@color/colorAccent" />
+                    </me.zhanghai.android.materialedittext.MaterialTextInputLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/reg_back_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/cv"
+            android:layout_marginStart="@dimen/_3ssp"
+            android:src="@drawable/arrow_left"
+            app:fabSize="mini" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/reg_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@id/cv"
+            android:layout_alignTop="@id/cv"
+            android:layout_marginEnd="-10dp"
+            android:layout_marginTop="@dimen/_250sdp"
+            android:src="@drawable/user_avatar"
+            app:fabSize="normal" />
+
+    </RelativeLayout>
+</ScrollView>

@@ -3,7 +3,9 @@ package com.example.moo_chat.moochat;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -35,7 +37,7 @@ import java.util.Objects;
 public class RegisterActivity extends AppCompatActivity implements  View.OnClickListener{
 
     EditText regName, regEmail, regPassword;
-    Button RegAcBtn;
+    FloatingActionButton RegAcBtn , backBtn;
     ProgressDialog pDialog;
 
     private Toolbar mToolbar;
@@ -57,20 +59,9 @@ public class RegisterActivity extends AppCompatActivity implements  View.OnClick
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-        setToolbar();
-
         // Check Internet connection here. ---- code latter.
         initField();
     }
-
-    private void setToolbar() {
-        mToolbar = findViewById(R.id.register_page_toolbar);
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setTitle("Register New Account!");
-        }
-
 
     private void initField() {
 
@@ -79,12 +70,14 @@ public class RegisterActivity extends AppCompatActivity implements  View.OnClick
         pDialog.setMessage("Loading...");
         pDialog.setCanceledOnTouchOutside(false);
 
-
         regName = findViewById(R.id.reg_name);
 
         regEmail = findViewById(R.id.reg_email);
 
         regPassword = findViewById(R.id.reg_pass);
+
+        backBtn = findViewById(R.id.reg_back_btn);
+        backBtn.setOnClickListener(this);
 
         RegAcBtn = findViewById(R.id.reg_btn);
         RegAcBtn.setOnClickListener(this);
@@ -96,6 +89,13 @@ public class RegisterActivity extends AppCompatActivity implements  View.OnClick
         switch (view.getId()) {
             case R.id.reg_btn:
                 registerAccountBtn();
+
+            case R.id.reg_back_btn: {
+                Intent backIntent = new Intent(RegisterActivity.this, LoginActivity.class);
+                startActivity(backIntent);
+                finish();
+            }
+
         }
     }
 

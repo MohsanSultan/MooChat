@@ -29,7 +29,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this , CHANNEL_ID)
-                        .setSmallIcon(R.drawable.app_icon)
+                        .setSmallIcon(R.mipmap.app_icon)
                         .setContentTitle(notification_title)
                         .setContentText(notification_message)
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT);

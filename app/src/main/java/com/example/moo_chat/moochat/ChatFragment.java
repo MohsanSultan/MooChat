@@ -91,7 +91,7 @@ public class ChatFragment extends Fragment {
 
         FirebaseRecyclerAdapter<Conv, ConvViewHolder> firebaseConvAdapter = new FirebaseRecyclerAdapter<Conv, ConvViewHolder>(
                 Conv.class,
-                R.layout.single_user_view_layout,
+                R.layout.chat_single_user_layout,
                 ConvViewHolder.class,
                 conversationQuery
         ) {

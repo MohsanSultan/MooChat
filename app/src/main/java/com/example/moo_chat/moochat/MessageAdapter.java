@@ -36,6 +36,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     @Override
     public MessageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
+
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.message_single_layout ,parent, false);
 
@@ -99,13 +100,11 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             viewHolder.messageText.setText(c.getMessage());
             viewHolder.messageImage.setVisibility(View.INVISIBLE);
 
-
         } else {
 
             viewHolder.messageText.setVisibility(View.INVISIBLE);
             Picasso.get().load(c.getMessage())
                     .placeholder(R.drawable.user_avatar).into(viewHolder.messageImage);
-
         }
 
     }
