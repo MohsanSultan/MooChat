@@ -6,6 +6,7 @@ public class Messages {
     private long  time;
     private boolean seen;
 
+
     private String from;
 
     public Messages(String from) {

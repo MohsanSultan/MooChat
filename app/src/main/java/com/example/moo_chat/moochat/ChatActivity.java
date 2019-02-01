@@ -1,5 +1,7 @@
 package com.example.moo_chat.moochat;
 
+import android.app.ProgressDialog;
+import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Context;
@@ -41,11 +43,15 @@ import com.theartofdev.edmodo.cropper.CropImage;
 
 import org.w3c.dom.Text;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import de.hdodenhof.circleimageview.CircleImageView;
+import id.zelory.compressor.Compressor;
 
 
 public class ChatActivity extends AppCompatActivity {
@@ -69,6 +75,10 @@ public class ChatActivity extends AppCompatActivity {
     private RecyclerView mMessagesList;
     private SwipeRefreshLayout mRefreshLayout;
 
+    ProgressDialog pDialog;
+
+    Bitmap myThumbBitmap;
+
     private final List<Messages> messagesList = new ArrayList<>();
     private LinearLayoutManager mLinearLayout;
     private MessageAdapter mAdapter;
@@ -91,6 +101,11 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+
+        pDialog = new ProgressDialog(this , R.style.MyAlertDialogStyle);
+        pDialog.setTitle("Please Wait !");
+        pDialog.setMessage("Loading...");
+        pDialog.setCanceledOnTouchOutside(false);
 
         mChatToolbar = findViewById(R.id.chat_app_bar);
         setSupportActionBar(mChatToolbar);
@@ -140,6 +155,7 @@ public class ChatActivity extends AppCompatActivity {
         mRootRef.child("Chat").child(mCurrentUserId).child(mChatUser).child("seen").setValue(true);
 
         loadMessages();
+
 
 
         mTitleView.setText(userName);
@@ -261,65 +277,104 @@ public class ChatActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == GALLERY_PICK && resultCode == RESULT_OK){
+        if(requestCode == GALLERY_PICK) {
 
-            Uri imageUri = data.getData();
+            try {
+                Uri imageUri = data.getData();
 
-            final String current_user_ref = "messages/" + mCurrentUserId + "/" + mChatUser;
-            final String chat_user_ref = "messages/" + mChatUser + "/" + mCurrentUserId;
-
-            DatabaseReference user_message_push = mRootRef.child("messages")
-                    .child(mCurrentUserId).child(mChatUser).push();
-
-            final String push_id = user_message_push.getKey();
-
-
-            StorageReference filepath = mImageStorage.child("message_images").child( push_id + ".jpg");
-
-            filepath.putFile(imageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-
-                    if(task.isSuccessful()){
-
-                        String download_url = task.getResult().getDownloadUrl().toString();
-
-
-                        Map messageMap = new HashMap();
-                        messageMap.put("message", download_url);
-                        messageMap.put("seen", false);
-                        messageMap.put("type", "image");
-                        messageMap.put("time", ServerValue.TIMESTAMP);
-                        messageMap.put("from", mCurrentUserId);
-
-                        Map messageUserMap = new HashMap();
-                        messageUserMap.put(current_user_ref + "/" + push_id, messageMap);
-                        messageUserMap.put(chat_user_ref + "/" + push_id, messageMap);
-
-                        mChatMessageView.setText("");
-
-                        mRootRef.updateChildren(messageUserMap, new DatabaseReference.CompletionListener() {
-                            @Override
-                            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-
-                                if(databaseError != null){
-
-                                    Log.d("CHAT_LOG", databaseError.getMessage().toString());
-
-                                }
-
-                            }
-                        });
-
-
-                    }
-
-                }
-            });
-
+                CropImage.activity(imageUri)
+                        .setAspectRatio(1, 1)
+                        .start(this);
+            } catch (Exception e) {
+                Toast.makeText(this, "You did not pick any Picture !", Toast.LENGTH_LONG).show();
+            }
         }
 
-    }
+            if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+
+                CropImage.ActivityResult result = CropImage.getActivityResult(data);
+
+                if (resultCode == RESULT_OK){
+
+                    pDialog.show();
+
+                    Uri resultUri = result.getUri();
+
+//                    File myThumbFilePath = new File(resultUri.getPath());
+//
+//                    try {
+//                        myThumbBitmap = new Compressor(this)
+//                                .setMaxWidth(200)
+//                                .setMaxHeight(200)
+//                                .setQuality(75)
+//                                .compressToBitmap(myThumbFilePath);
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//                    myThumbBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+//                    byte[] myThumbByte = baos.toByteArray();
+
+
+
+                final String current_user_ref = "messages/" + mCurrentUserId + "/" + mChatUser;
+                final String chat_user_ref = "messages/" + mChatUser + "/" + mCurrentUserId;
+
+                DatabaseReference user_message_push = mRootRef.child("messages")
+                        .child(mCurrentUserId).child(mChatUser).push();
+
+                final String push_id = user_message_push.getKey();
+
+
+                StorageReference filepath = mImageStorage.child("message_images").child(push_id + ".jpg");
+
+                filepath.putFile(resultUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+
+                        if (task.isSuccessful()) {
+
+                            String download_url = task.getResult().getDownloadUrl().toString();
+
+
+                            Map messageMap = new HashMap();
+                            messageMap.put("message", download_url);
+                            messageMap.put("seen", false);
+                            messageMap.put("type", "image");
+                            messageMap.put("time", ServerValue.TIMESTAMP);
+                            messageMap.put("from", mCurrentUserId);
+
+                            Map messageUserMap = new HashMap();
+                            messageUserMap.put(current_user_ref + "/" + push_id, messageMap);
+                            messageUserMap.put(chat_user_ref + "/" + push_id, messageMap);
+
+                            mChatMessageView.setText("");
+
+                            mRootRef.updateChildren(messageUserMap, new DatabaseReference.CompletionListener() {
+                                @Override
+                                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                                    if (databaseError != null) {
+
+                                        Log.d("CHAT_LOG", databaseError.getMessage().toString());
+
+                                    }
+
+                                }
+                            });
+
+
+                        }
+
+                    }
+                });
+
+                    pDialog.dismiss();
+            }
+            }
+        }
+
 
     private void loadMoreMessages() {
 
