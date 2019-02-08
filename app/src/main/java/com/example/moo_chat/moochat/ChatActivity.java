@@ -102,6 +102,11 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
+        initFields();
+    }
+
+    private void initFields() {
+
         pDialog = new ProgressDialog(this , R.style.MyAlertDialogStyle);
         pDialog.setTitle("Please Wait !");
         pDialog.setMessage("Loading...");
@@ -155,7 +160,6 @@ public class ChatActivity extends AppCompatActivity {
         mRootRef.child("Chat").child(mCurrentUserId).child(mChatUser).child("seen").setValue(true);
 
         loadMessages();
-
 
 
         mTitleView.setText(userName);
@@ -270,7 +274,6 @@ public class ChatActivity extends AppCompatActivity {
 
             }
         });
-
     }
 
     @Override

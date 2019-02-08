@@ -40,13 +40,10 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     @Override
     public MessageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View v = LayoutInflater.from(parent.getContext())
+        View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.message_single_layout ,parent, false);
 
-//        View vv = LayoutInflater.from(parent.getContext())
-//                .inflate(R.layout.message_other_user_layout ,parent, false);
-
-        return new MessageViewHolder(v);
+        return new MessageViewHolder(view);
 
     }
 
@@ -87,24 +84,18 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         if (mCurrentUserId.equals(from_user)){
             viewHolder.messageText.setVisibility(View.VISIBLE);
             viewHolder.messageText.setBackgroundResource(R.drawable.custom_chat_view_from);
-
             viewHolder.profileImage.setVisibility(View.VISIBLE);
-            viewHolder.messageImage.setVisibility(View.VISIBLE);
 
             viewHolder.fromMessageText.setVisibility(View.GONE);
             viewHolder.fromProfileImage.setVisibility(View.GONE);
-            viewHolder.fromMessageImage.setVisibility(View.GONE);
 
         }else {
             viewHolder.fromMessageText.setVisibility(View.VISIBLE);
             viewHolder.fromMessageText.setBackgroundResource(R.drawable.custom_chat_view_to);
-
             viewHolder.fromProfileImage.setVisibility(View.VISIBLE);
-            viewHolder.fromMessageImage.setVisibility(View.VISIBLE);
 
             viewHolder.messageText.setVisibility(View.GONE);
             viewHolder.profileImage.setVisibility(View.GONE);
-            viewHolder.messageImage.setVisibility(View.GONE);
         }
 
 
@@ -147,8 +138,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
             Picasso.get().load(c.getMessage())
                     .placeholder(R.drawable.user_avatar).into(viewHolder.messageImage);
-            Picasso.get().load(c.getMessage())
-                    .placeholder(R.drawable.user_avatar).into(viewHolder.fromMessageImage);
         }
 
     }

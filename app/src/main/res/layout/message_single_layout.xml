@@ -34,8 +34,8 @@
         android:layout_marginTop="@dimen/_3sdp"
         android:layout_toEndOf="@+id/message_profile_layout"
         android:padding="@dimen/_2sdp"
-        android:visibility="gone"
         android:text="Message Text"
+        android:visibility="gone"
         android:textColor="@color/colorAccent"
         android:textSize="@dimen/_14ssp" />
 
@@ -46,9 +46,9 @@
         android:layout_marginTop="@dimen/_3sdp"
         android:layout_toStartOf="@+id/message_profile_user_layout"
         android:padding="@dimen/_2sdp"
-        android:visibility="gone"
         android:layout_marginRight="@dimen/_5sdp"
         android:text="Message Text"
+        android:visibility="gone"
         android:textColor="@color/colorAccent"
         android:textSize="@dimen/_14ssp" />
 
@@ -57,7 +57,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_1sdp"
-        android:layout_marginStart="@dimen/_250sdp"
+        android:layout_marginStart="@dimen/_260sdp"
         android:visibility="gone"
         android:text="00:00"
         android:textSize="@dimen/_12ssp" />
@@ -80,7 +80,7 @@
         android:layout_marginStart="@dimen/_40sdp"
         android:layout_alignParentEnd="true"
         android:layout_alignStart="@+id/message_profile_layout"
-        android:layout_marginEnd="@dimen/_50sdp"
+        android:layout_marginEnd="@dimen/_60sdp"
         android:visibility="gone"
         android:padding="@dimen/_5sdp" />
 
@@ -92,7 +92,7 @@
         android:layout_alignStart="@+id/message_profile_user_layout"
         android:layout_marginEnd="@dimen/_60sdp"
         android:visibility="gone"
-        android:layout_marginStart="-230dp"
+        android:layout_marginStart="-250dp"
         android:padding="@dimen/_2sdp"/>
 
 
