@@ -303,21 +303,21 @@ public class ChatActivity extends AppCompatActivity {
 
                     Uri resultUri = result.getUri();
 
-//                    File myThumbFilePath = new File(resultUri.getPath());
-//
-//                    try {
-//                        myThumbBitmap = new Compressor(this)
-//                                .setMaxWidth(200)
-//                                .setMaxHeight(200)
-//                                .setQuality(75)
-//                                .compressToBitmap(myThumbFilePath);
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//                    myThumbBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-//                    byte[] myThumbByte = baos.toByteArray();
+                    File myThumbFilePath = new File(resultUri.getPath());
+
+                    try {
+                        myThumbBitmap = new Compressor(this)
+                                .setMaxWidth(200)
+                                .setMaxHeight(200)
+                                .setQuality(75)
+                                .compressToBitmap(myThumbFilePath);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    myThumbBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                    byte[] myThumbByte = baos.toByteArray();
 
 
 
@@ -332,47 +332,46 @@ public class ChatActivity extends AppCompatActivity {
 
                 StorageReference filepath = mImageStorage.child("message_images").child(push_id + ".jpg");
 
-                filepath.putFile(resultUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                    UploadTask uploadTask = filepath.putBytes(myThumbByte);
+                    uploadTask.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
 
-                        if (task.isSuccessful()) {
+                            if (task.isSuccessful()) {
 
-                            String download_url = task.getResult().getDownloadUrl().toString();
+                                String download_url = task.getResult().getDownloadUrl().toString();
 
 
-                            Map messageMap = new HashMap();
-                            messageMap.put("message", download_url);
-                            messageMap.put("seen", false);
-                            messageMap.put("type", "image");
-                            messageMap.put("time", ServerValue.TIMESTAMP);
-                            messageMap.put("from", mCurrentUserId);
+                                Map messageMap = new HashMap();
+                                messageMap.put("message", download_url);
+                                messageMap.put("seen", false);
+                                messageMap.put("type", "image");
+                                messageMap.put("time", ServerValue.TIMESTAMP);
+                                messageMap.put("from", mCurrentUserId);
 
-                            Map messageUserMap = new HashMap();
-                            messageUserMap.put(current_user_ref + "/" + push_id, messageMap);
-                            messageUserMap.put(chat_user_ref + "/" + push_id, messageMap);
+                                Map messageUserMap = new HashMap();
+                                messageUserMap.put(current_user_ref + "/" + push_id, messageMap);
+                                messageUserMap.put(chat_user_ref + "/" + push_id, messageMap);
 
-                            mChatMessageView.setText("");
+                                mChatMessageView.setText("");
 
-                            mRootRef.updateChildren(messageUserMap, new DatabaseReference.CompletionListener() {
-                                @Override
-                                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                                mRootRef.updateChildren(messageUserMap, new DatabaseReference.CompletionListener() {
+                                    @Override
+                                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
 
-                                    if (databaseError != null) {
+                                        if (databaseError != null) {
 
-                                        Log.d("CHAT_LOG", databaseError.getMessage().toString());
+                                            Log.d("CHAT_LOG", databaseError.getMessage().toString());
+
+                                        }
 
                                     }
-
-                                }
-                            });
+                                });
 
 
+                            }
                         }
-
-                    }
-                });
-
+                    });
                     pDialog.dismiss();
             }
             }

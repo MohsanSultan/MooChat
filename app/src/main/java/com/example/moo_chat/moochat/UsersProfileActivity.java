@@ -205,6 +205,9 @@ public class UsersProfileActivity extends AppCompatActivity implements View.OnCl
             break;
             case R.id.profile_decline_req_btn:
             {
+                String otherUserId = getIntent().getStringExtra("from_user_id");
+                declineFriendReqBtn.setEnabled(false);
+                DeclineFriendRequest(otherUserId);
             }
         }
     }
@@ -322,6 +325,31 @@ public class UsersProfileActivity extends AppCompatActivity implements View.OnCl
                 }
                 sendRequestbtn.setEnabled(true);
             }
+        });
+    }
+
+    private void DeclineFriendRequest(String otherUserId) {
+        Map declineRequestMap = new HashMap();
+
+        declineRequestMap.put("friend_req/" + myCurrentUser.getUid() + "/" + otherUserId , null);
+        declineRequestMap.put("friend_req/" + otherUserId + "/" + myCurrentUser.getUid() , null);
+
+        myRootDatabase.updateChildren(declineRequestMap, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                if (databaseError == null){
+                    friendStatus = "not_friend";
+                    sendRequestbtn.setText("Send Friend Request");
+
+                    declineFriendReqBtn.setVisibility(View.INVISIBLE);
+                    declineFriendReqBtn.setEnabled(false);
+                }else {
+                    String error = databaseError.getMessage();
+                    Toast.makeText(UsersProfileActivity.this, error , Toast.LENGTH_SHORT).show();
+                }
+                sendRequestbtn.setEnabled(true);
+            }
+
         });
     }
 
