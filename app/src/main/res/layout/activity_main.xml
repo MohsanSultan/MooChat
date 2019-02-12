@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_grey"
+    android:background="@drawable/login_back"
     tools:context=".MainActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -38,7 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
-            app:tabIndicatorColor="@android:color/holo_orange_dark">
+            app:tabIndicatorColor="@color/white">
 
         </android.support.design.widget.TabLayout>
 

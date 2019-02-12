@@ -26,9 +26,6 @@ import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class FriendsFragment extends Fragment {
 
     private RecyclerView mFriendsList;
@@ -61,9 +58,9 @@ public class FriendsFragment extends Fragment {
 
         mFriendsDatabase = FirebaseDatabase.getInstance().getReference().child("Friends").child(mCurrent_user_id);
         mFriendsDatabase.keepSynced(true);
+
         mUsersDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
         mUsersDatabase.keepSynced(true);
-
 
         mFriendsList.setHasFixedSize(true);
         mFriendsList.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -172,6 +169,7 @@ public class FriendsFragment extends Fragment {
 
 
 // -------------------------------- Friends Holder Class -----------------------------------------
+
     public static class FriendsViewHolder extends RecyclerView.ViewHolder {
 
         View mView;
@@ -192,7 +190,7 @@ public class FriendsFragment extends Fragment {
 
         public void setName(String name){
 
-            TextView userNameView = (TextView) mView.findViewById(R.id.alluser_name);
+            TextView userNameView = mView.findViewById(R.id.alluser_name);
             userNameView.setText(name);
 
         }

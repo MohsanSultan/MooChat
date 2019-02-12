@@ -199,7 +199,7 @@ public class ChatFragment extends Fragment {
 
         public void setName(String name){
 
-            TextView userNameView = mView.findViewById(R.id.alluser_name);
+            TextView userNameView = mView.findViewById(R.id.chat_alluser_name);
             userNameView.setText(name);
 
         }
