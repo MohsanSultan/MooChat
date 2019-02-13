@@ -39,7 +39,8 @@ public class AllUsersActivity extends AppCompatActivity {
 
         mToolbar = findViewById(R.id.users_app_bar);
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("All Moo Users ");
+        getSupportActionBar().setTitle("All Users ");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         initFields();
     }

@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,6 +50,8 @@ import id.zelory.compressor.Compressor;
 
 public class UserSettingActivity extends AppCompatActivity {
 
+    private Toolbar mToolbar;
+
     CircleImageView profileDPImg;
     TextView profileName , profileStatus;
     Button change_dp_btn , change_status_btn , change_name_btn;
@@ -70,6 +73,11 @@ public class UserSettingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_setting);
+
+        mToolbar = findViewById(R.id.profile_settings_app_bar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setTitle("Profile Settings");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         initFields();
     }

@@ -157,6 +157,7 @@ public class ChatFragment extends Fragment {
                                 chatIntent.putExtra("from_user_id", list_user_id);
                                 chatIntent.putExtra("user_name", userName);
                                 startActivity(chatIntent);
+
                             }
                         });
                     }

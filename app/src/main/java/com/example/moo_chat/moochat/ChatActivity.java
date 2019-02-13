@@ -71,6 +71,7 @@ public class ChatActivity extends AppCompatActivity {
     private ImageButton mChatAddBtn;
     private ImageButton mChatSendBtn;
     private EditText mChatMessageView;
+    private ImageView back_img_btn;
 
     private RecyclerView mMessagesList;
     private SwipeRefreshLayout mRefreshLayout;
@@ -115,6 +116,7 @@ public class ChatActivity extends AppCompatActivity {
         mChatToolbar = findViewById(R.id.chat_app_bar);
         setSupportActionBar(mChatToolbar);
 
+
         ActionBar actionBar = getSupportActionBar();
 
         if (actionBar != null) {
@@ -132,6 +134,7 @@ public class ChatActivity extends AppCompatActivity {
         View action_bar_view = inflater.inflate(R.layout.chat_custom_bar, null);
 
         actionBar.setCustomView(action_bar_view);
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         // ---- Custom Action bar Items ----
 
@@ -332,6 +335,8 @@ public class ChatActivity extends AppCompatActivity {
 
                 StorageReference filepath = mImageStorage.child("message_images").child(push_id + ".jpg");
 
+
+
                     UploadTask uploadTask = filepath.putBytes(myThumbByte);
                     uploadTask.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -355,13 +360,19 @@ public class ChatActivity extends AppCompatActivity {
 
                                 mChatMessageView.setText("");
 
+                                mRootRef.child("message_notification").child(push_id).setValue(mCurrentUserId);
+                                mRootRef.child("message_notification").child(push_id).child(mCurrentUserId).child(mChatUser).setValue("Notification");
+
                                 mRootRef.updateChildren(messageUserMap, new DatabaseReference.CompletionListener() {
                                     @Override
                                     public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
 
+                                        Toast.makeText(ChatActivity.this, "Image Sending ....", Toast.LENGTH_SHORT).show();
+
                                         if (databaseError != null) {
 
-                                            Log.d("CHAT_LOG", databaseError.getMessage().toString());
+
+                                            Log.d("CHAT_LOG", databaseError.getMessage());
 
                                         }
 

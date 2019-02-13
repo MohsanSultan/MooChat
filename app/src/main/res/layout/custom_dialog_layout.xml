@@ -16,7 +16,7 @@
         android:layout_alignParentTop="true"
         android:text="@string/change_status"
         android:textAlignment="center"
-        android:textColor="@android:color/holo_orange_dark"
+        android:textColor="@color/orange"
         android:textSize="20sp" />
 
     <android.support.v7.widget.AppCompatEditText
@@ -27,7 +27,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
         android:hint="@string/type_new_status_here"
-        android:backgroundTint="@android:color/holo_orange_dark"
+        android:backgroundTint="@color/orange"
         android:selectAllOnFocus="true"
         android:singleLine="false"
         android:textColor="@android:color/white"

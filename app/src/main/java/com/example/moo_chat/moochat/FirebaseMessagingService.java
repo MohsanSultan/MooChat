@@ -45,6 +45,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         );
 
         mBuilder.setContentIntent(resultPendingIntent);
+        mBuilder.setAutoCancel(true);
 
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
         notificationManagerCompat.notify(NOTIFICATION_ID , mBuilder.build());
@@ -64,6 +65,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
             // or other notification behaviors after this
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
+
         }
     }
 }

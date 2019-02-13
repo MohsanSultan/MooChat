@@ -58,14 +58,14 @@ public class MainActivity extends AppCompatActivity {
 
         mToolbar = findViewById(R.id.main_page_toolbar);
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("My Moo Chat");
+        getSupportActionBar().setTitle("MyMooChat");
 
         myViewPager = findViewById(R.id.tab_pager);
         myPagerAdapter = new SectionPagerAdapter(getSupportFragmentManager());
         myViewPager.setAdapter(myPagerAdapter);
 
         myTabLayout = findViewById(R.id.main_tabs);
-        myTabLayout.setTabTextColors(Color.GRAY,Color.BLACK);
+        myTabLayout.setTabTextColors(Color.GRAY,Color.WHITE);
         myTabLayout.setupWithViewPager(myViewPager);
     }
 

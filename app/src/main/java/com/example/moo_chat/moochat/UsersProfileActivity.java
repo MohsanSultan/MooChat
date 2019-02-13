@@ -41,7 +41,6 @@ public class UsersProfileActivity extends AppCompatActivity implements View.OnCl
     ProgressDialog pDialog;
 
     private DatabaseReference myDatabaseRef , myFriendReqDatabase , myFriendsDatabase;
-    private DatabaseReference myNotificationDatabase;
     private DatabaseReference myRootDatabase;
     private FirebaseUser myCurrentUser;
 
@@ -71,7 +70,6 @@ public class UsersProfileActivity extends AppCompatActivity implements View.OnCl
         myFriendReqDatabase = FirebaseDatabase.getInstance().getReference().child("friend_req");
         myCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
         myFriendsDatabase = FirebaseDatabase.getInstance().getReference().child("Friends");
-        myNotificationDatabase = FirebaseDatabase.getInstance().getReference().child("notification");
 
         userProfileName = findViewById(R.id.user_profile_name);
         userProfileStatus = findViewById(R.id.user_profile_status);

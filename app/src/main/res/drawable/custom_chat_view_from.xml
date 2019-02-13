@@ -8,7 +8,7 @@
         android:width="1dip"
         android:color="#8ab" />
 
-    <solid android:color="#44aabb" />
+    <solid android:color="#3CB371" />
 
     <padding
         android:top="12dp"
