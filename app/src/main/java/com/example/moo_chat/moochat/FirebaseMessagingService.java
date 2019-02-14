@@ -64,7 +64,9 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
+            if (notificationManager != null) {
+                notificationManager.createNotificationChannel(channel);
+            }
 
         }
     }

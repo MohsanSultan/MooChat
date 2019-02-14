@@ -1,5 +1,7 @@
 package com.example.moo_chat.moochat;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
@@ -29,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseUser FirebaseCurrentUser;
     private DatabaseReference myDatabaseRef;
     private DatabaseReference myCurrentUserRef;
+    private AlertDialog alertDialog;
 
     private Toolbar mToolbar;
 
@@ -108,10 +111,7 @@ public class MainActivity extends AppCompatActivity {
          super.onOptionsItemSelected(item);
 
          if (item.getItemId() == R.id.main_logout_btn) {
-             FirebaseAuth.getInstance().signOut();
-
-             myCurrentUserRef.child("online").setValue(ServerValue.TIMESTAMP);
-             GoToStart();
+             confirmLogout();
          }
          if (item.getItemId() == R.id.account_Bar_btn)
          {
@@ -125,11 +125,64 @@ public class MainActivity extends AppCompatActivity {
         }
         if (item.getItemId() == R.id.main_del_ac_btn)
         {
-            deleteAccount();
+            confirmDeleteAccount();
         }
         return true;
     }
-    
+
+    private void confirmDeleteAccount() {
+        alertDialog = new AlertDialog.Builder(this)
+                //set icon
+                .setIcon(R.drawable.main_logo)
+                .setTitle("Delete Account !")
+                .setMessage("Your Account Will Be Deleted Permanently , You Agree ? ...")
+                .setPositiveButton("DELETE", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        deleteAccount();
+                    }
+                })
+                //set negative button
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //set what should happen when negative button is clicked
+                        Toast.makeText(getApplicationContext(), "Hurey ! Let's Chat.........", Toast.LENGTH_LONG).show();
+                        alertDialog.cancel();
+                    }
+                })
+                .show();
+    }
+
+    private void confirmLogout() {
+            alertDialog = new AlertDialog.Builder(this)
+                    //set icon
+                 .setIcon(R.drawable.main_logo)
+                    .setTitle("LogOut !")
+                    .setMessage("Do You Want To Logout ?")
+                    .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                            myCurrentUserRef.child("online").setValue(ServerValue.TIMESTAMP);
+                            FirebaseAuth.getInstance().signOut();
+                            GoToStart();
+                        }
+                    })
+                    //set negative button
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            //set what should happen when negative button is clicked
+                            Toast.makeText(getApplicationContext(), "Hurey ! Let's Chat.........", Toast.LENGTH_LONG).show();
+                            alertDialog.dismiss();
+                        }
+                    })
+                    .show();
+//
+//            alertDialog.show();
+        }
+
 
     private void deleteAccount() {
 //        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();

@@ -66,8 +66,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:visibility="gone"
         android:layout_marginStart="@dimen/_5sdp"
+        android:visibility="gone"
         android:textSize="@dimen/_12ssp" />
 
     <ImageView
@@ -87,7 +87,7 @@
         android:layout_height="@dimen/_200sdp"
         android:layout_alignParentEnd="true"
         android:layout_alignStart="@+id/time_text_user_layout"
-        android:layout_marginEnd="@dimen/_50sdp"
+        android:layout_marginEnd="@dimen/_40sdp"
         android:layout_marginStart="@dimen/_35sdp"
         android:visibility="gone"
         android:padding="@dimen/_2sdp"/>

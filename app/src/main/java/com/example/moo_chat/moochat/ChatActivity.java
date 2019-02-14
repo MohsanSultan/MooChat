@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -58,7 +59,10 @@ public class ChatActivity extends AppCompatActivity {
 
     private String mChatUser;
 
+    FirebaseUser FirebaseCurrentUser;
+
     private DatabaseReference mRootRef;
+    private DatabaseReference myCurrentUserRef;
 
     private Toolbar mChatToolbar;
 
@@ -123,9 +127,17 @@ public class ChatActivity extends AppCompatActivity {
             actionBar.setDisplayShowCustomEnabled(true);
         }
 
-        mRootRef = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
-        mCurrentUserId = mAuth.getCurrentUser().getUid();
+        if (mAuth.getCurrentUser() != null) {
+
+            mCurrentUserId = mAuth.getCurrentUser().getUid();
+            myCurrentUserRef = FirebaseDatabase.getInstance().getReference().child("Users").child(mCurrentUserId);
+        }
+
+
+        mRootRef = FirebaseDatabase.getInstance().getReference();
+
+
 
         mChatUser = getIntent().getStringExtra("from_user_id");
         String userName = getIntent().getStringExtra("user_name");
@@ -378,8 +390,6 @@ public class ChatActivity extends AppCompatActivity {
 
                                     }
                                 });
-
-
                             }
                         }
                     });
@@ -387,7 +397,6 @@ public class ChatActivity extends AppCompatActivity {
             }
             }
         }
-
 
     private void loadMoreMessages() {
 
@@ -418,7 +427,6 @@ public class ChatActivity extends AppCompatActivity {
                     mLastKey = messageKey;
 
                 }
-
 
                 Log.d("TOTALKEYS", "Last Key : " + mLastKey + " | Prev Key : " + mPrevKey + " | Message Key : " + messageKey);
 
@@ -506,7 +514,6 @@ public class ChatActivity extends AppCompatActivity {
 
             }
         });
-
     }
 
     private void sendMessage() {
@@ -556,14 +563,35 @@ public class ChatActivity extends AppCompatActivity {
                         Log.d("CHAT_LOG", databaseError.getMessage().toString());
 
                     }
-
                 }
             });
+        }
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseCurrentUser = mAuth.getCurrentUser();
 
+        if (FirebaseCurrentUser == null)
+        {
+            Toast.makeText(this, "You Are Not Logged In", Toast.LENGTH_SHORT).show();
+        }else {
 
+            myCurrentUserRef.child("online").setValue("true");
 
         }
+    }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        if(currentUser != null) {
+
+            myCurrentUserRef.child("online").setValue(ServerValue.TIMESTAMP);
+        }
     }
 
 }
