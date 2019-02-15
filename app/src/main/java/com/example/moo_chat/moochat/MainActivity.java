@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         myTabLayout = findViewById(R.id.main_tabs);
         myTabLayout.setTabTextColors(Color.GRAY,Color.WHITE);
         myTabLayout.setupWithViewPager(myViewPager);
+
     }
 
     @Override
@@ -80,17 +81,24 @@ public class MainActivity extends AppCompatActivity {
 
         if (FirebaseCurrentUser == null)
         {
-          GoToStart();
+            GoToStart();
         }else {
 
             myCurrentUserRef.child("online").setValue("true");
+//            myCurrentUserRef.child("offline").setValue("false");
 
         }
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onResume() {
+        super.onResume();
+        myCurrentUserRef.child("online").setValue("true");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
         if(currentUser != null) {
@@ -98,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
             myCurrentUserRef.child("online").setValue(ServerValue.TIMESTAMP);
         }
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

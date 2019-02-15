@@ -56,11 +56,17 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         public MessageViewHolder(View view) {
             super(view);
 
+            // ------------------- User Layout -----------------------------------
             messageText = view.findViewById(R.id.message_text_layout);
+            messageText.setTextIsSelectable(true);
+
             profileImage = view.findViewById(R.id.message_profile_layout);
             messageImage = view.findViewById(R.id.message_image_layout);
 
+            // ------------------- Other User Layout -----------------------------
             fromMessageText = view.findViewById(R.id.message_text_user_layout);
+            fromMessageText.setTextIsSelectable(true);
+
             fromProfileImage = view.findViewById(R.id.message_profile_user_layout);
             fromMessageImage = view.findViewById(R.id.message_image_user_layout);
 

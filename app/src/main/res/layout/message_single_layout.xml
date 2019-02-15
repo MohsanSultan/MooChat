@@ -35,7 +35,9 @@
         android:layout_toEndOf="@+id/message_profile_layout"
         android:padding="@dimen/_2sdp"
         android:text="Message Text"
+        android:textIsSelectable="true"
         android:visibility="gone"
+        android:autoLink="web"
         android:textColor="@color/white"
         android:textSize="@dimen/_14ssp" />
 
@@ -45,10 +47,12 @@
         android:layout_height="wrap_content"
         android:layout_toStartOf="@+id/message_profile_user_layout"
         android:padding="@dimen/_2sdp"
+        android:textIsSelectable="true"
         android:layout_marginRight="@dimen/_5sdp"
         android:text="Message Text"
         android:textColor="@color/colorAccent"
         android:visibility="gone"
+        android:autoLink="web"
         android:textSize="@dimen/_14ssp" />
 
     <TextView

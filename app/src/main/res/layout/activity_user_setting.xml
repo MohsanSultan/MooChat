@@ -10,9 +10,10 @@
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/user_dp"
         android:layout_width="@dimen/_260sdp"
-        android:layout_height="@dimen/_200sdp"
+        android:layout_height="@dimen/_250sdp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/_60sdp"
+        android:layout_marginTop="@dimen/_50sdp"
+        android:background="@drawable/image_border_round"
         android:src="@drawable/user_avatar" />
 
     <TextView

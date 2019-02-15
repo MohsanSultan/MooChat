@@ -162,6 +162,7 @@ public class RegisterActivity extends AppCompatActivity implements  View.OnClick
         userMap.put("name" , displayName);
         userMap.put("status" , "Hi, i'm using MyMooChat !");
         userMap.put("image" , "default");
+        userMap.put("online" , "true");
         userMap.put("thumb_img" , "default");
 
         myDbRef.setValue(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {

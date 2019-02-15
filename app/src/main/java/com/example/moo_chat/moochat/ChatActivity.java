@@ -40,6 +40,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import org.w3c.dom.Text;
@@ -179,12 +180,17 @@ public class ChatActivity extends AppCompatActivity {
 
         mTitleView.setText(userName);
 
+
+
         mRootRef.child("Users").child(mChatUser).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 String online = dataSnapshot.child("online").getValue().toString();
-                String image = dataSnapshot.child("image").getValue().toString();
+                String image = dataSnapshot.child("thumb_img").getValue().toString();
+
+                Picasso.get().load(image)
+                        .placeholder(R.drawable.user_avatar).into(mProfileImage);
 
                 if(online.equals("true")) {
 
@@ -582,10 +588,14 @@ public class ChatActivity extends AppCompatActivity {
 
         }
     }
-
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onResume() {
+        super.onResume();
+        myCurrentUserRef.child("online").setValue("true");
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
         if(currentUser != null) {

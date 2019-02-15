@@ -22,6 +22,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
@@ -35,6 +36,9 @@ public class UsersProfileActivity extends AppCompatActivity implements View.OnCl
     TextView userProfileName , userProfileStatus , userProfileTotalFriends;
     ImageView userProfileImg , userProfileImageThumb;
     Button sendRequestbtn , declineFriendReqBtn;
+    FirebaseUser FirebaseCurrentUser;
+    private FirebaseAuth mAuth;
+    private DatabaseReference myCurrentUserRef;
 
     String friendStatus;
 
@@ -63,7 +67,12 @@ public class UsersProfileActivity extends AppCompatActivity implements View.OnCl
         pDialog.show();
 
         String other_userId = getIntent().getStringExtra("from_user_id");
+        mAuth = FirebaseAuth.getInstance();
 
+        if (mAuth.getCurrentUser() != null) {
+
+            myCurrentUserRef = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
+        }
 
         myRootDatabase = FirebaseDatabase.getInstance().getReference();
         myDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Users").child(other_userId);
@@ -349,6 +358,37 @@ public class UsersProfileActivity extends AppCompatActivity implements View.OnCl
             }
 
         });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseCurrentUser = mAuth.getCurrentUser();
+
+        if (FirebaseCurrentUser == null)
+        {
+            Toast.makeText(this, "You Are Not Logged In", Toast.LENGTH_SHORT).show();
+        }else {
+
+            myCurrentUserRef.child("online").setValue("true");
+
+        }
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        myCurrentUserRef.child("online").setValue("true");
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        if(currentUser != null) {
+
+            myCurrentUserRef.child("online").setValue(ServerValue.TIMESTAMP);
+        }
     }
 
 }

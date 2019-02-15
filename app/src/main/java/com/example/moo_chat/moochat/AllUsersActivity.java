@@ -108,8 +108,13 @@ public class AllUsersActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onResume() {
+        super.onResume();
+        myCurrentUserRef.child("online").setValue("true");
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
         if(currentUser != null) {

@@ -105,7 +105,7 @@
                 android:layout_width="@dimen/_40sdp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
-                android:layout_marginBottom="@dimen/_1sdp"
+                android:layout_margin="@dimen/_5sdp"
                 app:srcCompat="@drawable/user_avatar" />
 
             <Button
