@@ -4,26 +4,13 @@
     android:id="@+id/msg_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/_5sdp"
-    android:weightSum="10">
+    android:padding="@dimen/_5sdp">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/message_profile_layout"
         android:layout_width="@dimen/_36sdp"
         android:layout_height="@dimen/_36sdp"
         android:layout_marginStart="@dimen/_5sdp"
-        android:visibility="gone"
-        android:layout_weight="0"
-        android:src="@drawable/user_avatar" />
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/message_profile_user_layout"
-        android:layout_width="@dimen/_36sdp"
-        android:layout_height="@dimen/_36sdp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="@dimen/_5sdp"
-        android:layout_weight="0"
         android:visibility="gone"
         android:src="@drawable/user_avatar" />
 
@@ -36,23 +23,23 @@
         android:padding="@dimen/_2sdp"
         android:text="Message Text"
         android:textIsSelectable="true"
-        android:visibility="gone"
         android:autoLink="web"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
+        android:visibility="gone"
         android:textSize="@dimen/_14ssp" />
 
     <TextView
         android:id="@+id/message_text_user_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toStartOf="@+id/message_profile_user_layout"
-        android:padding="@dimen/_2sdp"
-        android:textIsSelectable="true"
-        android:layout_marginRight="@dimen/_5sdp"
-        android:text="Message Text"
-        android:textColor="@color/colorAccent"
-        android:visibility="gone"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/_15ssp"
         android:autoLink="web"
+        android:padding="@dimen/_2sdp"
+        android:text="Message Text"
+        android:textColor="@color/white"
+        android:textIsSelectable="true"
+        android:visibility="gone"
         android:textSize="@dimen/_14ssp" />
 
     <TextView
@@ -76,25 +63,25 @@
 
     <ImageView
         android:id="@+id/message_image_layout"
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/_200sdp"
         android:layout_height="@dimen/_200sdp"
-        android:layout_marginStart="@dimen/_40sdp"
         android:layout_alignParentEnd="true"
-        android:layout_alignStart="@+id/message_profile_layout"
-        android:layout_marginEnd="@dimen/_60sdp"
+        android:layout_alignEnd="@+id/message_profile_layout"
+        android:layout_marginEnd="@dimen/_40sdp"
+        android:background="@drawable/send_img_chat_back"
         android:visibility="gone"
-        android:padding="@dimen/_2sdp" />
+        android:padding="@dimen/_3sdp" />
 
     <ImageView
         android:id="@+id/message_image_user_layout"
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/_200sdp"
         android:layout_height="@dimen/_200sdp"
         android:layout_alignParentEnd="true"
-        android:layout_alignStart="@+id/time_text_user_layout"
-        android:layout_marginEnd="@dimen/_40sdp"
-        android:layout_marginStart="@dimen/_35sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginEnd="@dimen/_15sdp"
+        android:background="@drawable/recieve_img_chat_back"
         android:visibility="gone"
-        android:padding="@dimen/_2sdp"/>
+        android:padding="@dimen/_3sdp"/>
 
 
 </RelativeLayout>

@@ -88,33 +88,35 @@ public class SignInActivity extends AppCompatActivity {
 
         pDialog.show();
 
-        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
-            if (task.isSuccessful()){
-                pDialog.dismiss();
 
-                String current_user_id = mAuth.getCurrentUser().getUid();
-                String device_token = FirebaseInstanceId.getInstance().getToken();
 
-                myDbRef.child(current_user_id).child("device_token").setValue(device_token).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
+            mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    pDialog.dismiss();
 
-                        Intent mainIntent = new Intent(SignInActivity.this , MainActivity.class);
-                        mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(mainIntent);
-                        finish();
+                    if (mAuth.getCurrentUser() != null) {
+                        String current_user_id = mAuth.getCurrentUser().getUid();
+
+                        String device_token = FirebaseInstanceId.getInstance().getToken();
+
+                        myDbRef.child(current_user_id).child("device_token").setValue(device_token).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+
+                                Intent mainIntent = new Intent(SignInActivity.this, MainActivity.class);
+                                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(mainIntent);
+                                finish();
+                            }
+                        });
                     }
-                });
+                } else {
+                    pDialog.hide();
+                    Toast.makeText(SignInActivity.this, "User Not Exist OR wrong Password...! Please Check Again", Toast.LENGTH_LONG).show();
+                }
+            });
 
-
-            } else {
-                pDialog.hide();
-                Toast.makeText(SignInActivity.this, "User Not Exist OR wrong Password...! Please Check Again", Toast.LENGTH_LONG).show();
-            }
-
-        });
-
+        }
     }
 
 
-}

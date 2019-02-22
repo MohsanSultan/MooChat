@@ -19,6 +19,8 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.accessibility.AccessibilityEvent;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -76,7 +78,6 @@ public class ChatActivity extends AppCompatActivity {
     private ImageButton mChatAddBtn;
     private ImageButton mChatSendBtn;
     private EditText mChatMessageView;
-    private ImageView back_img_btn;
 
     private RecyclerView mMessagesList;
     private SwipeRefreshLayout mRefreshLayout;
@@ -135,10 +136,7 @@ public class ChatActivity extends AppCompatActivity {
             myCurrentUserRef = FirebaseDatabase.getInstance().getReference().child("Users").child(mCurrentUserId);
         }
 
-
         mRootRef = FirebaseDatabase.getInstance().getReference();
-
-
 
         mChatUser = getIntent().getStringExtra("from_user_id");
         String userName = getIntent().getStringExtra("user_name");
@@ -169,6 +167,14 @@ public class ChatActivity extends AppCompatActivity {
         mMessagesList.setLayoutManager(mLinearLayout);
 
         mMessagesList.setAdapter(mAdapter);
+
+//        mMessagesList.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                clickMessageOptions();
+//            }
+//        });
+
 
         //------- IMAGE STORAGE ---------
         mImageStorage = FirebaseStorage.getInstance().getReference();
@@ -296,6 +302,34 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
     }
+
+//    private void clickMessageOptions() {
+//
+//        DatabaseReference messageRef = mRootRef.child("messages").child(mCurrentUserId).child(mChatUser);
+//        Query messageQueryKey = messageRef.orderByKey();
+//
+//        messageQueryKey.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                String Key = dataSnapshot.getKey();
+//
+//                messageRef.child(Key).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<Void> task) {
+//                        Toast.makeText(ChatActivity.this, "Message Deleted Successfully !...", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
+//
+////        Query messageQuery = messageRef.orderByKey().endAt(mLastKey).limitToLast(10);
+//
+//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

@@ -69,7 +69,6 @@ public class AllUsersActivity extends AppCompatActivity {
                 R.layout.single_user_view_layout,
                 UsersViewHolderClass.class,
                 myDatabaseRef
-
         ) {
             @Override
             protected void populateViewHolder(UsersViewHolderClass viewHolder, AllUsers model, int position) {

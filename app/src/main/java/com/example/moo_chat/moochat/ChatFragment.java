@@ -154,8 +154,10 @@ public class ChatFragment extends Fragment {
                             public void onClick(View view) {
 
                                 Intent chatIntent = new Intent(getContext(), ChatActivity.class);
+
                                 chatIntent.putExtra("from_user_id", list_user_id);
                                 chatIntent.putExtra("user_name", userName);
+
                                 startActivity(chatIntent);
 
                             }

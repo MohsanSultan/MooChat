@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -30,9 +31,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     private DatabaseReference mUserDatabase;
     private FirebaseAuth mAuth;
 
-
-    public MessageAdapter(List<Messages> mMessageList) {
-
+    public MessageAdapter( List<Messages> mMessageList) {
         this.mMessageList = mMessageList;
 
     }
@@ -44,39 +43,13 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
                 .inflate(R.layout.message_single_layout ,parent, false);
 
         return new MessageViewHolder(view);
-
-    }
-
-    public class MessageViewHolder extends RecyclerView.ViewHolder {
-
-        public TextView messageText , fromMessageText;
-        public CircleImageView profileImage , fromProfileImage;
-        public ImageView messageImage , fromMessageImage;
-
-        public MessageViewHolder(View view) {
-            super(view);
-
-            // ------------------- User Layout -----------------------------------
-            messageText = view.findViewById(R.id.message_text_layout);
-            messageText.setTextIsSelectable(true);
-
-            profileImage = view.findViewById(R.id.message_profile_layout);
-            messageImage = view.findViewById(R.id.message_image_layout);
-
-            // ------------------- Other User Layout -----------------------------
-            fromMessageText = view.findViewById(R.id.message_text_user_layout);
-            fromMessageText.setTextIsSelectable(true);
-
-            fromProfileImage = view.findViewById(R.id.message_profile_user_layout);
-            fromMessageImage = view.findViewById(R.id.message_image_user_layout);
-
-        }
     }
 
     @Override
     public void onBindViewHolder(final MessageViewHolder viewHolder, int i) {
 
 //        Context myContext = viewHolder.profileImage.getContext();
+        mAuth = FirebaseAuth.getInstance();
 
         Messages c = mMessageList.get(i);
 
@@ -84,21 +57,18 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         String message_type = c.getType();
         String mCurrentUserId;
 
-        mAuth = FirebaseAuth.getInstance();
         mCurrentUserId = mAuth.getCurrentUser().getUid();
 
         if (mCurrentUserId.equals(from_user)){
             viewHolder.messageText.setVisibility(View.VISIBLE);
-            viewHolder.messageText.setBackgroundResource(R.drawable.custom_chat_view_from);
+            viewHolder.messageText.setBackgroundResource(R.drawable.custom_chat_view_to);
             viewHolder.profileImage.setVisibility(View.VISIBLE);
 
             viewHolder.fromMessageText.setVisibility(View.GONE);
-            viewHolder.fromProfileImage.setVisibility(View.GONE);
 
         }else {
             viewHolder.fromMessageText.setVisibility(View.VISIBLE);
-            viewHolder.fromMessageText.setBackgroundResource(R.drawable.custom_chat_view_to);
-            viewHolder.fromProfileImage.setVisibility(View.VISIBLE);
+            viewHolder.fromMessageText.setBackgroundResource(R.drawable.custom_chat_view_from);
 
             viewHolder.messageText.setVisibility(View.GONE);
             viewHolder.profileImage.setVisibility(View.GONE);
@@ -115,9 +85,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
                 Picasso.get().load(image)
                         .placeholder(R.drawable.user_avatar).into(viewHolder.profileImage);
-                Picasso.get().load(image)
-                        .placeholder(R.drawable.user_avatar).into(viewHolder.fromProfileImage);
-
             }
 
             @Override
@@ -134,18 +101,48 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             viewHolder.messageImage.setVisibility(View.GONE);
             viewHolder.fromMessageImage.setVisibility(View.GONE);
 
-        } else {
+        } else if(mCurrentUserId.equals(from_user)) {
 
             viewHolder.messageText.setVisibility(View.GONE);
             viewHolder.fromMessageText.setVisibility(View.GONE);
-
+            viewHolder.fromMessageImage.setVisibility(View.GONE);
             viewHolder.messageImage.setVisibility(View.VISIBLE);
-            viewHolder.fromMessageImage.setVisibility(View.VISIBLE);
 
             Picasso.get().load(c.getMessage())
                     .placeholder(R.drawable.user_avatar).into(viewHolder.messageImage);
+        }else {
+            viewHolder.messageText.setVisibility(View.GONE);
+            viewHolder.fromMessageText.setVisibility(View.GONE);
+            viewHolder.fromMessageImage.setVisibility(View.VISIBLE);
+            viewHolder.messageImage.setVisibility(View.GONE);
+            Picasso.get().load(c.getMessage())
+                    .placeholder(R.drawable.user_avatar).into(viewHolder.fromMessageImage);
         }
+    }
 
+    public class MessageViewHolder extends RecyclerView.ViewHolder {
+
+        public TextView messageText , fromMessageText;
+        public CircleImageView profileImage ;
+        public ImageView messageImage , fromMessageImage;
+
+        public MessageViewHolder(View view) {
+            super(view);
+
+            // ------------------- User Layout -----------------------------------
+            messageText = view.findViewById(R.id.message_text_layout);
+            messageText.setTextIsSelectable(true);
+
+            profileImage = view.findViewById(R.id.message_profile_layout);
+            messageImage = view.findViewById(R.id.message_image_layout);
+
+            // ------------------- Other User Layout -----------------------------
+            fromMessageText = view.findViewById(R.id.message_text_user_layout);
+            fromMessageText.setTextIsSelectable(true);
+
+            fromMessageImage = view.findViewById(R.id.message_image_user_layout);
+
+        }
     }
 
     @Override

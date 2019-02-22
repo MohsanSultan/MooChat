@@ -5,39 +5,54 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <LinearLayout
+        android:id="@+id/chat_text_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="3">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/custom_bar_image"
-        android:layout_width="@dimen/_36sdp"
-        android:layout_height="@dimen/_40sdp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="@dimen/_20sdp"
-        android:src="@drawable/user_avatar" />
-
-    <TextView
-        android:id="@+id/custom_bar_title"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Display Name"
-        android:textColor="@android:color/white"
-        android:textSize="@dimen/_18ssp" />
+        android:orientation="vertical"
+        android:layout_weight="2.4"
+        android:weightSum="3">
 
-    <TextView
-        android:id="@+id/custom_bar_seen"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_3sdp"
-        android:layout_below="@+id/custom_bar_title"
-        android:text="Last Seen"
-        android:textColor="@android:color/white"
-        android:textSize="@dimen/_13ssp" />
+        <TextView
+            android:id="@+id/custom_bar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Display Name"
+            android:layout_weight="2"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/_18ssp" />
+
+        <TextView
+            android:id="@+id/custom_bar_seen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:text="Last Seen"
+            android:layout_weight="1"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/_13ssp" />
+
+    </LinearLayout>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/custom_bar_image"
+            android:layout_width="@dimen/_10sdp"
+            android:layout_height="match_parent"
+            android:layout_weight=".6"
+            android:src="@drawable/user_avatar" />
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/_1sdp"
         android:layout_marginTop="@dimen/_2sdp"
-        android:layout_below="@+id/custom_bar_image"
+        android:layout_below="@+id/chat_text_layout"
         android:background="#C0C0C0" />
 
 
