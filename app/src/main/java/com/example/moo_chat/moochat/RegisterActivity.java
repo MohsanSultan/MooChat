@@ -36,11 +36,10 @@ import java.util.Objects;
 
 public class RegisterActivity extends AppCompatActivity implements  View.OnClickListener{
 
-    EditText regName, regEmail, regPassword;
-    FloatingActionButton RegAcBtn , backBtn;
+    EditText regName, regEmail, regPassword, regConfirmPass;
+    FloatingActionButton RegAcBtn ;
+    FloatingActionButton backBtn;
     ProgressDialog pDialog;
-
-    private Toolbar mToolbar;
 
     //Firebase
     private FirebaseAuth mAuth;
@@ -75,6 +74,8 @@ public class RegisterActivity extends AppCompatActivity implements  View.OnClick
         regEmail = findViewById(R.id.reg_email);
 
         regPassword = findViewById(R.id.reg_pass);
+        regConfirmPass = findViewById(R.id.reg_confirm_pass);
+
 
         backBtn = findViewById(R.id.reg_back_btn);
         backBtn.setOnClickListener(this);
@@ -89,11 +90,11 @@ public class RegisterActivity extends AppCompatActivity implements  View.OnClick
         switch (view.getId()) {
             case R.id.reg_btn:
                 registerAccountBtn();
+                break;
 
             case R.id.reg_back_btn: {
-                Intent backIntent = new Intent(RegisterActivity.this, LoginActivity.class);
-                startActivity(backIntent);
-                finish();
+                onBackPressed();
+                break;
             }
 
         }
@@ -104,15 +105,21 @@ public class RegisterActivity extends AppCompatActivity implements  View.OnClick
         String displayName =  regName.getText().toString();
         String displayEmail = regEmail.getText().toString();
         String displayPassword = regPassword.getText().toString();
+        String displayConfirmPassword = regConfirmPass.getText().toString();
 
-        if ((displayName.isEmpty()) || (displayEmail.isEmpty()) || (displayPassword.isEmpty()))
+        if ((displayName.isEmpty()) && (displayEmail.isEmpty()) && (displayPassword.isEmpty()))
         {
             Toast.makeText(this, "Kindly Fill All Fields ! ", Toast.LENGTH_LONG).show();
-        }else {
+        }else if(doStringsMatch(displayPassword, displayConfirmPassword)){
             pDialog.show();
-
             registerUser(displayName , displayEmail , displayPassword);
         }
+        else
+            Toast.makeText(this, "Password Not Matched!.....", Toast.LENGTH_SHORT).show();
+    }
+
+    private boolean doStringsMatch(String s1, String s2) {
+        return s1.equals(s2);
     }
 
     private void registerUser(String displayName, String displayEmail, String displayPassword) {
@@ -121,9 +128,9 @@ public class RegisterActivity extends AppCompatActivity implements  View.OnClick
             @Override
             public void onComplete(@NonNull Task<ProviderQueryResult> taskEmailCheck) {
 
-                boolean chechEmail = taskEmailCheck.getResult().getProviders().isEmpty();
+                boolean checkEmail = taskEmailCheck.getResult().getProviders().isEmpty();
 
-                if (!chechEmail){
+                if (!checkEmail){
                     Toast.makeText(RegisterActivity.this, "This Email is already is use. thank you..!", Toast.LENGTH_LONG).show();
                     pDialog.dismiss();
                 }else {
@@ -131,6 +138,7 @@ public class RegisterActivity extends AppCompatActivity implements  View.OnClick
 
                         if (task.isComplete()){
 
+//                            sendVerificationEmail();
                             createNewUser(displayName);
 
                         } else {
@@ -142,9 +150,26 @@ public class RegisterActivity extends AppCompatActivity implements  View.OnClick
                 }
             }
         });
+    }
 
+    public void sendVerificationEmail() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-
+        if (user != null) {
+            user.sendEmailVerification()
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(RegisterActivity.this, "Kindly Check Your Email Inbox to verify....", Toast.LENGTH_SHORT).show();
+                            }
+                            else{
+                                Toast.makeText(RegisterActivity.this, "Couldn't send email", Toast.LENGTH_SHORT).show();
+                                pDialog.dismiss();
+                            }
+                        }
+                    });
+        }
 
     }
 
@@ -162,7 +187,8 @@ public class RegisterActivity extends AppCompatActivity implements  View.OnClick
         userMap.put("name" , displayName);
         userMap.put("status" , "Hi, i'm using MyMooChat !");
         userMap.put("image" , "default");
-        userMap.put("online" , "true");
+        userMap.put("online" , "false");
+        userMap.put("id",current_user_id);
         userMap.put("thumb_img" , "default");
 
         myDbRef.setValue(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -177,7 +203,7 @@ public class RegisterActivity extends AppCompatActivity implements  View.OnClick
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
 
-                            Intent regIntent = new Intent(RegisterActivity.this , MainActivity.class);
+                            Intent regIntent = new Intent(RegisterActivity.this , SignInActivity.class);
                             regIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(regIntent);
                             pDialog.dismiss();
@@ -188,5 +214,22 @@ public class RegisterActivity extends AppCompatActivity implements  View.OnClick
                 }
             }
         });
+    }
+
+
+
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(this, "You did not Registered YourSelf...", Toast.LENGTH_SHORT).show();
+            super.onBackPressed();
+        }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (pDialog != null) {
+            pDialog.dismiss();
+            pDialog = null;
+        }
     }
 }

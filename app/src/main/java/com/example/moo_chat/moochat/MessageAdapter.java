@@ -62,7 +62,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         if (mCurrentUserId.equals(from_user)){
             viewHolder.messageText.setVisibility(View.VISIBLE);
             viewHolder.messageText.setBackgroundResource(R.drawable.custom_chat_view_to);
-            viewHolder.profileImage.setVisibility(View.VISIBLE);
 
             viewHolder.fromMessageText.setVisibility(View.GONE);
 
@@ -71,9 +70,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             viewHolder.fromMessageText.setBackgroundResource(R.drawable.custom_chat_view_from);
 
             viewHolder.messageText.setVisibility(View.GONE);
-            viewHolder.profileImage.setVisibility(View.GONE);
         }
-
 
         mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(from_user);
 
@@ -82,9 +79,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 String image = dataSnapshot.child("thumb_img").getValue().toString();
-
-                Picasso.get().load(image)
-                        .placeholder(R.drawable.user_avatar).into(viewHolder.profileImage);
             }
 
             @Override
@@ -123,7 +117,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     public class MessageViewHolder extends RecyclerView.ViewHolder {
 
         public TextView messageText , fromMessageText;
-        public CircleImageView profileImage ;
         public ImageView messageImage , fromMessageImage;
 
         public MessageViewHolder(View view) {
@@ -133,7 +126,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             messageText = view.findViewById(R.id.message_text_layout);
             messageText.setTextIsSelectable(true);
 
-            profileImage = view.findViewById(R.id.message_profile_layout);
             messageImage = view.findViewById(R.id.message_image_layout);
 
             // ------------------- Other User Layout -----------------------------

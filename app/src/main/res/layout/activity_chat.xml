@@ -60,7 +60,6 @@
             android:hint="Enter Message ..."
             android:textColor="@color/white"
             android:textColorHint="@color/white"
-            android:inputType="textPersonName"
             android:paddingBottom="@dimen/_13sdp"
             android:paddingLeft="@dimen/_10sdp"
             android:paddingRight="@dimen/_10sdp"

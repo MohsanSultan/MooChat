@@ -51,21 +51,18 @@
                     android:layout_marginTop="@dimen/_10sdp"
                     android:paddingEnd="@dimen/_10sdp"
                     android:paddingStart="@dimen/_20sdp">
-
                     <me.zhanghai.android.materialedittext.MaterialTextInputLayout
-
                         android:id="@+id/reg_name_textView"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_50sdp"
                         android:layout_marginBottom="20dp"
                         android:text="@string/email">
-
                         <me.zhanghai.android.materialedittext.MaterialEditText
                             android:id="@+id/reg_name"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/_45sdp"
                             android:hint="@string/full_name"
-                            android:paddingStart="@dimen/_10sdp"
+                            android:paddingStart="@dimen/_5sdp"
                             android:textColor="@color/black"
                             android:textColorHint="#808080"
                             android:textColorLink="@color/colorAccent" />
@@ -75,7 +72,6 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_55sdp"
-                    android:layout_marginTop="@dimen/_6sdp"
                     android:paddingEnd="@dimen/_10sdp"
                     android:paddingStart="@dimen/_20sdp">
 
@@ -93,7 +89,7 @@
                             android:layout_height="@dimen/_45sdp"
                             android:hint="@string/email"
                             android:inputType="textEmailAddress"
-                            android:paddingStart="@dimen/_10sdp"
+                            android:paddingStart="@dimen/_5sdp"
                             android:textColor="@color/black"
                             android:textColorHint="#808080"
                             android:textColorLink="@color/colorAccent" />
@@ -103,17 +99,14 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_55sdp"
-                    android:orientation="horizontal"
                     android:paddingEnd="@dimen/_10sdp"
-                    android:paddingStart="@dimen/_20sdp"
-                    android:layout_marginBottom="@dimen/_100sdp">
+                    android:paddingStart="@dimen/_20sdp">
 
                     <me.zhanghai.android.materialedittext.MaterialTextInputLayout
 
                         android:id="@+id/reg_password_textview"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_50sdp"
-                        android:layout_marginBottom="@dimen/_70sdp"
                         android:text="@string/password_for_mymoochat">
 
                         <me.zhanghai.android.materialedittext.MaterialEditText
@@ -122,7 +115,33 @@
                             android:layout_height="@dimen/_45sdp"
                             android:hint="@string/password_for_mymoochat"
                             android:inputType="textPassword"
-                            android:paddingStart="@dimen/_10sdp"
+                            android:paddingStart="@dimen/_5sdp"
+                            android:textColor="@color/black"
+                            android:textColorHint="#808080"
+                            android:textColorLink="@color/colorAccent" />
+                    </me.zhanghai.android.materialedittext.MaterialTextInputLayout>
+                </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_55sdp"
+                        android:paddingEnd="@dimen/_10sdp"
+                        android:paddingStart="@dimen/_20sdp"
+                        android:layout_marginBottom="@dimen/_100sdp">
+
+                    <me.zhanghai.android.materialedittext.MaterialTextInputLayout
+
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_50sdp"
+                        android:text="Confirm Password">
+
+                        <me.zhanghai.android.materialedittext.MaterialEditText
+                            android:id="@+id/reg_confirm_pass"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_45sdp"
+                            android:hint="Confirm Password"
+                            android:inputType="textPassword"
+                            android:paddingStart="@dimen/_5sdp"
                             android:textColor="@color/black"
                             android:textColorHint="#808080"
                             android:textColorLink="@color/colorAccent" />
@@ -147,7 +166,7 @@
             android:layout_alignEnd="@id/cv"
             android:layout_alignTop="@id/cv"
             android:layout_marginEnd="-10dp"
-            android:layout_marginTop="@dimen/_250sdp"
+            android:layout_marginTop="@dimen/_300sdp"
             android:src="@drawable/user_avatar"
             app:fabSize="normal" />
 

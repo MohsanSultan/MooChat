@@ -44,7 +44,9 @@ public class UsersProfileActivity extends AppCompatActivity implements View.OnCl
 
     ProgressDialog pDialog;
 
-    private DatabaseReference myDatabaseRef , myFriendReqDatabase , myFriendsDatabase;
+    private DatabaseReference myDatabaseRef ;
+    private DatabaseReference  myFriendReqDatabase;
+    private DatabaseReference myFriendsDatabase;
     private DatabaseReference myRootDatabase;
     private FirebaseUser myCurrentUser;
 
@@ -72,7 +74,6 @@ public class UsersProfileActivity extends AppCompatActivity implements View.OnCl
         if (mAuth.getCurrentUser() != null) {
 
             myCurrentUserRef = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
-        }
 
         myRootDatabase = FirebaseDatabase.getInstance().getReference();
         myDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Users").child(other_userId);
@@ -123,17 +124,17 @@ public class UsersProfileActivity extends AppCompatActivity implements View.OnCl
         myFriendReqDatabase.child(myCurrentUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.hasChild(other_userId)){
+                if (dataSnapshot.hasChild(other_userId)) {
                     String req_type = dataSnapshot.child(other_userId).child("request_type").getValue().toString();
 
-                    if (req_type.equals("received")){
+                    if (req_type.equals("received")) {
                         friendStatus = "req_received";
                         sendRequestbtn.setText("Accept Friend Request");
 
                         declineFriendReqBtn.setVisibility(View.VISIBLE);
                         declineFriendReqBtn.setEnabled(true);
 
-                    } else if (req_type.equals("sent")){
+                    } else if (req_type.equals("sent")) {
 
                         friendStatus = "req_sent";
                         sendRequestbtn.setText("Cancel Friend Request");
@@ -142,11 +143,11 @@ public class UsersProfileActivity extends AppCompatActivity implements View.OnCl
                         declineFriendReqBtn.setEnabled(false);
                     }
                     pDialog.dismiss();
-                }else {
+                } else {
                     myFriendsDatabase.child(myCurrentUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            if (dataSnapshot.hasChild(other_userId)){
+                            if (dataSnapshot.hasChild(other_userId)) {
 
                                 friendStatus = "friends";
                                 sendRequestbtn.setText("Unfriend This Person");
@@ -173,8 +174,9 @@ public class UsersProfileActivity extends AppCompatActivity implements View.OnCl
         });
         pDialog.dismiss();
     }
+    }
 
-// ---------------------------------- ON CLICK -----------------------------------------
+    // ---------------------------------- ON CLICK -----------------------------------------
     @Override
     public void onClick(View view) {
 

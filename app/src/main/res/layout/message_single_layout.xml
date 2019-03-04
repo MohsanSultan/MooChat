@@ -6,20 +6,11 @@
     android:layout_height="wrap_content"
     android:padding="@dimen/_5sdp">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/message_profile_layout"
-        android:layout_width="@dimen/_36sdp"
-        android:layout_height="@dimen/_36sdp"
-        android:layout_marginStart="@dimen/_5sdp"
-        android:visibility="gone"
-        android:src="@drawable/user_avatar" />
-
     <TextView
         android:id="@+id/message_text_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_5sdp"
-        android:layout_toEndOf="@+id/message_profile_layout"
         android:padding="@dimen/_2sdp"
         android:text="Message Text"
         android:textIsSelectable="true"
@@ -33,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="@dimen/_15ssp"
+        android:layout_marginEnd="@dimen/_5ssp"
         android:autoLink="web"
         android:padding="@dimen/_2sdp"
         android:text="Message Text"
@@ -65,9 +56,8 @@
         android:id="@+id/message_image_layout"
         android:layout_width="@dimen/_200sdp"
         android:layout_height="@dimen/_200sdp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignEnd="@+id/message_profile_layout"
-        android:layout_marginEnd="@dimen/_40sdp"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="@dimen/_5sdp"
         android:background="@drawable/send_img_chat_back"
         android:visibility="gone"
         android:padding="@dimen/_3sdp" />
@@ -77,8 +67,7 @@
         android:layout_width="@dimen/_200sdp"
         android:layout_height="@dimen/_200sdp"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:layout_marginEnd="@dimen/_15sdp"
+        android:layout_marginEnd="@dimen/_5sdp"
         android:background="@drawable/recieve_img_chat_back"
         android:visibility="gone"
         android:padding="@dimen/_3sdp"/>

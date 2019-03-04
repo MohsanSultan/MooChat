@@ -98,11 +98,9 @@ public class UserSettingActivity extends AppCompatActivity {
         if (mAuth.getCurrentUser() != null) {
 
             myCurrentUserRef = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
+            myProfileImgStorage = FirebaseStorage.getInstance().getReference();
+            RetriveDbData();
         }
-
-        myProfileImgStorage = FirebaseStorage.getInstance().getReference();
-
-        RetriveDbData();
 
         pDialog.dismiss();
 
@@ -191,9 +189,8 @@ public class UserSettingActivity extends AppCompatActivity {
 
     private void RetriveDbData() {
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        String currentUserID = currentUser.getUid();
-
-        myDbRef = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserID);
+            String currentUserID = currentUser.getUid();
+            myDbRef = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserID);
 
         myDbRef.keepSynced(true);
 
@@ -201,6 +198,7 @@ public class UserSettingActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
+                if (dataSnapshot != null){
                 userName = dataSnapshot.child("name").getValue().toString();
                 status = dataSnapshot.child("status").getValue().toString();
                 dpImg = dataSnapshot.child("image").getValue().toString();
@@ -212,7 +210,6 @@ public class UserSettingActivity extends AppCompatActivity {
                     Picasso.get().load(dpImg).networkPolicy(NetworkPolicy.OFFLINE).into(profileDPImg, new Callback() {
                         @Override
                         public void onSuccess() {
-
                         }
 
                         @Override
@@ -225,6 +222,7 @@ public class UserSettingActivity extends AppCompatActivity {
 
                 profileName.setText(userName);
                 profileStatus.setText(status);
+            }
             }
 
             @Override
@@ -250,8 +248,6 @@ public class UserSettingActivity extends AppCompatActivity {
             } catch(Exception e) {
                 Toast.makeText(this, "You did not pick any Picture !", Toast.LENGTH_LONG).show();
             }
-
-
         }
 
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
@@ -384,5 +380,4 @@ public class UserSettingActivity extends AppCompatActivity {
             myCurrentUserRef.child("online").setValue(ServerValue.TIMESTAMP);
         }
     }
-
 }

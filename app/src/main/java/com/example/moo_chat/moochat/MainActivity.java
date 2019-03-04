@@ -197,26 +197,29 @@ public class MainActivity extends AppCompatActivity {
 //        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
         final FirebaseUser currentUser = mAuth.getCurrentUser();
-        currentUser.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    myDatabaseRef.child(currentUser.getUid()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()){
-                                Toast.makeText(MainActivity.this, "Your account has been deleted ..!", Toast.LENGTH_LONG).show();
-                                GoToStart();
-                            }else
-                                Toast.makeText(MainActivity.this, "SomeThing Is wrong. please SignIn again ,thank you....", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+        if (currentUser != null)
+        {
+            currentUser.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        myDatabaseRef.child(currentUser.getUid()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(MainActivity.this, "Your account has been deleted ..!", Toast.LENGTH_LONG).show();
+                                    GoToStart();
+                                } else
+                                    Toast.makeText(MainActivity.this, "SomeThing Is wrong. please SignIn again ,thank you....", Toast.LENGTH_SHORT).show();
+                            }
+                        });
 
-                } else {
-                    Toast.makeText(MainActivity.this, "You should log-out and SignIn again to Delete Your Account (for security purpose.).... Thank You.", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(MainActivity.this, "You should log-out and SignIn again to Delete Your Account (for security purpose.).... Thank You.", Toast.LENGTH_LONG).show();
+                    }
                 }
-            }
-        });
+            });
+    }
     }
     private void GoToStart() {
         Intent loginIntent = new Intent(MainActivity.this , LoginActivity.class);
