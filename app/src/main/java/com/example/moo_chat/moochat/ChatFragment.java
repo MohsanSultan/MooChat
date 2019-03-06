@@ -1,7 +1,9 @@
 package com.example.moo_chat.moochat;
 
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.content.Context;
@@ -46,6 +48,7 @@ public class ChatFragment extends Fragment {
     private String mCurrent_user_id;
 
     private View mMainView;
+    FloatingActionButton addUsersBtn;
 
 
     public ChatFragment() {
@@ -61,6 +64,8 @@ public class ChatFragment extends Fragment {
 
         mConvList = mMainView.findViewById(R.id.conv_list);
         mAuth = FirebaseAuth.getInstance();
+
+
 
         mCurrent_user_id = mAuth.getCurrentUser().getUid();
 
@@ -79,6 +84,15 @@ public class ChatFragment extends Fragment {
         mConvList.setHasFixedSize(true);
         mConvList.setLayoutManager(linearLayoutManager);
 
+        addUsersBtn = mMainView.findViewById(R.id.add_chat_users_btn);
+        addUsersBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent allUsersIntent = new Intent(getActivity() , AllUsersActivity.class);
+                startActivity(allUsersIntent);
+            }
+        });
 
         // Inflate the layout for this fragment
         return mMainView;
@@ -193,10 +207,16 @@ public class ChatFragment extends Fragment {
             TextView userStatusView = mView.findViewById(R.id.alluser_status);
             userStatusView.setText(message);
 
+            ImageView newMegIcon = mView.findViewById(R.id.new_msg_icon);
+
             if(!isSeen){
+                userStatusView.setTextColor(Color.parseColor("#9600ff"));
                 userStatusView.setTypeface(userStatusView.getTypeface(), Typeface.BOLD);
+                newMegIcon.setVisibility(View.VISIBLE);
+
             } else {
                 userStatusView.setTypeface(userStatusView.getTypeface(), Typeface.NORMAL);
+                newMegIcon.setVisibility(View.GONE);
             }
 
         }

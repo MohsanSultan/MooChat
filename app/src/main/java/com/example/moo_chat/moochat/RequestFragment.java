@@ -77,7 +77,7 @@ public class RequestFragment extends Fragment {
                 <FriendRequests, FriendsRequestViewHolder>(
 
                 FriendRequests.class,
-                R.layout.single_user_view_layout,
+                R.layout.friend_request_view,
                 FriendsRequestViewHolder.class,
                 mReqDatabase
 

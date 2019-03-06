@@ -12,9 +12,11 @@
 
             <android.support.v7.widget.CardView
                 android:id="@+id/cv"
-                android:layout_width="@dimen/_280sdp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:layout_marginStart="@dimen/_15sdp"
                 app:cardCornerRadius="@dimen/_20sdp">
 
                 <LinearLayout
@@ -104,11 +106,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="@dimen/_80sdp"
-                        android:onClick="clickResetPassword"
                         android:text="forgot Password"
+                        android:layout_marginTop="@dimen/_40ssp"
+                        android:layout_marginBottom="@dimen/_15sdp"
                         android:textColor="@android:color/holo_red_dark"
                         android:textSize="12sp" />
+
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
@@ -116,20 +119,20 @@
                 android:id="@+id/signin_back_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@id/cv"
-                android:layout_marginStart="@dimen/_3ssp"
                 android:src="@drawable/arrow_left"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="@dimen/_5sdp"
                 app:fabSize="mini" />
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/signin_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignEnd="@id/cv"
-                android:layout_alignTop="@id/cv"
-                android:layout_marginEnd="-10dp"
-                android:layout_marginTop="@dimen/_170sdp"
                 android:src="@drawable/user_avatar"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="@dimen/_5sdp"
                 app:fabSize="normal" />
 
         </RelativeLayout>

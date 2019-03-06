@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -77,7 +76,7 @@ public class FriendsFragment extends Fragment {
         FirebaseRecyclerAdapter<Friends, FriendsViewHolder> friendsRecyclerViewAdapter = new FirebaseRecyclerAdapter<Friends, FriendsViewHolder>(
 
                 Friends.class,
-                R.layout.single_user_view_layout,
+                R.layout.friends_list_view_layout,
                 FriendsViewHolder.class,
                 mFriendsDatabase
 

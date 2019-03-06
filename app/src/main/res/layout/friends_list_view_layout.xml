@@ -56,38 +56,45 @@
                 android:gravity="center_vertical"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
-            <TextView
-                android:id="@+id/txtTime"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:gravity="center"
-                android:textColor="@color/black"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <ImageView
                 android:id="@+id/user_online_icon"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight=".2"
+                android:layout_weight=".1"
                 android:layout_marginEnd="@dimen/_8sdp"
                 android:gravity="center"
-                android:visibility="gone"
                 android:src="@drawable/online_icon2" />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/alluser_status"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="5"
-            android:gravity="center_vertical"
-            android:ellipsize="end"
-            android:text="@string/status"
-            android:textColor="#A9A9A9"
-            android:lines="1"
-            android:paddingBottom="@dimen/_5sdp"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_weight=".6"
+                android:text="From :"
+                android:textColor="#A9A9A9"
+                android:padding="@dimen/_3sdp" />
+
+            <TextView
+                android:id="@+id/alluser_status"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_weight="2.4"
+                android:text="@string/status"
+                android:textColor="#A9A9A9"
+                android:padding="@dimen/_3sdp" />
+
+
+        </LinearLayout>
 
         <View
             android:layout_width="wrap_content"
