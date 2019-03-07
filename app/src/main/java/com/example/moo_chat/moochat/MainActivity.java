@@ -1,6 +1,7 @@
 package com.example.moo_chat.moochat;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -10,9 +11,15 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.ContextThemeWrapper;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 
@@ -46,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         InitFields();
-
     }
 
     private void InitFields() {
@@ -58,10 +64,9 @@ public class MainActivity extends AppCompatActivity {
             myCurrentUserRef = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
         }
 
-
         mToolbar = findViewById(R.id.main_page_toolbar);
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("MyMooChat");
+        getSupportActionBar().setTitle(Html.fromHtml("<font color='#830ddb'>MY MOO CHAT</font>"));
 
         myViewPager = findViewById(R.id.tab_pager);
         myPagerAdapter = new SectionPagerAdapter(getSupportFragmentManager());
@@ -106,7 +111,6 @@ public class MainActivity extends AppCompatActivity {
             myCurrentUserRef.child("online").setValue(ServerValue.TIMESTAMP);
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -174,6 +178,7 @@ public class MainActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialogInterface, int i) {
 
                             myCurrentUserRef.child("online").setValue(ServerValue.TIMESTAMP);
+                            myCurrentUserRef.child("device_token").setValue("NotLogedInInAnyMobileYet");
                             FirebaseAuth.getInstance().signOut();
                             GoToStart();
                         }

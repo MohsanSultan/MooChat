@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -39,7 +40,7 @@ public class AllUsersActivity extends AppCompatActivity {
 
         mToolbar = findViewById(R.id.users_app_bar);
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("All Users ");
+        getSupportActionBar().setTitle(Html.fromHtml("<font color='#830ddb'>ALL USERS</font>"));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         initFields();

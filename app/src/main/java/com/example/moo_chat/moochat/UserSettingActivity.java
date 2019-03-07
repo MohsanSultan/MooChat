@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -76,7 +77,7 @@ public class UserSettingActivity extends AppCompatActivity {
 
         mToolbar = findViewById(R.id.profile_settings_app_bar);
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("Profile Settings");
+        getSupportActionBar().setTitle(Html.fromHtml("<font color='#830ddb'>PROFILE SETTINGS</font>"));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         initFields();
