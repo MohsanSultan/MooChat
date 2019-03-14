@@ -6,10 +6,11 @@ android:layout_height="@dimen/_70sdp"
 card_view:cardBackgroundColor="#FFFFFF"
     android:layout_marginStart="@dimen/_5sdp"
     android:layout_marginEnd="@dimen/_5sdp"
-    android:layout_marginBottom="@dimen/_5sdp"
-card_view:cardCornerRadius="@dimen/_15sdp">
+    android:layout_marginBottom="@dimen/_2sdp"
+card_view:cardCornerRadius="@dimen/_5sdp">
 
 <LinearLayout
+    android:id="@+id/Whole_card_view_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"

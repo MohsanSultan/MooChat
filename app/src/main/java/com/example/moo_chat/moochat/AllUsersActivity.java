@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -20,6 +22,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 public class AllUsersActivity extends AppCompatActivity {
 
@@ -52,8 +56,8 @@ public class AllUsersActivity extends AppCompatActivity {
         if (mAuth.getCurrentUser() != null) {
 
             myCurrentUserRef = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
-        }
 
+        }
         myDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Users");
 
         myUsersList = findViewById(R.id.users_list_view);
@@ -61,6 +65,8 @@ public class AllUsersActivity extends AppCompatActivity {
         myUsersList.setLayoutManager(new LinearLayoutManager(this));
 
         myRecyclerAdopter();
+
+
     }
 
     private void myRecyclerAdopter() {
@@ -73,6 +79,22 @@ public class AllUsersActivity extends AppCompatActivity {
         ) {
             @Override
             protected void populateViewHolder(UsersViewHolderClass viewHolder, AllUsers model, int position) {
+
+//                Log.e( "mohsinid",model.getId() );
+
+                String current_user_id = mAuth.getCurrentUser().getUid();
+
+                Log.e( "mohsinuserid",model.getId());
+
+                // Hide Current User -------------------------------------
+                if (model.getId().equals(current_user_id)){
+                    viewHolder.itemView.setVisibility(View.GONE);
+                    RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams)viewHolder.itemView.getLayoutParams();
+                    layoutParams.height = 0;
+                    viewHolder.itemView.setLayoutParams(layoutParams);
+                }
+
+                // ------------------------------------------------------------------------
 
                 UsersViewHolderClass.setValues(model.getName() , model.getStatus() , model.getThumb_img() );
                 final  String userId = getRef(position).getKey();
@@ -89,6 +111,7 @@ public class AllUsersActivity extends AppCompatActivity {
             }
         };
         myUsersList.setAdapter(firebaseRecyclerAdapter);
+
     }
 
     @Override

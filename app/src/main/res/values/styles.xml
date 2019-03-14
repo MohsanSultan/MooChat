@@ -16,4 +16,9 @@
         <item name="colorAccent">#FF4500</item>
     </style>
 
+    <!--<style name="TextAppearance.AppCompat.Notification">-->
+        <!--<item name="android:textSize">12sp</item>-->
+        <!--<item name="android:textColor">#FF4500</item>-->
+    <!--</style>-->
+
 </resources>

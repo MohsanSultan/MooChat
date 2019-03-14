@@ -2,6 +2,7 @@ package com.example.moo_chat.moochat;
 
 public class AllUsers {
 
+    public String id;
     public String name;
     public String status;
     public String image;
@@ -23,10 +24,18 @@ public class AllUsers {
 
     }
 
-    public AllUsers(String name, String status, String image) {
+    public AllUsers(String id, String name, String status, String image){
+        this.id = id;
         this.name = name;
         this.status = status;
         this.image = image;
+    }
+
+    public String getId() {
+        return id;
+    }
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
