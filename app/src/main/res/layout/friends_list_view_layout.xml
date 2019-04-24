@@ -27,7 +27,6 @@
         android:layout_marginEnd="@dimen/_5sdp"
         android:layout_weight="1.3"
         android:src="@drawable/user_avatar"
-        android:background="@drawable/image_border_round"
         app:civ_border_color="@color/colorPrimary"/>
 
 

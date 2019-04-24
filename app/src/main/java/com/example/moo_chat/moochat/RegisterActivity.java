@@ -43,7 +43,9 @@ public class RegisterActivity extends AppCompatActivity implements  View.OnClick
 
     //Firebase
     private FirebaseAuth mAuth;
-    private DatabaseReference myDbRef , myDevTokenRef;
+    private DatabaseReference myDbRef ;
+    private DatabaseReference myDevTokenRef;
+    private DatabaseReference myRootDbRef;
 
 
     // ---
@@ -187,7 +189,7 @@ public class RegisterActivity extends AppCompatActivity implements  View.OnClick
         userMap.put("name" , displayName);
         userMap.put("status" , "Hi, i'm using MyMooChat !");
         userMap.put("image" , "default");
-        userMap.put("online" , "false");
+        userMap.put("accountStatus" , "active");
         userMap.put("id",current_user_id);
         userMap.put("thumb_img" , "default");
 
@@ -203,12 +205,18 @@ public class RegisterActivity extends AppCompatActivity implements  View.OnClick
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
 
-                            Intent regIntent = new Intent(RegisterActivity.this , SignInActivity.class);
-                            regIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(regIntent);
-                            pDialog.dismiss();
-                            finish();
+                            myRootDbRef = FirebaseDatabase.getInstance().getReference().child("UsersOnlineStatus");
+                            myRootDbRef.child(current_user_id).child("online").setValue("false").addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
 
+                                    Intent regIntent = new Intent(RegisterActivity.this , SignInActivity.class);
+                                    regIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(regIntent);
+                                    pDialog.dismiss();
+                                    finish();
+                                }
+                            });
                         }
                     });
                 }

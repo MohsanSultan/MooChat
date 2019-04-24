@@ -24,7 +24,6 @@ card_view:cardCornerRadius="@dimen/_5sdp">
         android:layout_marginStart="@dimen/_5sdp"
         android:layout_marginEnd="@dimen/_5sdp"
         android:layout_weight="1.3"
-        android:background="@drawable/image_border_round"
         android:src="@drawable/user_avatar"/>
 
 

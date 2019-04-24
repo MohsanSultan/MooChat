@@ -68,7 +68,7 @@ public class UserSettingActivity extends AppCompatActivity {
     private FirebaseUser currentUser;
     private StorageReference myProfileImgStorage;
     FirebaseUser FirebaseCurrentUser;
-    private DatabaseReference myCurrentUserRef;
+    private DatabaseReference myUserOnlineRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +98,7 @@ public class UserSettingActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         if (mAuth.getCurrentUser() != null) {
 
-            myCurrentUserRef = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
+            myUserOnlineRef = FirebaseDatabase.getInstance().getReference().child("UsersOnlineStatus").child(mAuth.getCurrentUser().getUid());
             myProfileImgStorage = FirebaseStorage.getInstance().getReference();
             RetriveDbData();
         }
@@ -190,7 +190,10 @@ public class UserSettingActivity extends AppCompatActivity {
 
     private void RetriveDbData() {
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (mAuth.getCurrentUser() != null){
+
             String currentUserID = currentUser.getUid();
+
             myDbRef = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserID);
 
         myDbRef.keepSynced(true);
@@ -231,6 +234,7 @@ public class UserSettingActivity extends AppCompatActivity {
 
             }
         });
+        }
     }
 
     @Override
@@ -278,7 +282,6 @@ public class UserSettingActivity extends AppCompatActivity {
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 myThumbBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                 byte[] myThumbByte = baos.toByteArray();
-
 
                 StorageReference ImgstoragePath = myProfileImgStorage.child("profile_images").child(currentUserID+ ".jpg");
                 StorageReference thumb_filePath = myProfileImgStorage.child("profile_images").child("thumbs").child(currentUserID + ".jpg");
@@ -360,7 +363,7 @@ public class UserSettingActivity extends AppCompatActivity {
             Toast.makeText(this, "You Are Not Logged In", Toast.LENGTH_SHORT).show();
         }else {
 
-            myCurrentUserRef.child("online").setValue("true");
+            myUserOnlineRef.child("online").setValue("true");
 
         }
     }
@@ -368,7 +371,7 @@ public class UserSettingActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        myCurrentUserRef.child("online").setValue("true");
+        myUserOnlineRef.child("online").setValue("true");
     }
 
     @Override
@@ -378,7 +381,7 @@ public class UserSettingActivity extends AppCompatActivity {
 
         if(currentUser != null) {
 
-            myCurrentUserRef.child("online").setValue(ServerValue.TIMESTAMP);
+            myUserOnlineRef.child("online").setValue(ServerValue.TIMESTAMP);
         }
     }
 }

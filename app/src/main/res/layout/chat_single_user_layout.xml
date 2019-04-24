@@ -22,7 +22,6 @@
             android:layout_weight="1.1"
             android:layout_marginBottom="@dimen/_3sdp"
             android:layout_marginTop="@dimen/_3sdp"
-            android:background="@drawable/image_border_round"
             android:src="@drawable/user_avatar"/>
 
 

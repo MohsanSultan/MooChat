@@ -7,6 +7,8 @@ public class AllUsers {
     public String status;
     public String image;
     public String thumb_img;
+    public String accountStatus;
+    public String device_token;
 
     public AllUsers(String thumb_img) {
         this.thumb_img = thumb_img;
@@ -23,12 +25,18 @@ public class AllUsers {
     public AllUsers(){
 
     }
+    public String getDevice_token() {
+        return device_token;
+    }
+    public void setDevice_token(String device_token) {
+        this.device_token = device_token;
+    }
 
-    public AllUsers(String id, String name, String status, String image){
-        this.id = id;
-        this.name = name;
-        this.status = status;
-        this.image = image;
+    public String getAccountStatus() {
+        return accountStatus;
+    }
+    public void setAccountStatus(String accountStatus) {
+        this.accountStatus = accountStatus;
     }
 
     public String getId() {

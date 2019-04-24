@@ -27,9 +27,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -38,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
     FirebaseUser FirebaseCurrentUser;
     private DatabaseReference myDatabaseRef;
     private DatabaseReference myCurrentUserRef;
+    private DatabaseReference myRootDatabase;
+    private DatabaseReference myUserOnlineRef;
     private AlertDialog alertDialog;
 
     private Toolbar mToolbar;
@@ -54,16 +60,17 @@ public class MainActivity extends AppCompatActivity {
 
         InitFields();
     }
-
     private void InitFields() {
+
+        myRootDatabase = FirebaseDatabase.getInstance().getReference();
 
         mAuth = FirebaseAuth.getInstance();
         myDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Users");
         if (mAuth.getCurrentUser() != null) {
 
             myCurrentUserRef = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
+            myUserOnlineRef = FirebaseDatabase.getInstance().getReference().child("UsersOnlineStatus").child(mAuth.getCurrentUser().getUid());
         }
-
         mToolbar = findViewById(R.id.main_page_toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle(Html.fromHtml("<font color='#830ddb'>MY MOO CHAT</font>"));
@@ -73,9 +80,8 @@ public class MainActivity extends AppCompatActivity {
         myViewPager.setAdapter(myPagerAdapter);
 
         myTabLayout = findViewById(R.id.main_tabs);
-        myTabLayout.setTabTextColors(Color.GRAY,Color.WHITE);
+        myTabLayout.setTabTextColors(Color.DKGRAY,Color.WHITE);
         myTabLayout.setupWithViewPager(myViewPager);
-
     }
 
     @Override
@@ -86,32 +92,14 @@ public class MainActivity extends AppCompatActivity {
 
         if (FirebaseCurrentUser == null)
         {
+            // Check if User Logged In or Not.. if Not then go to Login Page..
             GoToStart();
         }else {
 
-            myCurrentUserRef.child("online").setValue("true");
-//            myCurrentUserRef.child("offline").setValue("false");
-
+            myUserOnlineRef.child("online").setValue("true");
         }
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        myCurrentUserRef.child("online").setValue("true");
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-
-        if(currentUser != null) {
-
-            myCurrentUserRef.child("online").setValue(ServerValue.TIMESTAMP);
-        }
-    }
-
+// Side Bar menu options .. functions on every click. ----------------------------------
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
          super.onCreateOptionsMenu(menu);
@@ -143,6 +131,8 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    // Delete button click.first confirm Yes Or No to delete account -----------------------------------------------
+
     private void confirmDeleteAccount() {
         alertDialog = new AlertDialog.Builder(this)
                 //set icon
@@ -167,6 +157,8 @@ public class MainActivity extends AppCompatActivity {
                 .show();
     }
 
+    // logOut clicked. logOut function, ----------------------------------------------------
+
     private void confirmLogout() {
             alertDialog = new AlertDialog.Builder(this)
                     //set icon
@@ -177,8 +169,8 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
 
-                            myCurrentUserRef.child("online").setValue(ServerValue.TIMESTAMP);
-                            myCurrentUserRef.child("device_token").setValue("NotLogedInInAnyMobileYet");
+                            myUserOnlineRef.child("online").setValue(ServerValue.TIMESTAMP);
+                            myCurrentUserRef.child("device_token").setValue("NotLoggedInInAnyMobileYet");
                             FirebaseAuth.getInstance().signOut();
                             GoToStart();
                         }
@@ -197,6 +189,7 @@ public class MainActivity extends AppCompatActivity {
 //            alertDialog.show();
         }
 
+    // Delete button click. delete account -----------------------------------------------
 
     private void deleteAccount() {
 //        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -207,28 +200,51 @@ public class MainActivity extends AppCompatActivity {
             currentUser.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
-                    if (task.isSuccessful()) {
-                        myDatabaseRef.child(currentUser.getUid()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(MainActivity.this, "Your account has been deleted ..!", Toast.LENGTH_LONG).show();
-                                    GoToStart();
-                                } else
-                                    Toast.makeText(MainActivity.this, "SomeThing Is wrong. please SignIn again ,thank you....", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+               if (task.isSuccessful()){
+                   Map deleteUserMap = new HashMap();
 
-                    } else {
-                        Toast.makeText(MainActivity.this, "You should log-out and SignIn again to Delete Your Account (for security purpose.).... Thank You.", Toast.LENGTH_LONG).show();
-                    }
+                   deleteUserMap.put("Users/" + currentUser.getUid() + "/" + "accountStatus" , "deActive");
+
+                   myRootDatabase.updateChildren(deleteUserMap, new DatabaseReference.CompletionListener() {
+                       @Override
+                       public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                           if (databaseError == null){
+                               Toast.makeText(MainActivity.this, "Your account has been deleted ..!", Toast.LENGTH_LONG).show();
+                               GoToStart();
+                           } else {
+                               String error = databaseError.getMessage();
+
+                               Toast.makeText(MainActivity.this, error, Toast.LENGTH_SHORT).show();
+                           }
+                       }
+                   });
+               }else {
+                   Toast.makeText(MainActivity.this, "Try Again..", Toast.LENGTH_SHORT).show();
+               }
                 }
             });
     }
     }
+
     private void GoToStart() {
         Intent loginIntent = new Intent(MainActivity.this , LoginActivity.class);
         startActivity(loginIntent);
         finish();
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        myUserOnlineRef.child("online").setValue("true");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null) {
+
+            myUserOnlineRef.child("online").setValue(ServerValue.TIMESTAMP);
+        }
+    }
+
 }

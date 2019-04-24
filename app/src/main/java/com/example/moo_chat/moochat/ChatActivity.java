@@ -65,7 +65,7 @@ public class ChatActivity extends AppCompatActivity {
     FirebaseUser FirebaseCurrentUser;
 
     private DatabaseReference mRootRef;
-    private DatabaseReference myCurrentUserRef;
+    private DatabaseReference myUserOnlineRef;
 
     private Toolbar mChatToolbar;
 
@@ -133,7 +133,7 @@ public class ChatActivity extends AppCompatActivity {
         if (mAuth.getCurrentUser() != null) {
 
             mCurrentUserId = mAuth.getCurrentUser().getUid();
-            myCurrentUserRef = FirebaseDatabase.getInstance().getReference().child("Users").child(mCurrentUserId);
+            myUserOnlineRef = FirebaseDatabase.getInstance().getReference().child("UsersOnlineStatus").child(mCurrentUserId);
         }
 
         mRootRef = FirebaseDatabase.getInstance().getReference();
@@ -192,75 +192,77 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                String online = dataSnapshot.child("online").getValue().toString();
                 String image = dataSnapshot.child("thumb_img").getValue().toString();
 
                 Picasso.get().load(image)
                         .placeholder(R.drawable.user_avatar).into(mProfileImage);
 
-                if(online.equals("true")) {
+                mRootRef.child("UsersOnlineStatus").child(mChatUser).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        String online = dataSnapshot.child("online").getValue().toString();
 
-                    mLastSeenView.setText("Online");
+                        if(online.equals("true")) {
 
-                } else {
+                            mLastSeenView.setText("Online");
 
-                    GetTimeAgo getTimeAgo = new GetTimeAgo();
+                        } else {
 
-                    long lastTime = Long.parseLong(online);
+                            GetTimeAgo getTimeAgo = new GetTimeAgo();
 
-                    String lastSeenTime = getTimeAgo.getTimeAgo(lastTime, getApplicationContext());
+                            long lastTime = Long.parseLong(online);
 
-                    mLastSeenView.setText(lastSeenTime);
+                            String lastSeenTime = getTimeAgo.getTimeAgo(lastTime, getApplicationContext());
 
-                }
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-
-        mRootRef.child("Chat").child(mCurrentUserId).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                if(!dataSnapshot.hasChild(mChatUser)){
-
-                    Map chatAddMap = new HashMap();
-                    chatAddMap.put("seen", false);
-                    chatAddMap.put("timestamp", ServerValue.TIMESTAMP);
-
-                    Map chatUserMap = new HashMap();
-                    chatUserMap.put("Chat/" + mCurrentUserId + "/" + mChatUser, chatAddMap);
-                    chatUserMap.put("Chat/" + mChatUser + "/" + mCurrentUserId, chatAddMap);
-
-                    mRootRef.updateChildren(chatUserMap, new DatabaseReference.CompletionListener() {
-                        @Override
-                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-
-                            if(databaseError != null){
-
-                                Log.d("CHAT_LOG", databaseError.getMessage().toString());
-
-                            }
-
+                            mLastSeenView.setText(lastSeenTime);
                         }
-                    });
-
-                }
-
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
 
-
+//        mRootRef.child("Chat").child(mCurrentUserId).addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//
+//                if(dataSnapshot.hasChild(mChatUser)){
+//
+//                    Map chatAddMap = new HashMap();
+//                    chatAddMap.put("seen", false);
+//                    chatAddMap.put("timestamp", ServerValue.TIMESTAMP);
+//
+//                    Map chatUserMap = new HashMap();
+//                    chatUserMap.put("Chat/" + mCurrentUserId + "/" + mChatUser, chatAddMap);
+//                    chatUserMap.put("Chat/" + mChatUser + "/" + mCurrentUserId, chatAddMap);
+//
+//                    mRootRef.updateChildren(chatUserMap, new DatabaseReference.CompletionListener() {
+//                        @Override
+//                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+//
+//                            if(databaseError != null){
+//
+//                                Log.d("CHAT_LOG", databaseError.getMessage().toString());
+//
+//                            }
+//
+//                        }
+//                    });
+//
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
 
         mChatSendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -618,14 +620,14 @@ public class ChatActivity extends AppCompatActivity {
             Toast.makeText(this, "You Are Not Logged In", Toast.LENGTH_SHORT).show();
         }else {
 
-            myCurrentUserRef.child("online").setValue("true");
+            myUserOnlineRef.child("online").setValue("true");
 
         }
     }
     @Override
     protected void onResume() {
         super.onResume();
-        myCurrentUserRef.child("online").setValue("true");
+        myUserOnlineRef.child("online").setValue("true");
     }
     @Override
     protected void onPause() {
@@ -634,7 +636,7 @@ public class ChatActivity extends AppCompatActivity {
 
         if(currentUser != null) {
 
-            myCurrentUserRef.child("online").setValue(ServerValue.TIMESTAMP);
+            myUserOnlineRef.child("online").setValue(ServerValue.TIMESTAMP);
         }
     }
 

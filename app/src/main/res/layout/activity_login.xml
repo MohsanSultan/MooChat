@@ -21,7 +21,6 @@
             android:layout_width="@dimen/_200sdp"
             android:layout_height="@dimen/_150sdp"
             android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/_40sdp"
             app:srcCompat="@drawable/main_logo" />
 
         <TextView

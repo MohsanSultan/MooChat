@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,6 +29,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -42,6 +46,8 @@ public class ChatFragment extends Fragment {
     private DatabaseReference mConvDatabase;
     private DatabaseReference mMessageDatabase;
     private DatabaseReference mUsersDatabase;
+    private DatabaseReference myRootDatabase;
+    private DatabaseReference myOnlineRef;
 
     private FirebaseAuth mAuth;
 
@@ -64,9 +70,10 @@ public class ChatFragment extends Fragment {
 
         mConvList = mMainView.findViewById(R.id.conv_list);
         mAuth = FirebaseAuth.getInstance();
-
-
-
+        if (mAuth.getCurrentUser() != null) {
+            myRootDatabase = FirebaseDatabase.getInstance().getReference();
+            myOnlineRef = FirebaseDatabase.getInstance().getReference().child("UsersOnlineStatus");
+        }
         mCurrent_user_id = mAuth.getCurrentUser().getUid();
 
         mConvDatabase = FirebaseDatabase.getInstance().getReference().child("Chat").child(mCurrent_user_id);
@@ -147,7 +154,6 @@ public class ChatFragment extends Fragment {
                     }
                 });
 
-
                 mUsersDatabase.child(list_user_id).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -155,11 +161,21 @@ public class ChatFragment extends Fragment {
                         final String userName = dataSnapshot.child("name").getValue().toString();
                         String userThumb = dataSnapshot.child("thumb_img").getValue().toString();
 
-                        if(dataSnapshot.hasChild("online")) {
+                        myOnlineRef.child(list_user_id).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if(dataSnapshot.hasChild("online")) {
 
-                            String userOnline = dataSnapshot.child("online").getValue().toString();
-                            convViewHolder.setUserOnline(userOnline , getContext());
-                        }
+                                    String userOnline = dataSnapshot.child("online").getValue().toString();
+                                    convViewHolder.setUserOnline(userOnline , getContext());
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
 
                         convViewHolder.setName(userName);
                         convViewHolder.setUserImage(userThumb, getContext());
@@ -167,6 +183,22 @@ public class ChatFragment extends Fragment {
                         convViewHolder.mView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
+                                String accountStatus = dataSnapshot.child("accountStatus").getValue().toString();
+
+                                if (accountStatus.equals("deActive")){
+                                    new android.app.AlertDialog.Builder(getContext())
+                                            .setTitle("User DeActivated")
+                                            .setMessage("User Deleted this Account, Please UnFriend !")
+
+                                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    unFriendPerson(list_user_id);
+                                                }
+                                            })
+                                            .setIcon(android.R.drawable.ic_dialog_alert)
+                                            .show();
+
+                                }else {
 
                                 Intent chatIntent = new Intent(getContext(), ChatActivity.class);
 
@@ -174,7 +206,7 @@ public class ChatFragment extends Fragment {
                                 chatIntent.putExtra("user_name", userName);
 
                                 startActivity(chatIntent);
-
+                                }
                             }
                         });
                     }
@@ -262,6 +294,32 @@ public class ChatFragment extends Fragment {
         }
 
 
+    }
+
+    private void  unFriendPerson(String otherUserId) {
+
+        Map unFriendMap = new HashMap();
+        unFriendMap.put("Friends/" + mCurrent_user_id + "/" + otherUserId , null);
+        unFriendMap.put("Friends/" + otherUserId + "/" + mCurrent_user_id , null);
+        unFriendMap.put("messages/" + mCurrent_user_id + "/" + otherUserId , null);
+        unFriendMap.put("messages/" + otherUserId + "/" + mCurrent_user_id , null);
+        unFriendMap.put("Chat/" + mCurrent_user_id + "/" + otherUserId , null);
+        unFriendMap.put("Chat/" + otherUserId + "/" + mCurrent_user_id , null);
+
+        myRootDatabase.updateChildren(unFriendMap, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                if (databaseError == null){
+                    Toast.makeText(getContext(), "UnFriend Successfully ...", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    String error = databaseError.getMessage();
+
+                    Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
 }

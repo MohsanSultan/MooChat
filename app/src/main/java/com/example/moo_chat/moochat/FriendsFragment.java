@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,6 +24,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class FriendsFragment extends Fragment {
@@ -31,6 +35,8 @@ public class FriendsFragment extends Fragment {
 
     private DatabaseReference mFriendsDatabase;
     private DatabaseReference mUsersDatabase;
+    private DatabaseReference myRootDatabase;
+    private DatabaseReference myOnlineRef;
 
     private FirebaseAuth mAuth;
 
@@ -53,8 +59,12 @@ public class FriendsFragment extends Fragment {
         mFriendsList = mMainView.findViewById(R.id.friends_list_view);
         mAuth = FirebaseAuth.getInstance();
 
-        mCurrent_user_id = mAuth.getCurrentUser().getUid();
+        if (mAuth.getCurrentUser() != null) {
 
+            myRootDatabase = FirebaseDatabase.getInstance().getReference();
+            mCurrent_user_id = mAuth.getCurrentUser().getUid();
+            myOnlineRef = FirebaseDatabase.getInstance().getReference().child("UsersOnlineStatus");
+        }
         mFriendsDatabase = FirebaseDatabase.getInstance().getReference().child("Friends").child(mCurrent_user_id);
         mFriendsDatabase.keepSynced(true);
 
@@ -98,12 +108,21 @@ public class FriendsFragment extends Fragment {
                         final String userName = dataSnapshot.child("name").getValue().toString();
                         String userThumbImg = dataSnapshot.child("thumb_img").getValue().toString();
 
-                        if(dataSnapshot.hasChild("online")) {
+                        myOnlineRef.child(list_user_id).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if(dataSnapshot.hasChild("online")) {
 
-                            String userOnline = dataSnapshot.child("online").getValue().toString();
-                            friendsViewHolder.setUserOnline(userOnline);
+                                    String userOnline = dataSnapshot.child("online").getValue().toString();
+                                    friendsViewHolder.setUserOnline(userOnline);
+                                }
+                            }
 
-                        }
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
 
                         friendsViewHolder.setName(userName);
                         friendsViewHolder.setUserImage(userThumbImg, getContext());
@@ -114,42 +133,58 @@ public class FriendsFragment extends Fragment {
                             @Override
                             public void onClick(View view) {
 
-                                CharSequence options[] = new CharSequence[]{"Open Profile", "Send message"};
+                                String accountStatus = dataSnapshot.child("accountStatus").getValue().toString();
 
-                                final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                if (accountStatus.equals("deActive")){
+                                    new android.app.AlertDialog.Builder(getContext())
+                                            .setTitle("User DeActivated")
+                                            .setMessage("User Deleted this Account, Please UnFriend !")
 
-                                builder.setTitle("Select Options");
-                                builder.setItems(options, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    unFriendPerson(list_user_id);
+                                                }
+                                            })
+                                            .setIcon(android.R.drawable.ic_dialog_alert)
+                                            .show();
 
-                                        //Click Event for each item.
-                                        if(i == 0){
+                                }else {
 
-                                            Intent profileIntent = new Intent(getContext(), UsersProfileActivity.class);
-                                            profileIntent.putExtra("from_user_id", list_user_id);
-                                            startActivity(profileIntent);
+                                    CharSequence options[] = new CharSequence[]{"Open Profile", "Send message"};
+
+                                    final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+                                    builder.setTitle("Select Options");
+                                    builder.setItems(options, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                                            //Click Event for each item.
+                                            if(i == 0){
+
+                                                Intent profileIntent = new Intent(getContext(), UsersProfileActivity.class);
+                                                profileIntent.putExtra("from_user_id", list_user_id);
+                                                startActivity(profileIntent);
+
+                                            }
+
+                                            if(i == 1){
+
+                                                Intent chatIntent = new Intent(getContext(), ChatActivity.class);
+                                                chatIntent.putExtra("from_user_id", list_user_id);
+                                                chatIntent.putExtra("user_name", userName);
+                                                startActivity(chatIntent);
+
+                                            }
 
                                         }
+                                    });
 
-                                        if(i == 1){
-
-                                            Intent chatIntent = new Intent(getContext(), ChatActivity.class);
-                                            chatIntent.putExtra("from_user_id", list_user_id);
-                                            chatIntent.putExtra("user_name", userName);
-                                            startActivity(chatIntent);
-
-                                        }
-
-                                    }
-                                });
-
-                                builder.show();
+                                    builder.show();
+                                }
 
                             }
                         });
-
-
                     }
 
                     @Override
@@ -191,14 +226,12 @@ public class FriendsFragment extends Fragment {
 
             TextView userNameView = mView.findViewById(R.id.alluser_name);
             userNameView.setText(name);
-
         }
 
         public void setUserImage(String thumb_image, Context ctx){
 
             CircleImageView userImageView = mView.findViewById(R.id.alluser_img_view);
             Picasso.get().load(thumb_image).placeholder(R.drawable.user_avatar).into(userImageView);
-
         }
 
         public void setUserOnline(String online_status) {
@@ -210,15 +243,34 @@ public class FriendsFragment extends Fragment {
                 userOnlineView.setVisibility(View.VISIBLE);
 
             } else {
-
                 userOnlineView.setVisibility(View.INVISIBLE);
-
             }
-
         }
-
-
     }
 
+    private void  unFriendPerson(String otherUserId) {
 
+        Map unFriendMap = new HashMap();
+        unFriendMap.put("Friends/" + mCurrent_user_id + "/" + otherUserId , null);
+        unFriendMap.put("Friends/" + otherUserId + "/" + mCurrent_user_id , null);
+        unFriendMap.put("messages/" + mCurrent_user_id + "/" + otherUserId , null);
+        unFriendMap.put("messages/" + otherUserId + "/" + mCurrent_user_id , null);
+        unFriendMap.put("Chat/" + mCurrent_user_id + "/" + otherUserId , null);
+        unFriendMap.put("Chat/" + otherUserId + "/" + mCurrent_user_id , null);
+
+        myRootDatabase.updateChildren(unFriendMap, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                if (databaseError == null){
+                    Toast.makeText(getContext(), "UnFriend Successfully ...", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    String error = databaseError.getMessage();
+
+                    Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
 }

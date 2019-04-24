@@ -60,6 +60,7 @@ dependencies {
     // EditText (show hint and text both) ----------------------------
     implementation 'me.zhanghai.android.materialedittext:library:1.0.5'
 
+    // Picasso Online And Offline..........................
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.squareup.okhttp3:okhttp:3.12.1'
 

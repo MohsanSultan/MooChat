@@ -1,7 +1,10 @@
 package com.example.moo_chat.moochat;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -34,11 +37,11 @@ import java.util.Map;
 public class UsersProfileActivity extends AppCompatActivity implements View.OnClickListener{
 
     TextView userProfileName , userProfileStatus , userProfileTotalFriends;
-    ImageView userProfileImg , userProfileImageThumb;
+    ImageView userProfileImageThumb;
     Button sendRequestbtn , declineFriendReqBtn;
     FirebaseUser FirebaseCurrentUser;
     private FirebaseAuth mAuth;
-    private DatabaseReference myCurrentUserRef;
+    private DatabaseReference myUserOnlineRef;
 
     String friendStatus;
 
@@ -73,7 +76,7 @@ public class UsersProfileActivity extends AppCompatActivity implements View.OnCl
 
         if (mAuth.getCurrentUser() != null) {
 
-            myCurrentUserRef = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
+            myUserOnlineRef = FirebaseDatabase.getInstance().getReference().child("UsersOnlineStatus").child(mAuth.getCurrentUser().getUid());
 
         myRootDatabase = FirebaseDatabase.getInstance().getReference();
         myDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Users").child(other_userId);
@@ -206,10 +209,21 @@ public class UsersProfileActivity extends AppCompatActivity implements View.OnCl
 
                 if (friendStatus.equals("friends")){
 
-                    // if already friend , then unfriend onClick
-                    unFriendPerson(otherUserId);
-                }
+                        new AlertDialog.Builder(this)
+                                .setTitle("UNFRIEND! ?")
+                                .setMessage("All Messages Will Be Deleted After UnFriend!")
 
+                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                        // if already friend , then unfriend onClick
+                                        unFriendPerson(otherUserId);
+                                    }
+                                })
+                                .setNegativeButton(android.R.string.no, null)
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .show();
+                    }
             }
             break;
             case R.id.profile_decline_req_btn:
@@ -223,11 +237,15 @@ public class UsersProfileActivity extends AppCompatActivity implements View.OnCl
 
     // ---------------------------- FUNCTIONS ------------------------------------------
 // --------------------- put data via MAPs and HASHMAP -------------------
-    private void unFriendPerson(String otherUserId) {
+    private void  unFriendPerson(String otherUserId) {
 
         Map unFriendMap = new HashMap();
         unFriendMap.put("Friends/" + myCurrentUser.getUid() + "/" + otherUserId , null);
         unFriendMap.put("Friends/" + otherUserId + "/" + myCurrentUser.getUid() , null);
+        unFriendMap.put("messages/" + myCurrentUser.getUid() + "/" + otherUserId , null);
+        unFriendMap.put("messages/" + otherUserId + "/" + myCurrentUser.getUid() , null);
+        unFriendMap.put("Chat/" + myCurrentUser.getUid() + "/" + otherUserId , null);
+        unFriendMap.put("Chat/" + otherUserId + "/" + myCurrentUser.getUid() , null);
 
         myRootDatabase.updateChildren(unFriendMap, new DatabaseReference.CompletionListener() {
             @Override
@@ -373,14 +391,14 @@ public class UsersProfileActivity extends AppCompatActivity implements View.OnCl
             Toast.makeText(this, "You Are Not Logged In", Toast.LENGTH_SHORT).show();
         }else {
 
-            myCurrentUserRef.child("online").setValue("true");
+            myUserOnlineRef.child("online").setValue("true");
 
         }
     }
     @Override
     protected void onResume() {
         super.onResume();
-        myCurrentUserRef.child("online").setValue("true");
+        myUserOnlineRef.child("online").setValue("true");
     }
     @Override
     protected void onPause() {
@@ -389,7 +407,7 @@ public class UsersProfileActivity extends AppCompatActivity implements View.OnCl
 
         if(currentUser != null) {
 
-            myCurrentUserRef.child("online").setValue(ServerValue.TIMESTAMP);
+            myUserOnlineRef.child("online").setValue(ServerValue.TIMESTAMP);
         }
     }
 

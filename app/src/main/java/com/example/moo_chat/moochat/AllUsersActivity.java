@@ -18,9 +18,13 @@ import android.widget.Toast;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ServerValue;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -34,7 +38,7 @@ public class AllUsersActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private DatabaseReference myDatabaseRef;
-    private DatabaseReference myCurrentUserRef;
+    private DatabaseReference myOnlineRef;
     FirebaseUser FirebaseCurrentUser;
 
     @Override
@@ -55,7 +59,7 @@ public class AllUsersActivity extends AppCompatActivity {
 
         if (mAuth.getCurrentUser() != null) {
 
-            myCurrentUserRef = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
+            myOnlineRef = FirebaseDatabase.getInstance().getReference().child("UsersOnlineStatus").child(mAuth.getCurrentUser().getUid());
 
         }
         myDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Users");
@@ -65,8 +69,6 @@ public class AllUsersActivity extends AppCompatActivity {
         myUsersList.setLayoutManager(new LinearLayoutManager(this));
 
         myRecyclerAdopter();
-
-
     }
 
     private void myRecyclerAdopter() {
@@ -80,21 +82,11 @@ public class AllUsersActivity extends AppCompatActivity {
             @Override
             protected void populateViewHolder(UsersViewHolderClass viewHolder, AllUsers model, int position) {
 
-//                Log.e( "mohsinid",model.getId() );
+                Log.e( "mohsinid",model.getId() );
 
                 String current_user_id = mAuth.getCurrentUser().getUid();
 
-                Log.e( "mohsinuserid",model.getId());
-
-                // Hide Current User -------------------------------------
-                if (model.getId().equals(current_user_id)){
-                    viewHolder.itemView.setVisibility(View.GONE);
-                    RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams)viewHolder.itemView.getLayoutParams();
-                    layoutParams.height = 0;
-                    viewHolder.itemView.setLayoutParams(layoutParams);
-                }
-
-                // ------------------------------------------------------------------------
+                Log.e( "mohsinUserId",model.getId());
 
                 UsersViewHolderClass.setValues(model.getName() , model.getStatus() , model.getThumb_img() );
                 final  String userId = getRef(position).getKey();
@@ -108,10 +100,20 @@ public class AllUsersActivity extends AppCompatActivity {
                         startActivity(userProfileIntent);
                     }
                 });
+                        // Hide Current User -------------------------------------
+                        if (model.getId().equals(current_user_id) || model.getAccountStatus().equals("deActive")){
+                            viewHolder.itemView.setVisibility(View.GONE);
+                            RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams)viewHolder.itemView.getLayoutParams();
+                            layoutParams.height = 0;
+                            viewHolder.itemView.setLayoutParams(layoutParams);
+                        }
+                        // ------------------------------------------------------------------------
+
+
+
             }
         };
         myUsersList.setAdapter(firebaseRecyclerAdapter);
-
     }
 
     @Override
@@ -124,16 +126,14 @@ public class AllUsersActivity extends AppCompatActivity {
         {
             Toast.makeText(this, "You Are Not Logged In", Toast.LENGTH_SHORT).show();
         }else {
-
-            myCurrentUserRef.child("online").setValue("true");
-
+            myOnlineRef.child("online").setValue("true");
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        myCurrentUserRef.child("online").setValue("true");
+        myOnlineRef.child("online").setValue("true");
     }
     @Override
     protected void onPause() {
@@ -142,7 +142,7 @@ public class AllUsersActivity extends AppCompatActivity {
 
         if(currentUser != null) {
 
-            myCurrentUserRef.child("online").setValue(ServerValue.TIMESTAMP);
+            myOnlineRef.child("online").setValue(ServerValue.TIMESTAMP);
         }
     }
 
